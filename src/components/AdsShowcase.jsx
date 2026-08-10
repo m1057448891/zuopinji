@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
+import { videoSources } from '../lib/videoSources.js'
 
 const PRODUCTS = [
   {
@@ -74,13 +75,17 @@ export default function AdsShowcase() {
               <video
                 key={active}
                 ref={videoRef}
-                src={inView ? asset(cur.file) : undefined}
                 muted
                 loop
                 playsInline
                 preload={inView ? 'auto' : 'none'}
                 controls
-              />
+              >
+                {inView &&
+                  videoSources(cur.file).map((s) => (
+                    <source key={s.src} src={s.src} type={s.type} />
+                  ))}
+              </video>
               <div className="shop__toggle mono">
                 <span className="is-on">3D</span>
                 <span>AR</span>

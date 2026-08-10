@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import worksData from '../data/works.json'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
+import { videoSources } from '../lib/videoSources.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -13,7 +14,7 @@ const dragon = works.find((w) => w.original.includes('2026-03-23-5027'))
 const SHORTS = [
   {
     no: '01',
-    file: asset(dragon?.file || '/works/vid/vid-019.mp4'),
+    file: dragon?.file || '/works/vid/vid-019.mp4',
     badge: 'DARK FANTASY',
     en: 'DRAGON KNIGHT — EPIC BATTLE',
     cn: '龙骑士史诗之战',
@@ -23,7 +24,7 @@ const SHORTS = [
   },
   {
     no: '02',
-    file: asset('/works/hero/hero-02.mp4'),
+    file: '/works/hero/hero-02.mp4',
     badge: 'AERIAL FILM',
     en: 'SEAGULLS OVER THE CLIFF',
     cn: '海鸥与悬崖',
@@ -33,7 +34,7 @@ const SHORTS = [
   },
   {
     no: '03',
-    file: asset('/works/hero/hero-04.mp4'),
+    file: '/works/hero/hero-04.mp4',
     badge: 'FISHEYE FILM',
     en: 'BEE — LOW FLIGHT',
     cn: '蜜蜂的低空飞行',
@@ -43,7 +44,7 @@ const SHORTS = [
   },
   {
     no: '04',
-    file: asset('/works/hero/hero-05.mp4'),
+    file: '/works/hero/hero-05.mp4',
     badge: 'DARK FILM',
     en: 'EMBERS & SMOKE',
     cn: '余烬与浓烟',
@@ -162,7 +163,7 @@ export default function ShortsShowcase() {
         <div className="desk__zoom">
           <img
             className="desk__img"
-            src={inView ? asset('/works/bg/office.png') : undefined}
+            src={inView ? asset('/works/bg/office.webp') : undefined}
             alt=""
             aria-hidden="true"
           />
@@ -170,21 +171,28 @@ export default function ShortsShowcase() {
             {prevFile && (
               <video
                 className="desk__video-leaving"
-                src={prevFile}
                 muted
                 loop
                 playsInline
-              />
+              >
+                {videoSources(prevFile).map((s) => (
+                  <source key={s.src} src={s.src} type={s.type} />
+                ))}
+              </video>
             )}
             <video
               className="desk__video-entering"
               ref={videoRef}
-              src={inView ? cur.file : undefined}
               muted
               loop
               playsInline
               preload={inView ? 'auto' : 'none'}
-            />
+            >
+              {inView &&
+                videoSources(cur.file).map((s) => (
+                  <source key={s.src} src={s.src} type={s.type} />
+                ))}
+            </video>
             <div className="desk__glass" aria-hidden="true" />
           </div>
         </div>

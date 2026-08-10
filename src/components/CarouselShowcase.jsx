@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
+import { videoSources } from '../lib/videoSources.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -103,13 +104,17 @@ function CarouselCard({ item, onOpen }) {
         aria-label={item.en}
       >
           <video
-            src={ever ? asset(item.file) : undefined}
             poster={ever ? asset(item.poster) : undefined}
-          muted
-          loop
-          playsInline
-          preload={inView ? 'auto' : 'none'}
-        />
+            muted
+            loop
+            playsInline
+            preload={inView ? 'auto' : 'none'}
+          >
+            {ever &&
+              videoSources(item.file).map((s) => (
+                <source key={s.src} src={s.src} type={s.type} />
+              ))}
+          </video>
         <span className="car-card__play" aria-hidden="true">
           &#9654;
         </span>
@@ -256,7 +261,11 @@ export default function CarouselShowcase() {
       {cur && (
         <div className="car-modal" onClick={() => setActive(null)}>
           <div className="car-modal__inner" onClick={(e) => e.stopPropagation()}>
-            <video src={asset(cur.file)} poster={asset(cur.poster)} autoPlay loop playsInline controls />
+            <video poster={asset(cur.poster)} autoPlay loop playsInline controls>
+              {videoSources(cur.file).map((s) => (
+                <source key={s.src} src={s.src} type={s.type} />
+              ))}
+            </video>
             <div className="car-modal__cap">
               <span className="mono car-modal__no">NO.{cur.no}</span>
               <h3>{cur.cn}</h3>

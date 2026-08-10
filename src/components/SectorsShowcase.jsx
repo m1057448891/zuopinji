@@ -4,11 +4,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import worksData from '../data/works.json'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
+import { imgSrcSet } from '../lib/imgAttrs.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const works = worksData.works
-const DARK_IMAGES = ['img-008.png', 'img-009.png', 'img-011.png', 'img-022.png']
+const DARK_IMAGES = ['img-008.webp', 'img-009.webp', 'img-011.webp', 'img-022.webp']
 const images = works.filter(
   (w) => w.type === 'image' && !DARK_IMAGES.includes(w.file.split('/').pop())
 )
@@ -131,13 +132,15 @@ export default function SectorsShowcase() {
                     key={`${item.id}-${ri}-${i}`}
                     className="sectors__thumb"
                     src={inView ? asset(item.file) : undefined}
+                    srcSet={inView ? imgSrcSet(item.file) : undefined}
+                    sizes="140px"
                     alt=""
                     decoding="async"
                     onError={(e) => {
                       const img = e.currentTarget
                       if (!img.dataset.fb) {
                         img.dataset.fb = '1'
-                        img.src = asset('/works/img/img-001.png')
+                        img.src = asset('/works/img/img-001.webp')
                       }
                     }}
                     style={{

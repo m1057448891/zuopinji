@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { asset } from '../lib/asset.js'
+import { videoSources } from '../lib/videoSources.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -9,27 +9,27 @@ const slides = [
   {
     no: '01',
     cn: '视觉方向',
-    video: asset('/works/hero/hero-01.mp4')
+    video: '/works/hero/hero-01.mp4'
   },
   {
     no: '02',
     cn: '图片作品',
-    video: asset('/works/hero/hero-02.mp4')
+    video: '/works/hero/hero-02.mp4'
   },
   {
     no: '03',
     cn: '海报',
-    video: asset('/works/hero/hero-03.mp4')
+    video: '/works/hero/hero-03.mp4'
   },
   {
     no: '04',
     cn: '商业广告',
-    video: asset('/works/hero/hero-04.mp4')
+    video: '/works/hero/hero-04.mp4'
   },
   {
     no: '05',
     cn: '创意短片',
-    video: asset('/works/hero/hero-05.mp4')
+    video: '/works/hero/hero-05.mp4'
   }
 ]
 
@@ -127,14 +127,17 @@ export default function Hero({ video }) {
         <video
           key={activeVideo}
           className="hero__video"
-          src={activeVideo}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
           aria-hidden="true"
-        />
+        >
+          {videoSources(activeVideo).map((s) => (
+            <source key={s.src} src={s.src} type={s.type} />
+          ))}
+        </video>
         <div className="hero__grid" aria-hidden="true" />
         <div className="hero__shade" aria-hidden="true" />
       </div>
@@ -200,7 +203,11 @@ export default function Hero({ video }) {
                 onMouseLeave={() => setHovered(null)}
                 onClick={() => selectSlide(i)}
               >
-                <video src={s.video} muted loop playsInline preload="metadata" />
+                <video muted loop playsInline preload="metadata">
+                  {videoSources(s.video).map((src) => (
+                    <source key={src.src} src={src.src} type={src.type} />
+                  ))}
+                </video>
                 <span className="mono">{s.no}</span>
               </button>
             </div>
