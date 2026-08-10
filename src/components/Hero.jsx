@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { asset } from '../lib/asset.js'
 import { videoSources } from '../lib/videoSources.js'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -132,6 +133,7 @@ export default function Hero({ video }) {
           loop
           playsInline
           preload="auto"
+          poster={activeVideo ? asset(activeVideo.replace(/\.mp4$/, '-poster.jpg')) : undefined}
           aria-hidden="true"
         >
           {videoSources(activeVideo).map((s) => (

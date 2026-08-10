@@ -9,7 +9,7 @@ import ShortsShowcase from './components/ShortsShowcase.jsx'
 import AdsShowcase from './components/AdsShowcase.jsx'
 import CarouselShowcase from './components/CarouselShowcase.jsx'
 import GalleryShowcase from './components/GalleryShowcase.jsx'
-import Contact from './components/Contact.jsx'
+import LazyContact from './components/LazyContact.jsx'
 import worksData from './data/works.json'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -81,7 +81,7 @@ export default function App() {
         <CarouselShowcase />
         <GalleryShowcase />
       </main>
-      <Contact />
+      <LazyContact />
     </div>
   )
 }

@@ -87,7 +87,7 @@ export default function Contact() {
   }, [])
 
   return (
-    <section className="contact" id="contact" ref={scope}>
+    <section className="contact" ref={scope}>
       <div className="contact__grain" aria-hidden="true" />
       <div className="contact__aurora" aria-hidden="true">
         <Aurora
