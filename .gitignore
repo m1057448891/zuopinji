@@ -1,0 +1,8 @@
+node_modules/
+dist/
+qa/
+个人站/
+*.log
+.vite-dev.pid
+.DS_Store
+*.local

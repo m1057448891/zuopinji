@@ -1,0 +1,374 @@
+{
+    "works":  [
+                  {
+                      "id":  "video-001",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-001.mp4",
+                      "original":  "0001-0150.mp4",
+                      "title":  "0001-0150",
+                      "date":  "2026-02-10"
+                  },
+                  {
+                      "id":  "video-002",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-002.mp4",
+                      "original":  "86b7fab70b08560e35e2d3f88f039554f14d4de85ba49af3589c12a0d356a2e4.mp4",
+                      "title":  "AI 概念视觉",
+                      "date":  "2026-02-10"
+                  },
+                  {
+                      "id":  "video-003",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-003.mp4",
+                      "original":  "f64d0963cc94da3fdb004beb9751e6f89abbe10661203ad6eabe96812ec1da90.mp4",
+                      "title":  "AI 概念视觉",
+                      "date":  "2026-02-10"
+                  },
+                  {
+                      "id":  "video-004",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-004.mp4",
+                      "original":  "jimeng-2026-02-09-5607.mp4",
+                      "title":  "jimeng-2026-02-09-5607",
+                      "date":  "2026-02-09"
+                  },
+                  {
+                      "id":  "video-005",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-005.mp4",
+                      "original":  "jimeng-2026-02-13-2385-图中的女孩忧伤的看着镜头缓缓眨眼，阳光像波光一样浮动。朦胧感，梦幻感.mp4",
+                      "title":  "图中的女孩忧伤的看着镜头缓缓眨眼",
+                      "date":  "2026-02-13"
+                  },
+                  {
+                      "id":  "video-006",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-006.mp4",
+                      "original":  "jimeng-2026-02-26-2901-@图片1的夫妻和狗在热带雨林营地中休憩，柔和林光与营地暖光缓慢变化，营造治愈系探....mp4",
+                      "title":  "@图片1的夫妻和狗在热带雨林营地中休憩",
+                      "date":  "2026-02-26"
+                  },
+                  {
+                      "id":  "video-007",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-007.mp4",
+                      "original":  "jimeng-2026-02-26-6516-滑雪场景：两名滑雪者在渐变蓝白雪道中疾驰，雪具点缀，富有动感与节奏感。.mp4",
+                      "title":  "两名滑雪者在渐变蓝白雪道中疾驰",
+                      "date":  "2026-02-26"
+                  },
+                  {
+                      "id":  "video-008",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-008.mp4",
+                      "original":  "jimeng-2026-02-27-2281-5 秒纪实风短视频，运镜：低角度环绕运镜，跟随舞狮步伐向镜头前方推进，画面：舞狮....mp4",
+                      "title":  "5 秒纪实风短视频",
+                      "date":  "2026-02-27"
+                  },
+                  {
+                      "id":  "video-009",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-009.mp4",
+                      "original":  "jimeng-2026-02-27-7116-老人牵着小狗在黄昏小路上散步，暖橙夕阳，温柔治愈，充满烟火气与温情.mp4",
+                      "title":  "老人牵着小狗在黄昏小路上散步",
+                      "date":  "2026-02-27"
+                  },
+                  {
+                      "id":  "video-010",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-010.mp4",
+                      "original":  "jimeng-2026-03-01-7122-4秒流畅电影级视频，极简流体雕塑风格，虹彩液态金属游戏手柄在零重力下缓慢悬浮，围....mp4",
+                      "title":  "4秒流畅电影级视频",
+                      "date":  "2026-03-01"
+                  },
+                  {
+                      "id":  "video-011",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-011.mp4",
+                      "original":  "jimeng-2026-03-01-8425-极简动态海报，固定机位完全还原原画构图，仅做极致细微的动态处理。动态核心：前景的....mp4",
+                      "title":  "极简动态海报",
+                      "date":  "2026-03-01"
+                  },
+                  {
+                      "id":  "video-012",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-012.mp4",
+                      "original":  "jimeng-2026-03-02-3053-场景与氛围：航拍视角下的冰岛海边悬崖，清晨晴朗，阳光斜射鲜绿色草坡（点缀明黄色小....mp4",
+                      "title":  "航拍视角下的冰岛海边悬崖",
+                      "date":  "2026-03-02"
+                  },
+                  {
+                      "id":  "video-013",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-013.mp4",
+                      "original":  "jimeng-2026-03-03-5223-[浅灰蓝磨砂玻璃背景]，手部轮廓逐渐交叠与开口处倾泻的阳光形成框景，框内摇曳的五....mp4",
+                      "title":  "浅灰蓝磨砂玻璃背景",
+                      "date":  "2026-03-03"
+                  },
+                  {
+                      "id":  "video-014",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-014.mp4",
+                      "original":  "jimeng-2026-03-19-9436-参考图 真实摄影，侧身照，亚洲高颜值美女茶色长长大波浪，风吹起长发飘逸，半遮朦胧....mp4",
+                      "title":  "参考图 真实摄影",
+                      "date":  "2026-03-19"
+                  },
+                  {
+                      "id":  "video-015",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-015.mp4",
+                      "original":  "jimeng-2026-03-22-3009-5秒竖屏 9_16 视频，4K 超清，60fps，电影级史诗顺滑运镜，中世纪暗黑....mp4",
+                      "title":  "5秒竖屏 9_16 视频",
+                      "date":  "2026-03-22"
+                  },
+                  {
+                      "id":  "video-016",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-016.mp4",
+                      "original":  "jimeng-2026-03-22-3093-  6 秒竖屏 9_16 视频，4K 超清，60fps，电影级顺滑运镜，日系清新....mp4",
+                      "title":  "6 秒竖屏 9_16 视频",
+                      "date":  "2026-03-22"
+                  },
+                  {
+                      "id":  "video-017",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-017.mp4",
+                      "original":  "jimeng-2026-03-22-4491-4 秒竖屏 9_16 视频，60fps，4K 超清，电影级丝滑运镜，暗黑赛博朋克....mp4",
+                      "title":  "4 秒竖屏 9_16 视频",
+                      "date":  "2026-03-22"
+                  },
+                  {
+                      "id":  "video-018",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-018.mp4",
+                      "original":  "jimeng-2026-03-22-8968-（全分镜统一核心风格：非遗傩戏国风、8K 超高清、电影级光影、冷暖对比散景光斑、....mp4",
+                      "title":  "非遗傩戏国风、8K 超高清、电影级光影、冷暖对比散景光斑",
+                      "date":  "2026-03-22"
+                  },
+                  {
+                      "id":  "video-019",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-019.mp4",
+                      "original":  "jimeng-2026-03-23-5027-龙骑士史诗之战  镜头1(4秒）_ 一名披着残破斗篷的资深战士骑在巨大的黑曜石鳞....mp4",
+                      "title":  "龙骑士史诗之战  镜头1(4秒）_ 一名披着残破斗篷的资深战…",
+                      "date":  "2026-03-23"
+                  },
+                  {
+                      "id":  "video-020",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-020.mp4",
+                      "original":  "jimeng-2026-03-23-5237-15秒／一镜到底／电影级写实／无剪辑、压抑且沉重的悬疑感、战后余烬环境音效设计 ....mp4",
+                      "title":  "15秒／一镜到底／电影级写实／无剪辑、压抑且沉重的悬疑感、战…",
+                      "date":  "2026-03-23"
+                  },
+                  {
+                      "id":  "video-021",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-021.mp4",
+                      "original":  "jimeng-2026-03-23-9829-KF1 _ 时长：0-1.5s 商业产品广告开场镜头，8K 超高清，电影级丁达尔....mp4",
+                      "title":  "0-1.5s 商业产品广告开场镜头",
+                      "date":  "2026-03-23"
+                  },
+                  {
+                      "id":  "video-022",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-022.mp4",
+                      "original":  "jimeng-2026-03-25-6056-AIGC 导演级分镜提示词：蜻蜓游乐园 1. 摄影机与光学设定 (Cinemat....mp4",
+                      "title":  "蜻蜓游乐园 1. 摄影机与光学设定 (Cinemat",
+                      "date":  "2026-03-25"
+                  },
+                  {
+                      "id":  "video-023",
+                      "type":  "video",
+                      "file":  "/works/vid/vid-023.mp4",
+                      "original":  "jimeng-2026-03-29-2437-KF1（0.0-0.9s）：极近景微距推轨跟拍，一根带纳米级绒毛的荧光绿量子纤维....mp4",
+                      "title":  "极近景微距推轨跟拍",
+                      "date":  "2026-03-29"
+                  },
+                  {
+                      "id":  "image-001",
+                      "type":  "image",
+                      "file":  "/works/img/img-001.png",
+                      "original":  "04079b4ed71f88a30cd18613ef4de2c9bec51d552b5f8269b46b481f1e7cc276.png",
+                      "title":  "AI 概念视觉",
+                      "date":  "2026-02-11"
+                  },
+                  {
+                      "id":  "image-002",
+                      "type":  "image",
+                      "file":  "/works/img/img-002.png",
+                      "original":  "35e673b8326907df3284484d7a7cf74ac08fd2c33b1ce10f530d0beaad34003a.png",
+                      "title":  "AI 概念视觉",
+                      "date":  "2026-02-11"
+                  },
+                  {
+                      "id":  "image-003",
+                      "type":  "image",
+                      "file":  "/works/img/img-003.png",
+                      "original":  "83953d5ef0af500f4b82773c3f5b60a34a7bfafda823cf174399c7bdcfcfb595.png",
+                      "title":  "AI 概念视觉",
+                      "date":  "2026-03-01"
+                  },
+                  {
+                      "id":  "image-004",
+                      "type":  "image",
+                      "file":  "/works/img/img-004.png",
+                      "original":  "953bb4c759d4eec310df5221cf9bc79f38b9677af13241f3597fd0b37d0ca2e8 (1).png",
+                      "title":  "AI 概念视觉",
+                      "date":  "2026-02-11"
+                  },
+                  {
+                      "id":  "image-005",
+                      "type":  "image",
+                      "file":  "/works/img/img-005.png",
+                      "original":  "981182d65157ef4df312fa88312efd8f9ca291131c233565e5cbdc6249431707.png",
+                      "title":  "AI 概念视觉",
+                      "date":  "2026-02-11"
+                  },
+                  {
+                      "id":  "image-006",
+                      "type":  "image",
+                      "file":  "/works/img/img-006.png",
+                      "original":  "cf8de631b3a5f1453d68bb3f9af1d725ed2a3ee210da5fb729126de24dbf14ed.png",
+                      "title":  "AI 概念视觉",
+                      "date":  "2026-02-27"
+                  },
+                  {
+                      "id":  "image-007",
+                      "type":  "image",
+                      "file":  "/works/img/img-007.png",
+                      "original":  "jimeng-2026-02-11-1582-充满诡异又富有美感的氛围，展现出时间的循环、矛盾与哲理。过去、现在与未来相交错，....png",
+                      "title":  "充满诡异又富有美感的氛围",
+                      "date":  "2026-02-11"
+                  },
+                  {
+                      "id":  "image-008",
+                      "type":  "image",
+                      "file":  "/works/img/img-008.png",
+                      "original":  "jimeng-2026-03-02-8409-场景写真，非对称，POV视角，情绪写意，暗夜朦光，低光与高曝的碰撞融合的轮廓，模....png",
+                      "title":  "场景写真",
+                      "date":  "2026-03-02"
+                  },
+                  {
+                      "id":  "image-009",
+                      "type":  "image",
+                      "file":  "/works/img/img-009.png",
+                      "original":  "jimeng-2026-03-03-6466-独特视野，反常规构图，泛影和耀光，情景写意，POV视角，对焦模糊，缤纷泛影，质感....png",
+                      "title":  "独特视野",
+                      "date":  "2026-03-03"
+                  },
+                  {
+                      "id":  "image-010",
+                      "type":  "image",
+                      "file":  "/works/img/img-010.png",
+                      "original":  "jimeng-2026-03-03-8274-浓郁蓝色哑光肌理背景，春日氛围感高级艺术海报。极简主义、抽象表达、现代设计、高级....png",
+                      "title":  "浓郁蓝色哑光肌理背景",
+                      "date":  "2026-03-03"
+                  },
+                  {
+                      "id":  "image-011",
+                      "type":  "image",
+                      "file":  "/works/img/img-011.png",
+                      "original":  "jimeng-2026-03-18-1985-主体描述： 一把充满未来科技感的筋膜枪，外壳由完全透明的玻璃或硬亚克力材质制成，....png",
+                      "title":  "一把充满未来科技感的筋膜枪",
+                      "date":  "2026-03-18"
+                  },
+                  {
+                      "id":  "image-012",
+                      "type":  "image",
+                      "file":  "/works/img/img-012.png",
+                      "original":  "jimeng-2026-03-18-2150-主体为 “花海果酒” 广告创意，以花海与花丛形成果酒瓶轮廓的负空间，内部展现花海....png",
+                      "title":  "主体为 “花海果酒” 广告创意",
+                      "date":  "2026-03-18"
+                  },
+                  {
+                      "id":  "image-013",
+                      "type":  "image",
+                      "file":  "/works/img/img-013.png",
+                      "original":  "jimeng-2026-03-18-5218-童话。罗兰・英格斯・怀德，软糖工艺打造，棉花糖，一幅美丽的图画，关于绿色、蓝莓小....png",
+                      "title":  "童话",
+                      "date":  "2026-03-18"
+                  },
+                  {
+                      "id":  "image-014",
+                      "type":  "image",
+                      "file":  "/works/img/img-014.png",
+                      "original":  "jimeng-2026-03-20-3032-极简主义人像海报，画面边缘围绕着一圈的红蓝黄色差渐变偏移，画面中心是一个弥散渐变....png",
+                      "title":  "极简主义人像海报",
+                      "date":  "2026-03-20"
+                  },
+                  {
+                      "id":  "image-015",
+                      "type":  "image",
+                      "file":  "/works/img/img-015.png",
+                      "original":  "jimeng-2026-03-20-4355-科幻概念视觉封面：极简未来主义，宇宙幻想，采用现代和经典设计的结合。  摄影的手....png",
+                      "title":  "极简未来主义",
+                      "date":  "2026-03-20"
+                  },
+                  {
+                      "id":  "image-016",
+                      "type":  "image",
+                      "file":  "/works/img/img-016.png",
+                      "original":  "jimeng-2026-03-20-7710-满屏的一大片草地（草被风吹动，翠绿的颜色），三朵大小不一的云低空飘在草地上（小朵....png",
+                      "title":  "满屏的一大片草地（草被风吹动",
+                      "date":  "2026-03-20"
+                  },
+                  {
+                      "id":  "image-017",
+                      "type":  "image",
+                      "file":  "/works/img/img-017.png",
+                      "original":  "jimeng-2026-03-21-1499-插画，插画上半部分是蓝绿色的天空，下半部分是一个大草坡，草被风吹起，草像浪一样卷....png",
+                      "title":  "插画",
+                      "date":  "2026-03-21"
+                  },
+                  {
+                      "id":  "image-018",
+                      "type":  "image",
+                      "file":  "/works/img/img-018.png",
+                      "original":  "jimeng-2026-03-21-6486-风影大片，强烈大风可视视觉，破坏力极强，满屏被风席卷而过的景象，大量物体被吹飞，....png",
+                      "title":  "风影大片",
+                      "date":  "2026-03-21"
+                  },
+                  {
+                      "id":  "image-019",
+                      "type":  "image",
+                      "file":  "/works/img/img-019.png",
+                      "original":  "jimeng-2026-03-22-1730-胶片摄影，镜头语言，淡彩，个性视角，场景随机，古风美人，皮肤白皙嫩滑，倾国倾城容....png",
+                      "title":  "胶片摄影",
+                      "date":  "2026-03-22"
+                  },
+                  {
+                      "id":  "image-020",
+                      "type":  "image",
+                      "file":  "/works/img/img-020.png",
+                      "original":  "jimeng-2026-03-22-7818-插画风格特效，，古风，动漫风，萨满少女，面具，华丽，萨满舞，祭祀仪式，神秘仪式氛....png",
+                      "title":  "插画风格特效",
+                      "date":  "2026-03-22"
+                  },
+                  {
+                      "id":  "image-021",
+                      "type":  "image",
+                      "file":  "/works/img/img-021.png",
+                      "original":  "jimeng-2026-03-23-5596-（逆光：1.6），（照片真实感：1.8），（自然光：1.5），（冷白皮质感的高光....png",
+                      "title":  "逆光：1.6",
+                      "date":  "2026-03-23"
+                  },
+                  {
+                      "id":  "image-022",
+                      "type":  "image",
+                      "file":  "/works/img/img-022.png",
+                      "original":  "jimeng-2026-05-09-1427-核心主体 古风仙侠女抓妖师，身着绣有暗纹祥云的复杂刺绣广袖古装，墨色长发自然散落....png",
+                      "title":  "核心主体 古风仙侠女抓妖师",
+                      "date":  "2026-05-09"
+                  },
+                  {
+                      "id":  "image-023",
+                      "type":  "image",
+                      "file":  "/works/img/img-023.png",
+                      "original":  "jimeng-2026-08-07-5151-[雾霭氤氲的灰蓝渐变背景]，弥散光中呈舒展状态与新生意象交织，背光勾勒出模糊却富....png",
+                      "title":  "雾霭氤氲的灰蓝渐变背景",
+                      "date":  "2026-08-07"
+                  }
+              ],
+    "generatedAt":  "2026-08-07 17:19:14",
+    "source":  "G:\\AI\\作品集网站"
+}
