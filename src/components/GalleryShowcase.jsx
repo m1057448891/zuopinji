@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
 import { imgSrcSet } from '../lib/imgAttrs.js'
-import { videoSources } from '../lib/videoSources.js'
+import Grainient from './Grainient.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -198,28 +198,34 @@ export default function GalleryShowcase() {
 
   const curItem = lightbox != null ? ITEMS[lightbox] : null
 
-  useEffect(() => {
-    const v = sectionRef.current?.querySelector('.gallery__bg video')
-    if (!v) return
-    if (inView) v.play().catch(() => {})
-    else v.pause()
-  }, [inView, sectionRef])
-
   return (
     <section className="gallery-showcase" id="gallery-showcase" ref={sectionRef}>
       <div className="gallery__bg" aria-hidden="true">
-        <video
-          poster={inView ? asset('/works/bg/sixth-poster.jpg') : undefined}
-          muted
-          loop
-          playsInline
-          preload={inView ? 'auto' : 'none'}
-        >
-          {inView &&
-            videoSources('/works/bg/sixth-bg.mp4').map((s) => (
-              <source key={s.src} src={s.src} type={s.type} />
-            ))}
-        </video>
+        {inView && (
+          <Grainient
+            color1="#FF9FFC"
+            color2="#5227FF"
+            color3="#B497CF"
+            timeSpeed={1.2}
+            colorBalance={0.05}
+            warpStrength={1.25}
+            warpFrequency={6.2}
+            warpSpeed={3.6}
+            warpAmplitude={68}
+            blendAngle={3}
+            blendSoftness={0.18}
+            rotationAmount={460}
+            noiseScale={1.15}
+            grainAmount={0.08}
+            grainScale={1.8}
+            contrast={1.25}
+            gamma={1.0}
+            saturation={1.05}
+            centerX={0.0}
+            centerY={0.0}
+            zoom={0.95}
+          />
+        )}
         <span className="gallery__shade" />
       </div>
 

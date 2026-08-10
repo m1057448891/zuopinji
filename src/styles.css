@@ -3983,6 +3983,11 @@ a {
   transform: scale(1.01);
 }
 
+.gallery__bg .grainient-container {
+  position: absolute;
+  inset: 0;
+}
+
 .gallery__shade {
   position: absolute;
   inset: 0;
