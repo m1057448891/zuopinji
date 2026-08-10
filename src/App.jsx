@@ -50,6 +50,14 @@ export default function App() {
       const target = document.querySelector(href)
       if (target) {
         e.preventDefault()
+        if (href === '#shorts-showcase') {
+          const sectors = document.querySelector('.sectors')
+          const y = sectors
+            ? sectors.offsetTop + sectors.offsetHeight
+            : target.offsetTop
+          lenis.scrollTo(y, { duration: 1.4 })
+          return
+        }
         lenis.scrollTo(target, { offset: -72, duration: 1.4 })
       }
     }
