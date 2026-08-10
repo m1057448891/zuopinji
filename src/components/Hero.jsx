@@ -44,6 +44,39 @@ const listItems = [
 
 const WAVE = Array.from({ length: 24 }, (_, i) => 24 + ((i * 29) % 60))
 
+function ThumbVideo({ slide }) {
+  const videoRef = useRef(null)
+
+  const handleEnter = () => {
+    const v = videoRef.current
+    if (!v) return
+    v.src = asset(slide.video)
+    v.load()
+    v.play().catch(() => {})
+  }
+
+  const handleLeave = () => {
+    const v = videoRef.current
+    if (!v) return
+    v.pause()
+    v.removeAttribute('src')
+    v.load()
+  }
+
+  return (
+    <video
+      ref={videoRef}
+      poster={asset(slide.video.replace(/\.mp4$/, '-poster.jpg'))}
+      muted
+      loop
+      playsInline
+      preload="none"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+    />
+  )
+}
+
 export default function Hero({ video }) {
   const scope = useRef(null)
   const [active, setActive] = useState(0)
@@ -205,11 +238,7 @@ export default function Hero({ video }) {
                 onMouseLeave={() => setHovered(null)}
                 onClick={() => selectSlide(i)}
               >
-                <video muted loop playsInline preload="metadata">
-                  {videoSources(s.video).map((src) => (
-                    <source key={src.src} src={src.src} type={src.type} />
-                  ))}
-                </video>
+                <ThumbVideo slide={s} />
                 <span className="mono">{s.no}</span>
               </button>
             </div>
