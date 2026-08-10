@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
 import Nav from './components/Nav.jsx'
 import Hero from './components/Hero.jsx'
-import LoadingScreen from './components/LoadingScreen.jsx'
 import SectorsShowcase from './components/SectorsShowcase.jsx'
 import ShortsShowcase from './components/ShortsShowcase.jsx'
 import AdsShowcase from './components/AdsShowcase.jsx'
@@ -24,7 +23,6 @@ function resolveAsset(key, type) {
 
 export default function App() {
   const [heroVideo, setHeroVideo] = useState(null)
-  const [siteReady, setSiteReady] = useState(false)
 
   useEffect(() => {
     const video =
@@ -67,10 +65,9 @@ export default function App() {
 
   return (
     <div className="site">
-      {!siteReady && <LoadingScreen onLoaded={() => setSiteReady(true)} />}
       <Nav />
       <main>
-        <Hero video={heroVideo} ready={siteReady} />
+        <Hero video={heroVideo} />
         <SectorsShowcase />
         <ShortsShowcase />
         <AdsShowcase />

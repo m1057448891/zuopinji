@@ -43,7 +43,7 @@ const listItems = [
 
 const WAVE = Array.from({ length: 24 }, (_, i) => 24 + ((i * 29) % 60))
 
-export default function Hero({ video, ready = true }) {
+export default function Hero({ video }) {
   const scope = useRef(null)
   const [active, setActive] = useState(0)
   const [hovered, setHovered] = useState(null)
@@ -67,7 +67,6 @@ export default function Hero({ video, ready = true }) {
   }
 
   useLayoutEffect(() => {
-    if (!ready) return
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '.hero__video',
@@ -120,7 +119,7 @@ export default function Hero({ video, ready = true }) {
       )
     }, scope)
     return () => ctx.revert()
-  }, [ready])
+  }, [])
 
   return (
     <section className="hero" id="top" ref={scope}>
