@@ -5647,3 +5647,124 @@ a {
   height: 0.8em;
   border-width: 3px;
 }
+
+/* ---------- loading screen ---------- */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 26px;
+  background: #050506;
+  overflow: hidden;
+  transition:
+    opacity 0.7s var(--ease),
+    visibility 0.7s;
+}
+
+.loader.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 84px 84px;
+  -webkit-mask-image: radial-gradient(circle at center, #000 0%, transparent 72%);
+  mask-image: radial-gradient(circle at center, #000 0%, transparent 72%);
+}
+
+.loader__glow {
+  position: absolute;
+  width: 620px;
+  height: 620px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 92, 138, 0.16) 0%,
+    rgba(120, 140, 200, 0.08) 42%,
+    transparent 70%
+  );
+  filter: blur(8px);
+  animation: loader-breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes loader-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+
+.loader__core {
+  position: relative;
+  width: 168px;
+  height: 168px;
+}
+
+.loader__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.loader__ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.09);
+  stroke-width: 3;
+}
+
+.loader__ring-bar {
+  fill: none;
+  stroke: #ff5c8a;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.18s linear;
+  filter: drop-shadow(0 0 8px rgba(255, 92, 138, 0.55));
+}
+
+.loader__logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 96px;
+  height: 96px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 38px;
+  background: radial-gradient(circle at 32% 26%, #ff7aa2, #ff3f78 58%, #e62e6b);
+  box-shadow:
+    0 14px 44px rgba(255, 92, 138, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.loader__pct {
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 0 18px rgba(255, 92, 138, 0.35);
+}
+
+.loader__label {
+  font-size: 10px;
+  letter-spacing: 0.46em;
+  text-indent: 0.46em;
+  color: var(--text-faint);
+}
