@@ -8,27 +8,27 @@ gsap.registerPlugin(ScrollTrigger)
 const GAP = 10
 
 const ITEMS = [
-  { file: '/works/img/img-015.webp', cn: '深空漫游', en: 'Deep Space Drift' },
-  { file: '/works/img/img-023.webp', cn: '雾霭新生', en: 'Mist & Newborn Light' },
-  { file: '/works/img/img-013.webp', cn: '软糖小屋', en: 'Candy Cottage' },
-  { file: '/works/img/img-018.webp', cn: '风影席卷', en: 'Wind Sweep' },
-  { file: '/works/img/img-021.webp', cn: '冷白逆光', en: 'Cold Backlit' },
-  { file: '/works/img/img-011.webp', cn: '透明机能', en: 'Glass Massager' },
-  { file: '/works/img/img-009.webp', cn: '刀光惊尘', en: 'Blade & Dust' },
-  { file: '/works/img/img-016.webp', cn: '草甸低云', en: 'Meadow Clouds' },
-  { file: '/works/img/img-017.webp', cn: '草浪云天', en: 'Grass Wave Sky' },
-  { file: '/works/img/img-019.webp', cn: '胶片古色', en: 'Film Ancient Beauty' },
-  { file: '/works/img/img-022.webp', cn: '仙侠猎妖', en: 'Myth Hunter' },
-  { file: '/works/img/img-003.webp', cn: '新春纳福', en: 'New Year Blessing' },
-  { file: '/works/img/img-008.webp', cn: '暗夜朦光', en: 'Nocturne' },
-  { file: '/works/img/img-012.webp', cn: '花海果酒', en: 'Flower Wine' },
-  { file: '/works/img/img-010.webp', cn: '蓝调春日', en: 'Blue Spring' },
-  { file: '/works/img/img-004.webp', cn: '千禧幻梦', en: 'Millennium Dream' },
-  { file: '/works/img/img-002.webp', cn: '甜酷少女', en: 'Y2K Pop Rebel' },
-  { file: '/works/img/img-001.webp', cn: '赛博天使', en: 'Y2K Cyber Angel' },
-  { file: '/works/img/img-005.webp', cn: '高校女王', en: 'High Teen Queen' },
-  { file: '/works/img/img-006.webp', cn: '东坡上釉', en: 'Dongpo Glaze' },
-  { file: '/works/img/img-014.webp', cn: '极简人像', en: 'Minimal Portrait' }
+  { file: '/works/img/img-015.png', cn: '深空漫游', en: 'Deep Space Drift' },
+  { file: '/works/img/img-023.png', cn: '雾霭新生', en: 'Mist & Newborn Light' },
+  { file: '/works/img/img-013.png', cn: '软糖小屋', en: 'Candy Cottage' },
+  { file: '/works/img/img-018.png', cn: '风影席卷', en: 'Wind Sweep' },
+  { file: '/works/img/img-021.png', cn: '冷白逆光', en: 'Cold Backlit' },
+  { file: '/works/img/img-011.png', cn: '透明机能', en: 'Glass Massager' },
+  { file: '/works/img/img-009.png', cn: '刀光惊尘', en: 'Blade & Dust' },
+  { file: '/works/img/img-016.png', cn: '草甸低云', en: 'Meadow Clouds' },
+  { file: '/works/img/img-017.png', cn: '草浪云天', en: 'Grass Wave Sky' },
+  { file: '/works/img/img-019.png', cn: '胶片古色', en: 'Film Ancient Beauty' },
+  { file: '/works/img/img-022.png', cn: '仙侠猎妖', en: 'Myth Hunter' },
+  { file: '/works/img/img-003.png', cn: '新春纳福', en: 'New Year Blessing' },
+  { file: '/works/img/img-008.png', cn: '暗夜朦光', en: 'Nocturne' },
+  { file: '/works/img/img-012.png', cn: '花海果酒', en: 'Flower Wine' },
+  { file: '/works/img/img-010.png', cn: '蓝调春日', en: 'Blue Spring' },
+  { file: '/works/img/img-004.png', cn: '千禧幻梦', en: 'Millennium Dream' },
+  { file: '/works/img/img-002.png', cn: '甜酷少女', en: 'Y2K Pop Rebel' },
+  { file: '/works/img/img-001.png', cn: '赛博天使', en: 'Y2K Cyber Angel' },
+  { file: '/works/img/img-005.png', cn: '高校女王', en: 'High Teen Queen' },
+  { file: '/works/img/img-006.png', cn: '东坡上釉', en: 'Dongpo Glaze' },
+  { file: '/works/img/img-014.png', cn: '极简人像', en: 'Minimal Portrait' }
 ]
 
 const N = ITEMS.length
