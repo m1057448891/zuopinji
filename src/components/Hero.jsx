@@ -82,6 +82,7 @@ export default function Hero({ video }) {
   const [active, setActive] = useState(0)
   const [hovered, setHovered] = useState(null)
   const [activeVideo, setActiveVideo] = useState(video)
+  const mainVideoRef = useRef(null)
 
   const selectSlide = (i) => {
     setActive(i)
@@ -91,6 +92,18 @@ export default function Hero({ video }) {
   useEffect(() => {
     if (video) setActiveVideo(video)
   }, [video])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const v = mainVideoRef.current
+      if (v) {
+        v.load()
+        v.play().catch(() => {})
+      }
+    }, 1200)
+    return () => clearTimeout(timer)
+  }, [activeVideo])
+
   const prev = () => {
     const i = (active + slides.length - 1) % slides.length
     selectSlide(i)
@@ -161,11 +174,11 @@ export default function Hero({ video }) {
         <video
           key={activeVideo}
           className="hero__video"
-          autoPlay
+          ref={mainVideoRef}
           muted
           loop
           playsInline
-          preload="auto"
+          preload="none"
           poster={activeVideo ? asset(activeVideo.replace(/\.mp4$/, '-poster.jpg')) : undefined}
           aria-hidden="true"
         >
