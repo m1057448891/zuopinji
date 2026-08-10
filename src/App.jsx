@@ -57,7 +57,10 @@ export default function App() {
           lenis.scrollTo(y, { duration: 1.4 })
           return
         }
-        lenis.scrollTo(target, { offset: -72, duration: 1.4 })
+        lenis.scrollTo(target, {
+          offset: href === '#contact' ? 0 : -72,
+          duration: 1.4
+        })
       }
     }
     document.addEventListener('click', onClick)
