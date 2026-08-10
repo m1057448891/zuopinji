@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { asset } from '../lib/asset.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -8,27 +9,27 @@ const slides = [
   {
     no: '01',
     cn: '视觉方向',
-    video: '/works/hero/hero-01.mp4'
+    video: asset('/works/hero/hero-01.mp4')
   },
   {
     no: '02',
     cn: '图片作品',
-    video: '/works/hero/hero-02.mp4'
+    video: asset('/works/hero/hero-02.mp4')
   },
   {
     no: '03',
     cn: '海报',
-    video: '/works/hero/hero-03.mp4'
+    video: asset('/works/hero/hero-03.mp4')
   },
   {
     no: '04',
     cn: '商业广告',
-    video: '/works/hero/hero-04.mp4'
+    video: asset('/works/hero/hero-04.mp4')
   },
   {
     no: '05',
     cn: '创意短片',
-    video: '/works/hero/hero-05.mp4'
+    video: asset('/works/hero/hero-05.mp4')
   }
 ]
 

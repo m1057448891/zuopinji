@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { asset } from '../lib/asset.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -198,8 +199,8 @@ export default function GalleryShowcase() {
     <section className="gallery-showcase" id="gallery-showcase" ref={sectionRef}>
       <div className="gallery__bg" aria-hidden="true">
         <video
-          src="/works/bg/sixth-bg.mp4"
-          poster="/works/bg/sixth-poster.jpg"
+          src={asset('/works/bg/sixth-bg.mp4')}
+          poster={asset('/works/bg/sixth-poster.jpg')}
           autoPlay
           muted
           loop
@@ -230,7 +231,7 @@ export default function GalleryShowcase() {
               className={`gallery-card ${item.pos === pos ? 'is-active' : ''}`}
             >
               <button className="gallery-card__media" aria-label={item.en}>
-                <img src={item.file} alt={item.cn} loading="lazy" />
+                <img src={asset(item.file)} alt={item.cn} loading="lazy" />
               </button>
               <div className="gallery-card__info">
                 <span className="gallery-card__cn">{item.cn}</span>
@@ -248,7 +249,7 @@ export default function GalleryShowcase() {
       {curItem && (
         <div className="gallery-modal" onClick={() => setLightbox(null)}>
           <div className="gallery-modal__inner">
-            <img src={curItem.file} alt={curItem.cn} />
+              <img src={asset(curItem.file)} alt={curItem.cn} />
             <div className="gallery-modal__cap">
               <span className="mono gallery-modal__no">
                 {String((lightbox % N) + 1).padStart(2, '0')} / {String(N).padStart(2, '0')}

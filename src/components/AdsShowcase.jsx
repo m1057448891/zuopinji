@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { asset } from '../lib/asset.js'
 
 const PRODUCTS = [
   {
@@ -65,7 +66,7 @@ export default function AdsShowcase() {
               <video
                 key={active}
                 ref={videoRef}
-                src={cur.file}
+                src={asset(cur.file)}
                 muted
                 loop
                 playsInline
@@ -107,7 +108,7 @@ export default function AdsShowcase() {
                 className={`shop__card ${i === active ? 'is-active' : ''}`}
                 onClick={() => setActive(i)}
               >
-                <img className="shop__card-thumb" src={p.thumb} alt={p.name} loading="lazy" />
+                <img className="shop__card-thumb" src={asset(p.thumb)} alt={p.name} loading="lazy" />
                 <div className="shop__card-head">
                   <span>{p.name}</span>
                   <span className="mono shop__try">

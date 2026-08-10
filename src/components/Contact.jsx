@@ -6,6 +6,7 @@ import { profile } from '../data/content.js'
 import Reveal from './Reveal.jsx'
 import Aurora from './Aurora.jsx'
 import TrueFocus from './TrueFocus.jsx'
+import { asset } from '../lib/asset.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -108,7 +109,7 @@ export default function Contact() {
             </div>
           </div>
           <nav className="contact__topnav mono">
-            <a href="/docs/马中帅作品集.pdf" target="_blank" rel="noreferrer">
+            <a href={asset('/docs/马中帅作品集.pdf')} target="_blank" rel="noreferrer">
               作品集 PDF ↗
             </a>
             <a href="#top">回到顶部 ↑</a>
@@ -157,7 +158,7 @@ export default function Contact() {
             <div className="contact__col">
               <h3 className="mono">MORE</h3>
               <span className="contact__col-rule" aria-hidden="true" />
-              <a href="/docs/马中帅作品集.pdf" target="_blank" rel="noreferrer">
+              <a href={asset('/docs/马中帅作品集.pdf')} target="_blank" rel="noreferrer">
                 建筑学作品集 PDF ↓
               </a>
               <a href="#top">返回顶部 ↑</a>
@@ -173,7 +174,7 @@ export default function Contact() {
                 onClick={() => setQrOpen(true)}
                 aria-label="放大微信二维码"
               >
-                <img src="/works/img/wechat-qr.jpg" alt="微信二维码" />
+                <img src={asset('/works/img/wechat-qr.jpg')} alt="微信二维码" />
               </button>
               <span className="contact__qr-note">扫码添加，随时沟通</span>
             </div>
@@ -216,7 +217,7 @@ export default function Contact() {
       {qrOpen &&
         createPortal(
           <div className="contact__qr-modal" onClick={() => setQrOpen(false)}>
-            <img src="/works/img/wechat-qr.jpg" alt="微信二维码" />
+            <img src={asset('/works/img/wechat-qr.jpg')} alt="微信二维码" />
           </div>,
           document.body
         )}

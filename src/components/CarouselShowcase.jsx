@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { asset } from '../lib/asset.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -80,9 +81,9 @@ function CarouselCard({ item, onOpen }) {
         onClick={() => onOpen(item)}
         aria-label={item.en}
       >
-        <video
-          src={item.file}
-          poster={item.poster}
+          <video
+            src={asset(item.file)}
+            poster={asset(item.poster)}
           autoPlay
           muted
           loop
@@ -250,7 +251,7 @@ export default function CarouselShowcase() {
       {cur && (
         <div className="car-modal" onClick={() => setActive(null)}>
           <div className="car-modal__inner" onClick={(e) => e.stopPropagation()}>
-            <video src={cur.file} poster={cur.poster} autoPlay loop playsInline controls />
+            <video src={asset(cur.file)} poster={asset(cur.poster)} autoPlay loop playsInline controls />
             <div className="car-modal__cap">
               <span className="mono car-modal__no">NO.{cur.no}</span>
               <h3>{cur.cn}</h3>

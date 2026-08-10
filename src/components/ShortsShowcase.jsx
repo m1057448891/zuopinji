@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import worksData from '../data/works.json'
+import { asset } from '../lib/asset.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -11,7 +12,7 @@ const dragon = works.find((w) => w.original.includes('2026-03-23-5027'))
 const SHORTS = [
   {
     no: '01',
-    file: dragon?.file || '/works/vid/vid-019.mp4',
+    file: asset(dragon?.file || '/works/vid/vid-019.mp4'),
     badge: 'DARK FANTASY',
     en: 'DRAGON KNIGHT — EPIC BATTLE',
     cn: '龙骑士史诗之战',
@@ -21,7 +22,7 @@ const SHORTS = [
   },
   {
     no: '02',
-    file: '/works/hero/hero-02.mp4',
+    file: asset('/works/hero/hero-02.mp4'),
     badge: 'AERIAL FILM',
     en: 'SEAGULLS OVER THE CLIFF',
     cn: '海鸥与悬崖',
@@ -31,7 +32,7 @@ const SHORTS = [
   },
   {
     no: '03',
-    file: '/works/hero/hero-04.mp4',
+    file: asset('/works/hero/hero-04.mp4'),
     badge: 'FISHEYE FILM',
     en: 'BEE — LOW FLIGHT',
     cn: '蜜蜂的低空飞行',
@@ -41,7 +42,7 @@ const SHORTS = [
   },
   {
     no: '04',
-    file: '/works/hero/hero-05.mp4',
+    file: asset('/works/hero/hero-05.mp4'),
     badge: 'DARK FILM',
     en: 'EMBERS & SMOKE',
     cn: '余烬与浓烟',
@@ -155,7 +156,7 @@ export default function ShortsShowcase() {
     <section className="desk" id="shorts-showcase" ref={sectionRef}>
       <div className="desk__viewport">
         <div className="desk__zoom">
-          <img className="desk__img" src="/works/bg/office.png" alt="" aria-hidden="true" />
+          <img className="desk__img" src={asset('/works/bg/office.png')} alt="" aria-hidden="true" />
           <div className="desk__screen">
             {prevFile && (
               <video

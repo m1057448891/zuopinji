@@ -11,6 +11,7 @@ import CarouselShowcase from './components/CarouselShowcase.jsx'
 import GalleryShowcase from './components/GalleryShowcase.jsx'
 import Contact from './components/Contact.jsx'
 import worksData from './data/works.json'
+import { asset } from './lib/asset.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -27,7 +28,7 @@ export default function App() {
     const video =
       resolveAsset('0001-0150', 'video') ||
       works.find((w) => w.type === 'video')
-    setHeroVideo(video?.file || '/works/vid/01.mp4')
+    setHeroVideo(asset(video?.file || '/works/vid/01.mp4'))
   }, [])
 
   useEffect(() => {

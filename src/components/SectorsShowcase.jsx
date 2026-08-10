@@ -2,6 +2,7 @@ import { useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import worksData from '../data/works.json'
+import { asset } from '../lib/asset.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -127,7 +128,7 @@ export default function SectorsShowcase() {
                   <img
                     key={`${item.id}-${ri}-${i}`}
                     className="sectors__thumb"
-                    src={item.file}
+                    src={asset(item.file)}
                     alt=""
                     loading="eager"
                     decoding="async"
@@ -135,7 +136,7 @@ export default function SectorsShowcase() {
                       const img = e.currentTarget
                       if (!img.dataset.fb) {
                         img.dataset.fb = '1'
-                        img.src = '/works/img/img-001.png'
+                        img.src = asset('/works/img/img-001.png')
                       }
                     }}
                     style={{
