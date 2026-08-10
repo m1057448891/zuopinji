@@ -7,6 +7,7 @@ import Reveal from './Reveal.jsx'
 import Aurora from './Aurora.jsx'
 import TrueFocus from './TrueFocus.jsx'
 import { asset } from '../lib/asset.js'
+import { RESUME_URL } from '../data/site.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -110,9 +111,11 @@ export default function Contact() {
             </div>
           </div>
           <nav className="contact__topnav mono">
-            <a href={asset('/docs/马中帅作品集.pdf')} target="_blank" rel="noreferrer">
-              作品集 PDF ↗
-            </a>
+            {RESUME_URL && (
+              <a href={RESUME_URL} target="_blank" rel="noreferrer">
+                作品集 PDF ↗
+              </a>
+            )}
             <a href="#top">回到顶部 ↑</a>
           </nav>
         </header>
@@ -159,9 +162,11 @@ export default function Contact() {
             <div className="contact__col">
               <h3 className="mono">MORE</h3>
               <span className="contact__col-rule" aria-hidden="true" />
-              <a href={asset('/docs/马中帅作品集.pdf')} target="_blank" rel="noreferrer">
-                建筑学作品集 PDF ↓
-              </a>
+              {RESUME_URL && (
+                <a href={RESUME_URL} target="_blank" rel="noreferrer">
+                  建筑学作品集 PDF ↓
+                </a>
+              )}
               <a href="#top">返回顶部 ↑</a>
             </div>
           </Reveal>
