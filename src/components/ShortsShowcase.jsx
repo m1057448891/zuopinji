@@ -156,7 +156,7 @@ export default function ShortsShowcase() {
     <section className="desk" id="shorts-showcase" ref={sectionRef}>
       <div className="desk__viewport">
         <div className="desk__zoom">
-          <img className="desk__img" src={asset('/works/bg/office.png')} alt="" aria-hidden="true" />
+          <img className="desk__img" src={asset('/works/bg/office.webp')} alt="" aria-hidden="true" />
           <div className="desk__screen">
             {prevFile && (
               <video

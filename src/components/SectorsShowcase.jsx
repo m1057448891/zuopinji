@@ -7,7 +7,7 @@ import { asset } from '../lib/asset.js'
 gsap.registerPlugin(ScrollTrigger)
 
 const works = worksData.works
-const DARK_IMAGES = ['img-008.png', 'img-009.png', 'img-011.png', 'img-022.png']
+const DARK_IMAGES = ['img-008.webp', 'img-009.webp', 'img-011.webp', 'img-022.webp']
 const images = works.filter(
   (w) => w.type === 'image' && !DARK_IMAGES.includes(w.file.split('/').pop())
 )
@@ -136,7 +136,7 @@ export default function SectorsShowcase() {
                       const img = e.currentTarget
                       if (!img.dataset.fb) {
                         img.dataset.fb = '1'
-                        img.src = asset('/works/img/img-001.png')
+                        img.src = asset('/works/img/img-001.webp')
                       }
                     }}
                     style={{
