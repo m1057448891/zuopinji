@@ -6,3 +6,7 @@ qa/
 .vite-dev.pid
 .DS_Store
 *.local
+
+# 本地构建产物与单文件版作品集（不入库）
+.build/
+马中帅作品集-单文件版.html

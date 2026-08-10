@@ -183,8 +183,8 @@ export default function ShortsShowcase() {
             <video
               className="desk__video-entering"
               ref={videoRef}
+              key={cur.file}
               muted
-              loop
               playsInline
               preload={inView ? 'auto' : 'none'}
             >
