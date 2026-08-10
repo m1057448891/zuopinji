@@ -46,6 +46,7 @@ function GlassLogo({ logo }) {
           className="contact__glass-img"
           src={logo.src}
           alt={logo.name}
+          loading="lazy"
           onError={() => setFailed(true)}
         />
       )}
@@ -174,7 +175,7 @@ export default function Contact() {
                 onClick={() => setQrOpen(true)}
                 aria-label="放大微信二维码"
               >
-                <img src={asset('/works/img/wechat-qr.jpg')} alt="微信二维码" />
+                <img src={asset('/works/img/wechat-qr.jpg')} alt="微信二维码" loading="lazy" />
               </button>
               <span className="contact__qr-note">扫码添加，随时沟通</span>
             </div>
@@ -217,7 +218,7 @@ export default function Contact() {
       {qrOpen &&
         createPortal(
           <div className="contact__qr-modal" onClick={() => setQrOpen(false)}>
-            <img src={asset('/works/img/wechat-qr.jpg')} alt="微信二维码" />
+            <img src={asset('/works/img/wechat-qr.jpg')} alt="微信二维码" loading="lazy" />
           </div>,
           document.body
         )}

@@ -3452,10 +3452,14 @@ a {
     height: 100vh;
     display: grid;
     place-items: center;
-    background: url("/works/bg/win98.png") center / cover no-repeat #0a0a0a;
+    background-color: #0a0a0a;
     padding: 40px clamp(14px, 2vw, 28px);
     overflow: hidden;
   }
+
+.shop.is-near {
+  background: url("/works/bg/win98.png") center / cover no-repeat #0a0a0a;
+}
 
 .shop__deco {
   position: absolute;

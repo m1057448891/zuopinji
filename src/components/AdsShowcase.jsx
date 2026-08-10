@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { asset } from '../lib/asset.js'
+import useInView from '../lib/useInView.js'
 
 const PRODUCTS = [
   {
@@ -31,16 +32,23 @@ const PRODUCTS = [
 export default function AdsShowcase() {
   const [active, setActive] = useState(0)
   const videoRef = useRef(null)
+  const [sectionRef, inView] = useInView('0px 0px 600px 0px')
 
   useEffect(() => {
     const v = videoRef.current
-    if (v) v.play().catch(() => {})
-  }, [active])
+    if (!v) return
+    if (inView) v.play().catch(() => {})
+    else v.pause()
+  }, [active, inView])
 
   const cur = PRODUCTS[active]
 
   return (
-    <section className="shop" id="ads-showcase">
+    <section
+      className={`shop${inView ? ' is-near' : ''}`}
+      id="ads-showcase"
+      ref={sectionRef}
+    >
       <div className="shop__scan" aria-hidden="true" />
 
       <div className="shop__window">
@@ -66,11 +74,11 @@ export default function AdsShowcase() {
               <video
                 key={active}
                 ref={videoRef}
-                src={asset(cur.file)}
+                src={inView ? asset(cur.file) : undefined}
                 muted
                 loop
                 playsInline
-                autoPlay
+                preload={inView ? 'auto' : 'none'}
                 controls
               />
               <div className="shop__toggle mono">

@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import worksData from '../data/works.json'
 import { asset } from '../lib/asset.js'
+import useInView from '../lib/useInView.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -75,7 +76,7 @@ function Typewriter({ text, speed = 42 }) {
 }
 
 export default function ShortsShowcase() {
-  const sectionRef = useRef(null)
+  const [sectionRef, inView] = useInView('0px 0px -100px 0px')
   const videoRef = useRef(null)
   const [index, setIndex] = useState(0)
   const [switching, setSwitching] = useState(false)
@@ -128,12 +129,15 @@ export default function ShortsShowcase() {
 
   useEffect(() => {
     const v = videoRef.current
-    if (v) {
-      v.play().catch(() => {})
-      v.onended = () => switchTo((index + 1) % SHORTS.length)
+    if (!v) return
+    if (!inView) {
+      v.pause()
+      return
     }
+    v.play().catch(() => {})
+    v.onended = () => switchTo((index + 1) % SHORTS.length)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [index])
+  }, [index, inView])
 
   const switchTo = (nextIndex) => {
     if (switchingRef.current) return
@@ -156,7 +160,12 @@ export default function ShortsShowcase() {
     <section className="desk" id="shorts-showcase" ref={sectionRef}>
       <div className="desk__viewport">
         <div className="desk__zoom">
-          <img className="desk__img" src={asset('/works/bg/office.png')} alt="" aria-hidden="true" />
+          <img
+            className="desk__img"
+            src={inView ? asset('/works/bg/office.png') : undefined}
+            alt=""
+            aria-hidden="true"
+          />
           <div className="desk__screen">
             {prevFile && (
               <video
@@ -170,12 +179,11 @@ export default function ShortsShowcase() {
             <video
               className="desk__video-entering"
               ref={videoRef}
-              src={cur.file}
+              src={inView ? cur.file : undefined}
               muted
               loop
               playsInline
-              preload="auto"
-              autoPlay
+              preload={inView ? 'auto' : 'none'}
             />
             <div className="desk__glass" aria-hidden="true" />
           </div>

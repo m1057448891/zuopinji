@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import worksData from '../data/works.json'
 import { asset } from '../lib/asset.js'
+import useInView from '../lib/useInView.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -22,6 +23,7 @@ const TAGS = ['（ 極簡海報 ）', '（ 商業視覺 ）', '（ 概念插畫 
 
 export default function SectorsShowcase() {
   let offset = 0
+  const [sectionRef, inView] = useInView('0px 0px -80px 0px')
 
   useLayoutEffect(() => {
     const mm = gsap.matchMedia()
@@ -99,7 +101,7 @@ export default function SectorsShowcase() {
   }, [])
 
   return (
-    <section className="sectors" id="image-works">
+    <section className="sectors" id="image-works" ref={sectionRef}>
       <div className="sectors__grain" aria-hidden="true" />
 
       {RINGS.map((ring, ri) => {
@@ -128,9 +130,8 @@ export default function SectorsShowcase() {
                   <img
                     key={`${item.id}-${ri}-${i}`}
                     className="sectors__thumb"
-                    src={asset(item.file)}
+                    src={inView ? asset(item.file) : undefined}
                     alt=""
-                    loading="eager"
                     decoding="async"
                     onError={(e) => {
                       const img = e.currentTarget

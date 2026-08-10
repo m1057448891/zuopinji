@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
+import useInView from '../lib/useInView.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -38,7 +39,7 @@ const EXPANDED = Array.from({ length: COPIES }, (_, c) =>
 ).flat()
 
 export default function GalleryShowcase() {
-  const sectionRef = useRef(null)
+  const [sectionRef, inView] = useInView('0px 0px 600px 0px')
   const viewRef = useRef(null)
   const trackRef = useRef(null)
   const [pos, setPos] = useState(2 * N)
@@ -195,16 +196,23 @@ export default function GalleryShowcase() {
 
   const curItem = lightbox != null ? ITEMS[lightbox] : null
 
+  useEffect(() => {
+    const v = sectionRef.current?.querySelector('.gallery__bg video')
+    if (!v) return
+    if (inView) v.play().catch(() => {})
+    else v.pause()
+  }, [inView, sectionRef])
+
   return (
     <section className="gallery-showcase" id="gallery-showcase" ref={sectionRef}>
       <div className="gallery__bg" aria-hidden="true">
         <video
-          src={asset('/works/bg/sixth-bg.mp4')}
-          poster={asset('/works/bg/sixth-poster.jpg')}
-          autoPlay
+          src={inView ? asset('/works/bg/sixth-bg.mp4') : undefined}
+          poster={inView ? asset('/works/bg/sixth-poster.jpg') : undefined}
           muted
           loop
           playsInline
+          preload={inView ? 'auto' : 'none'}
         />
         <span className="gallery__shade" />
       </div>
@@ -231,7 +239,7 @@ export default function GalleryShowcase() {
               className={`gallery-card ${item.pos === pos ? 'is-active' : ''}`}
             >
               <button className="gallery-card__media" aria-label={item.en}>
-                <img src={asset(item.file)} alt={item.cn} loading="lazy" />
+                <img src={asset(item.file)} alt={item.cn} loading="lazy" decoding="async" />
               </button>
               <div className="gallery-card__info">
                 <span className="gallery-card__cn">{item.cn}</span>

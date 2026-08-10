@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
+import useInView from '../lib/useInView.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -74,21 +75,40 @@ const ITEMS = [
 const GAP = 24
 
 function CarouselCard({ item, onOpen }) {
+  const [cardRef, inView] = useInView('400px')
+  const [ever, setEver] = useState(false)
+
+  useEffect(() => {
+    if (inView) setEver(true)
+  }, [inView])
+
+  useEffect(() => {
+    const v = cardRef.current?.querySelector('video')
+    if (!v) return
+    if (inView) {
+      v.muted = true
+      const tryPlay = () => v.play().catch(() => {})
+      if (v.readyState >= 2) tryPlay()
+      v.addEventListener('canplay', tryPlay)
+      return () => v.removeEventListener('canplay', tryPlay)
+    }
+    v.pause()
+  }, [inView, cardRef, ever])
+
   return (
-    <article className="car-card">
+    <article className="car-card" ref={cardRef}>
       <button
         className="car-card__media"
         onClick={() => onOpen(item)}
         aria-label={item.en}
       >
           <video
-            src={asset(item.file)}
-            poster={asset(item.poster)}
-          autoPlay
+            src={ever ? asset(item.file) : undefined}
+            poster={ever ? asset(item.poster) : undefined}
           muted
           loop
           playsInline
-          preload="auto"
+          preload={inView ? 'auto' : 'none'}
         />
         <span className="car-card__play" aria-hidden="true">
           &#9654;
@@ -138,13 +158,6 @@ export default function CarouselShowcase() {
     gsap.to(track, { x: -index * step, duration: 0.9, ease: 'power3.out' })
   }, [index])
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      gsap.utils.toArray('.car-card video').forEach((v) => v.play().catch(() => {}))
-    }, 350)
-    return () => clearTimeout(timer)
-  }, [index])
-
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -171,14 +184,6 @@ export default function CarouselShowcase() {
           scrollTrigger: { trigger: '.carousel__view', start: 'top 86%', once: true }
         }
       )
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top 92%',
-        once: true,
-        onEnter: () => {
-          gsap.utils.toArray('.car-card video').forEach((v) => v.play().catch(() => {}))
-        }
-      })
     }, sectionRef)
     return () => ctx.revert()
   }, [])
