@@ -56,25 +56,17 @@ export default function IntroLoader() {
     document.body.style.overflow = 'hidden'
 
     const t0 = performance.now()
-    const startTime = performance.now()
     let raf = 0
     const tick = () => {
-      const p = Math.min(100, ((performance.now() - t0) / 5200) * 100)
+      const p = Math.min(100, ((performance.now() - t0) / 2400) * 100)
       setPercent(Math.round(p))
       if (p < 100) raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
 
-    const minTime = 5600
     let finished = false
-    let finishTimer = 0
     const finish = () => {
       if (finished || !mountedRef.current) return
-      const elapsed = performance.now() - startTime
-      if (elapsed < minTime) {
-        finishTimer = setTimeout(finish, minTime - elapsed)
-        return
-      }
       finished = true
       setPhase('exit')
       setTimeout(() => {
@@ -83,22 +75,17 @@ export default function IntroLoader() {
       }, 850)
     }
 
-    const minTimer = setTimeout(finish, minTime)
-    const loadFallback = setTimeout(finish, 9000)
-    const onLoad = () => finish()
-    if (document.readyState === 'complete') {
-      // 等最小时间即可
-    } else {
-      window.addEventListener('load', onLoad)
-    }
+    // M 主笔画绘制完成即进入首页
+    const mPath = document.querySelector('.m-main')
+    const onMDone = () => finish()
+    mPath?.addEventListener('animationend', onMDone)
+    const fallback = setTimeout(finish, 3400)
 
     return () => {
       mountedRef.current = false
       cancelAnimationFrame(raf)
-      clearTimeout(minTimer)
-      clearTimeout(loadFallback)
-      clearTimeout(finishTimer)
-      window.removeEventListener('load', onLoad)
+      mPath?.removeEventListener('animationend', onMDone)
+      clearTimeout(fallback)
       document.body.style.overflow = ''
     }
   }, [])
@@ -170,8 +157,8 @@ export default function IntroLoader() {
       <div className="intro-loader__meta">
         <span className="intro-loader__label mono">LOADING</span>
         <div className="intro-loader__text">
-          <ScrambleLine text="MOSATO SAKAI" startDelay={1500} speed={38} pool={EN_POOL} />
-          <ScrambleLine text="马中帅 · 内容运营 × AI 视觉创作" startDelay={2200} speed={26} pool={CN_POOL} />
+          <ScrambleLine text="MOSATO SAKAI" startDelay={950} speed={34} pool={EN_POOL} />
+          <ScrambleLine text="马中帅 · 内容运营 × AI 视觉创作" startDelay={1400} speed={26} pool={CN_POOL} />
         </div>
         <span className="intro-loader__percent mono">{String(percent).padStart(3, '0')}</span>
       </div>
