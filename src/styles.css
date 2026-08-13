@@ -5646,9 +5646,102 @@ a {
   border-width: 3px;
 }
 
+/* ---------- AI 工具（手风琴画廊） ---------- */
+.tools {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 0;
+  background:
+    radial-gradient(900px 520px at 12% 0%, rgba(156, 195, 255, 0.07), transparent 60%),
+    radial-gradient(760px 480px at 90% 100%, rgba(196, 181, 253, 0.06), transparent 60%),
+    #000;
+  overflow: hidden;
+}
+.tools__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+.tools__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  margin-bottom: 48px;
+}
+.tools__kicker {
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  color: var(--accent);
+}
+.tools__title {
+  font-size: clamp(32px, 4vw, 60px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.tools__title em {
+  display: block;
+  font-style: normal;
+  font-size: clamp(14px, 1.5vw, 20px);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin-top: 12px;
+}
+.tools__sub {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--text-faint);
+}
+.tools__gallery {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.tools__gallery .ag-panel__text {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.tools__watermark {
+  position: absolute;
+  left: -0.02em;
+  top: 7vh;
+  z-index: 0;
+  font-family: "Archivo Black", var(--font-sans);
+  font-size: clamp(120px, 21vw, 340px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.035);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+.tools__vertical {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%) rotate(90deg);
+  font-size: 10px;
+  letter-spacing: 0.42em;
+  color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+@media (max-width: 900px) {
+  .tools__vertical {
+    display: none;
+  }
+}
+
 /* ---------- performance: skip offscreen rendering ---------- */
 
 .shop,
+.tools,
 .carousel-showcase,
 .gallery-showcase,
 .contact {

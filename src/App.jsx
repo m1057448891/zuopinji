@@ -7,6 +7,7 @@ import Hero from './components/Hero.jsx'
 import SectorsShowcase from './components/SectorsShowcase.jsx'
 import ShortsShowcase from './components/ShortsShowcase.jsx'
 import AdsShowcase from './components/AdsShowcase.jsx'
+import ToolsShowcase from './components/ToolsShowcase.jsx'
 import CarouselShowcase from './components/CarouselShowcase.jsx'
 import GalleryShowcase from './components/GalleryShowcase.jsx'
 import LazyContact from './components/LazyContact.jsx'
@@ -81,6 +82,7 @@ export default function App() {
         <SectorsShowcase />
         <ShortsShowcase />
         <AdsShowcase />
+        <ToolsShowcase />
         <CarouselShowcase />
         <GalleryShowcase />
       </main>
