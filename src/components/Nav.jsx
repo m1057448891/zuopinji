@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 
 const LINKS = [
-  { label: 'Home', href: '#top', id: 'top' },
-  { label: 'Product', href: '#image-works', id: 'image-works' },
-  { label: 'Case Studies', href: '#ads-showcase', id: 'ads-showcase' },
-  { label: 'Contact', href: '#contact', id: 'contact' }
+  { label: '首页', href: '#top', id: 'top' },
+  { label: '图片作品', href: '#image-works', id: 'image-works' },
+  { label: '创意短片', href: '#shorts-showcase', id: 'shorts-showcase' },
+  { label: '商业广告', href: '#ads-showcase', id: 'ads-showcase' },
+  { label: 'Skill搭建', href: '#tools-showcase', id: 'tools-showcase' },
+  { label: '视频轮播', href: '#carousel-showcase', id: 'carousel-showcase' },
+  { label: '图片轮播', href: '#gallery-showcase', id: 'gallery-showcase' },
+  { label: '联系我', href: '#contact', id: 'contact' }
 ]
 
 export default function Nav() {
@@ -14,13 +18,22 @@ export default function Nav() {
 
   useEffect(() => {
     let raf = 0
+    const pageStart = (id) => {
+      if (id === 'shorts-showcase') {
+        const sectors = document.getElementById('image-works')
+        if (sectors) {
+          const r = sectors.getBoundingClientRect()
+          return r.top + window.scrollY + r.height
+        }
+      }
+      const el = document.getElementById(id)
+      return el ? el.getBoundingClientRect().top + window.scrollY : Infinity
+    }
     const update = () => {
       const probe = window.scrollY + window.innerHeight * 0.38
       let current = 'top'
       for (const link of LINKS) {
-        const el = document.getElementById(link.id)
-        if (!el) continue
-        if (el.offsetTop <= probe) current = link.id
+        if (pageStart(link.id) <= probe) current = link.id
       }
       setActive(current)
     }

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -15,7 +15,11 @@ import ShapeGrid from './components/ShapeGrid.jsx'
 import IntroLoader from './components/IntroLoader.jsx'
 gsap.registerPlugin(ScrollTrigger)
 
+const HERO_BG = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260723_145606_ab143199-b593-4941-bb1b-9afca215416b.mp4'
+
 export default function App() {
+  const [heroVideo] = useState(HERO_BG)
+
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.09, smoothWheel: true })
     window.__lenis = lenis
@@ -66,7 +70,7 @@ export default function App() {
       <IntroLoader />
       <Nav />
       <main>
-        <Hero />
+        <Hero video={heroVideo} />
         <SectorsShowcase />
         <ShortsShowcase />
         <AdsShowcase />
