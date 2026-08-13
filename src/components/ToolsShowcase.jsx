@@ -1,4 +1,5 @@
 import AccordionGallery from './AccordionGallery.jsx'
+import ShapeGrid from './ShapeGrid.jsx'
 import { asset } from '../lib/asset.js'
 
 const ITEMS = [
@@ -12,6 +13,17 @@ const ITEMS = [
 export default function ToolsShowcase() {
   return (
     <section className="tools" id="tools-showcase">
+      <div className="tools__grid" aria-hidden="true">
+        <ShapeGrid
+          direction="diagonal"
+          speed={0.35}
+          squareSize={44}
+          borderColor="rgba(255,255,255,0.09)"
+          hoverFillColor="rgba(156,195,255,0.22)"
+          shape="square"
+          hoverTrailAmount={6}
+        />
+      </div>
       <span className="tools__watermark" aria-hidden="true">
         TOOLS
       </span>

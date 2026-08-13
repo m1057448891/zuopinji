@@ -121,6 +121,26 @@
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
 }
 
+.ag-panel__mini {
+  position: absolute;
+  left: 10px;
+  bottom: 12px;
+  z-index: 2;
+  writing-mode: vertical-rl;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  opacity: 1;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.ag-panel__mini.is-hidden {
+  opacity: 0;
+}
+
 @media (max-width: 520px) {
   .accordion-gallery {
     flex-direction: column;

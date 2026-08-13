@@ -5654,11 +5654,14 @@ a {
   align-items: center;
   justify-content: center;
   padding: 120px 0;
-  background:
-    radial-gradient(900px 520px at 12% 0%, rgba(156, 195, 255, 0.07), transparent 60%),
-    radial-gradient(760px 480px at 90% 100%, rgba(196, 181, 253, 0.06), transparent 60%),
-    #000;
+  background: #000;
   overflow: hidden;
+}
+.tools__grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.9;
 }
 .tools__inner {
   position: relative;
@@ -5711,7 +5714,7 @@ a {
   position: absolute;
   left: -0.02em;
   top: 7vh;
-  z-index: 0;
+  z-index: 1;
   font-family: "Archivo Black", var(--font-sans);
   font-size: clamp(120px, 21vw, 340px);
   font-weight: 900;

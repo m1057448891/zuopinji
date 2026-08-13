@@ -219,6 +219,11 @@ const AccordionGallery = ({
                 </span>
               </span>
             )}
+            {showLabels && (
+              <span className={`ag-panel__mini${isActive ? ' is-hidden' : ''}`} aria-hidden="true">
+                {item.label}
+              </span>
+            )}
           </Tag>
         )
       })}
