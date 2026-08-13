@@ -1,278 +1,124 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { asset } from '../lib/asset.js'
-import { videoSources } from '../lib/videoSources.js'
+import { useEffect, useRef, useState } from 'react'
 
-gsap.registerPlugin(ScrollTrigger)
+const BG =
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4'
 
-const EXT_BG = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260723_145606_ab143199-b593-4941-bb1b-9afca215416b.mp4'
-const isRemote = (p) => /^https?:/.test(p || '')
-
-const slides = [
-  {
-    no: '01',
-    cn: '视觉方向',
-    video: '/works/hero/hero-01.mp4'
-  },
-  {
-    no: '02',
-    cn: '图片作品',
-    video: '/works/hero/hero-02.mp4'
-  },
-  {
-    no: '03',
-    cn: '海报',
-    video: '/works/hero/hero-03.mp4'
-  },
-  {
-    no: '04',
-    cn: '商业广告',
-    video: '/works/hero/hero-04.mp4'
-  },
-  {
-    no: '05',
-    cn: '创意短片',
-    video: '/works/hero/hero-05.mp4'
-  }
+const STATS = [
+  { icon: '<', target: 120, suffix: 'ms', decimals: 0, label: 'Inference Time' },
+  { icon: '%', target: 99.99, suffix: '%', decimals: 2, label: 'Platform Uptime' },
+  { icon: '*', target: 24, suffix: '/7', decimals: 0, label: 'Autonomous Runtime' },
+  { icon: '#', target: 2.4, suffix: 'M', decimals: 1, label: 'Context Windows' }
 ]
 
-const listItems = [
-  { no: '01', cn: '图片作品', en: 'IMAGE WORKS', href: '#image-works' },
-  { no: '02', cn: '创意短片', en: 'SHORTS', href: '#shorts-showcase' },
-  { no: '03', cn: '商业广告', en: 'COMMERCIAL', href: '#ads-showcase' },
-  { no: '04', cn: 'Skill搭建', en: 'SKILL BUILD', href: '#tools-showcase' },
-  { no: '05', cn: '视频轮播', en: 'MOTION REEL', href: '#carousel-showcase' },
-  { no: '06', cn: '图片轮播', en: 'IMAGE GALLERY', href: '#gallery-showcase' }
-]
+function Stat({ stat, index }) {
+  const ref = useRef(null)
+  const [value, setValue] = useState(0)
 
-const WAVE = Array.from({ length: 24 }, (_, i) => 24 + ((i * 29) % 60))
-
-function ThumbVideo({ slide }) {
-  const videoRef = useRef(null)
-
-  const handleEnter = () => {
-    const v = videoRef.current
-    if (!v) return
-    v.src = isRemote(slide.video) ? slide.video : asset(slide.video)
-    v.load()
-    v.play().catch(() => {})
-  }
-
-  const handleLeave = () => {
-    const v = videoRef.current
-    if (!v) return
-    v.pause()
-    v.removeAttribute('src')
-    v.load()
-  }
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    let raf = 0
+    const delay = 480 + index * 90
+    const duration = 1500 + index * 80
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        io.disconnect()
+        const start = performance.now() + delay
+        const tick = (now) => {
+          const t = Math.min(1, Math.max(0, (now - start) / duration))
+          const eased = 1 - Math.pow(1 - t, 3)
+          setValue(stat.target * eased)
+          if (t < 1) raf = requestAnimationFrame(tick)
+        }
+        raf = requestAnimationFrame(tick)
+      },
+      { threshold: 0.25 }
+    )
+    io.observe(el)
+    return () => {
+      io.disconnect()
+      cancelAnimationFrame(raf)
+    }
+  }, [stat.target, index])
 
   return (
-    <video
-      ref={videoRef}
-      poster={asset(slide.video.replace(/\.mp4$/, '-poster.jpg'))}
-      muted
-      loop
-      playsInline
-      preload="none"
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-    />
+    <div
+      className="ln-stat anim"
+      style={{ '--d': `${0.5 + index * 0.08}s` }}
+      ref={ref}
+    >
+      <span className="ln-stat__icon" aria-hidden="true">
+        {stat.icon}
+      </span>
+      <span className="ln-stat__value">
+        {value.toFixed(stat.decimals)}
+        {stat.suffix}
+      </span>
+      <span className="ln-stat__label">{stat.label}</span>
+    </div>
   )
 }
 
-export default function Hero({ video }) {
-  const scope = useRef(null)
-  const [active, setActive] = useState(0)
-  const [hovered, setHovered] = useState(null)
-  const [activeVideo, setActiveVideo] = useState(video)
-  const mainVideoRef = useRef(null)
-
-  const selectSlide = (i) => {
-    setActive(i)
-    setActiveVideo(slides[i].video)
-  }
-
-  useEffect(() => {
-    if (video) setActiveVideo(video)
-  }, [video])
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const v = mainVideoRef.current
-      if (v) {
-        v.load()
-        v.play().catch(() => {})
-      }
-    }, 1200)
-    return () => clearTimeout(timer)
-  }, [activeVideo])
-
-  const prev = () => {
-    const i = (active + slides.length - 1) % slides.length
-    selectSlide(i)
-  }
-  const next = () => {
-    const i = (active + 1) % slides.length
-    selectSlide(i)
-  }
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.hero__video',
-        { scale: 1.04, yPercent: -3 },
-        {
-          scale: 1.14,
-          yPercent: 9,
-          ease: 'none',
-          scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
-        }
-      )
-      gsap.fromTo(
-        '.hero__giant--left',
-        { xPercent: -14, autoAlpha: 0 },
-        { xPercent: 0, autoAlpha: 1, duration: 1.4, ease: 'power3.out', delay: 0.1 }
-      )
-      gsap.fromTo(
-        '.hero__giant--right',
-        { xPercent: 14, autoAlpha: 0 },
-        { xPercent: 0, autoAlpha: 1, duration: 1.4, ease: 'power3.out', delay: 0.18 }
-      )
-      gsap.fromTo(
-        '.hero__list--cn .hero__list-item',
-        { autoAlpha: 0, y: 26 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.08,
-          delay: 0.4,
-          ease: 'power3.out'
-        }
-      )
-      gsap.fromTo(
-        '.hero__list--en .hero__list-item',
-        { autoAlpha: 0, y: 26 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.8,
-          stagger: 0.08,
-          delay: 0.55,
-          ease: 'power3.out'
-        }
-      )
-      gsap.fromTo(
-        '.hero__carousel',
-        { autoAlpha: 0, y: 54 },
-        { autoAlpha: 1, y: 0, duration: 1.2, delay: 0.7, ease: 'power3.out' }
-      )
-    }, scope)
-    return () => ctx.revert()
-  }, [])
-
+export default function Hero() {
   return (
-    <section className="hero" id="top" ref={scope}>
-      <div className="hero__bg">
+    <section className="landing" id="top">
+      <div className="landing__bg" aria-hidden="true">
         <video
-          key={activeVideo}
-          className="hero__video"
-          ref={mainVideoRef}
+          className="landing__video"
+          autoPlay
           muted
           loop
           playsInline
-          preload="none"
-          src={isRemote(activeVideo) ? activeVideo : undefined}
-          poster={
-            activeVideo
-              ? isRemote(activeVideo)
-                ? asset('/works/hero/hero-01-poster.jpg')
-                : asset(activeVideo.replace(/\.mp4$/, '-poster.jpg'))
-              : undefined
-          }
-          aria-hidden="true"
+          preload="auto"
+          poster="/works/hero/hero-01-poster.jpg"
         >
-          {!isRemote(activeVideo) && videoSources(activeVideo).map((s) => (
-            <source key={s.src} src={s.src} type={s.type} />
-          ))}
+          <source src={BG} type="video/mp4" />
         </video>
-        <div className="hero__grid" aria-hidden="true" />
-        <div className="hero__shade" aria-hidden="true" />
       </div>
 
-      <span className="hero__giant hero__giant--left" aria-hidden="true">
-        STUDIO
-      </span>
-      <span className="hero__giant hero__giant--right" aria-hidden="true">
-        DIGITAL
-      </span>
-
-      <div className="hero__lists">
-        <ul className="hero__list hero__list--cn">
-          {listItems.map((s) => (
-            <li key={s.no}>
-              <a className="hero__list-item" href={s.href}>
-                <span className="mono">{s.no}</span>
-                {s.cn}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <ul className="hero__list hero__list--en">
-          {listItems.map((s) => (
-            <li key={s.no}>
-              <a className="hero__list-item" href={s.href}>
-                {s.en}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="container hero__carousel">
-        <div className="hero__car-head">
-          <div className="hero__car-controls hero__car-controls--center">
-            <button className="hero__car-arrow" onClick={prev} aria-label="上一个">
-              《
-            </button>
-            <span className="hero__car-index mono">{slides[active].no} // 05</span>
-            <button className="hero__car-arrow" onClick={next} aria-label="下一个">
-              》
-            </button>
-          </div>
+      <div className="landing__body">
+        <div className="landing__trust anim" style={{ '--d': '0.05s' }}>
+          <span className="ln-avatar ln-avatar--1">
+            <i className="fa-brands fa-microsoft" aria-hidden="true" />
+          </span>
+          <span className="ln-avatar ln-avatar--2">
+            <i className="fa-brands fa-amazon" aria-hidden="true" />
+          </span>
+          <span className="ln-avatar ln-avatar--3">
+            <i className="fa-brands fa-google" aria-hidden="true" />
+          </span>
+          <span className="ln-trust">Trusted by 2000+ Enterprises</span>
         </div>
 
-        <div className="hero__strips">
-          {slides.map((s, i) => (
-            <div
-              className={`hero__strip ${i === active ? 'is-active' : ''} ${
-                hovered === i ? 'is-waving' : ''
-              }`}
-              key={s.no}
-            >
-              <div className="hero__wave" aria-hidden="true">
-                {WAVE.map((h, k) => (
-                  <span key={k} style={{ height: `${h}%`, animationDelay: `${(k % 6) * 0.08}s` }} />
-                ))}
-              </div>
-              <button
-                className={`hero__car-thumb ${i === active ? 'is-active' : ''}`}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
-                onClick={() => selectSlide(i)}
-              >
-                <ThumbVideo slide={s} />
-                <span className="mono">{s.no}</span>
-              </button>
-            </div>
-          ))}
-        </div>
+        <h1 className="landing__headline">
+          <span className="landing__line" style={{ '--d': '0.12s' }}>
+            Intelligence
+          </span>
+          <span className="landing__line" style={{ '--d': '0.3s' }}>
+            Designed To Evolve
+          </span>
+        </h1>
+
+        <p className="landing__sub anim" style={{ '--d': '0.28s' }}>
+          Build applications that reason, adapt and collaborate using a modular
+          AI platform designed for production.
+        </p>
+
+        <a
+          className="landing__cta anim"
+          style={{ '--d': '0.4s' }}
+          href="#image-works"
+        >
+          Get Started
+        </a>
       </div>
 
-      <a className="hero__float-btn" href="#contact" aria-label="联系我">
-        ✦
-      </a>
+      <footer className="landing__stats">
+        {STATS.map((stat, i) => (
+          <Stat key={stat.label} stat={stat} index={i} />
+        ))}
+      </footer>
     </section>
   )
 }
