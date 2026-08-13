@@ -72,48 +72,6 @@ export default function CarouselShowcase() {
 
       <div className="reel-oryzo__space" ref={spaceRef}>
         <div className="reel-oryzo__sticky">
-          <div className="reel-oryzo__carousel">
-            <div
-              className="reel-oryzo__strip"
-              style={{ transform: 'translateY(-50%)' }}
-              aria-hidden="true"
-            >
-              {ITEMS.map((it, i) => (
-                <button
-                  key={it.no}
-                  className={`reel-oryzo__thumb${i === index ? ' is-active' : ''}`}
-                  onClick={() => jumpTo(i)}
-                  aria-label={it.cn}
-                >
-                  <img src={asset(it.poster)} alt={it.cn} />
-                  <span className="mono">{it.no}</span>
-                </button>
-              ))}
-            </div>
-
-            <button className="reel-oryzo__frame" onClick={() => setActive(cur)} aria-label={cur.en}>
-              {ITEMS.map((it, i) => (
-                <img
-                  key={it.no}
-                  className={`reel-oryzo__slide${i === index ? ' is-active' : ''}`}
-                  src={asset(it.poster)}
-                  alt={it.cn}
-                  style={{
-                    transform: `translateX(${(i - index) * 108}%) scale(${i === index ? 1 : 0.94})`,
-                    zIndex: i === index ? 2 : 1
-                  }}
-                />
-              ))}
-              <span className="reel-oryzo__hud mono">
-                <span className="reel-oryzo__hud-dot" aria-hidden="true" />
-                {cur.tag} · {cur.date}
-              </span>
-              <span className="reel-oryzo__play" aria-hidden="true">
-                ▶
-              </span>
-            </button>
-          </div>
-
           <div className="reel-oryzo__inner">
             <header className="reel-oryzo__head" ref={headRef}>
               <span className="mono reel-oryzo__kicker">SELECTED WORKS / 精选动态影像</span>
@@ -121,12 +79,54 @@ export default function CarouselShowcase() {
               <em className="reel-oryzo__sub">光影 · 情绪 · 叙事实验</em>
             </header>
 
-            <p className="reel-oryzo__hint mono">
-              <span className="reel-oryzo__hint-ring" aria-hidden="true">
-                ↓
-              </span>
-              SCROLL TO CONTINUE
-            </p>
+            <div className="reel-oryzo__main">
+              <div className="reel-oryzo__stage">
+                <button
+                  className="reel-oryzo__frame"
+                  onClick={() => setActive(cur)}
+                  aria-label={cur.en}
+                >
+                  {ITEMS.map((it, i) => (
+                    <img
+                      key={it.no}
+                      className={`reel-oryzo__slide${i === index ? ' is-active' : ''}`}
+                      src={asset(it.poster)}
+                      alt={it.cn}
+                      style={{
+                        transform: `translateX(${(i - index) * 108}%) scale(${i === index ? 1 : 0.94})`,
+                        zIndex: i === index ? 2 : 1
+                      }}
+                    />
+                  ))}
+                  <span className="reel-oryzo__hud mono">
+                    <span className="reel-oryzo__hud-dot" aria-hidden="true" />
+                    {cur.tag} · {cur.date}
+                  </span>
+                  <span className="reel-oryzo__play" aria-hidden="true">
+                    ▶
+                  </span>
+                </button>
+                <p className="reel-oryzo__desc">
+                  <b>{cur.cn}</b> · {cur.en}
+                </p>
+              </div>
+
+              <aside className="reel-oryzo__thumbs">
+                {ITEMS.map((it, i) => (
+                  <button
+                    key={it.no}
+                    className={`reel-oryzo__thumb${i === index ? ' is-active' : ''}`}
+                    onClick={() => jumpTo(i)}
+                    aria-label={it.cn}
+                  >
+                    <img src={asset(it.poster)} alt={it.cn} />
+                    <span className="mono">{it.no}</span>
+                  </button>
+                ))}
+              </aside>
+            </div>
+
+            <p className="reel-oryzo__hint mono">SCROLL TO CONTINUE ↓</p>
           </div>
         </div>
       </div>
