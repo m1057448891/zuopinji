@@ -1,292 +1,218 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { asset } from '../lib/asset.js'
-import useInView from '../lib/useInView.js'
-import { imgSrcSet } from '../lib/imgAttrs.js'
-import Grainient from './Grainient.jsx'
+import { useEffect, useRef, useState } from 'react'
 
-gsap.registerPlugin(ScrollTrigger)
-
-const GAP = 10
-
-const ITEMS = [
-  { file: '/works/img/img-015.webp', cn: '深空漫游', en: 'Deep Space Drift' },
-  { file: '/works/img/img-023.webp', cn: '雾霭新生', en: 'Mist & Newborn Light' },
-  { file: '/works/img/img-013.webp', cn: '软糖小屋', en: 'Candy Cottage' },
-  { file: '/works/img/img-018.webp', cn: '风影席卷', en: 'Wind Sweep' },
-  { file: '/works/img/img-021.webp', cn: '冷白逆光', en: 'Cold Backlit' },
-  { file: '/works/img/img-011.webp', cn: '透明机能', en: 'Glass Massager' },
-  { file: '/works/img/img-009.webp', cn: '刀光惊尘', en: 'Blade & Dust' },
-  { file: '/works/img/img-016.webp', cn: '草甸低云', en: 'Meadow Clouds' },
-  { file: '/works/img/img-017.webp', cn: '草浪云天', en: 'Grass Wave Sky' },
-  { file: '/works/img/img-019.webp', cn: '胶片古色', en: 'Film Ancient Beauty' },
-  { file: '/works/img/img-022.webp', cn: '仙侠猎妖', en: 'Myth Hunter' },
-  { file: '/works/img/img-003.webp', cn: '新春纳福', en: 'New Year Blessing' },
-  { file: '/works/img/img-008.webp', cn: '暗夜朦光', en: 'Nocturne' },
-  { file: '/works/img/img-012.webp', cn: '花海果酒', en: 'Flower Wine' },
-  { file: '/works/img/img-010.webp', cn: '蓝调春日', en: 'Blue Spring' },
-  { file: '/works/img/img-004.webp', cn: '千禧幻梦', en: 'Millennium Dream' },
-  { file: '/works/img/img-002.webp', cn: '甜酷少女', en: 'Y2K Pop Rebel' },
-  { file: '/works/img/img-001.webp', cn: '赛博天使', en: 'Y2K Cyber Angel' },
-  { file: '/works/img/img-005.webp', cn: '高校女王', en: 'High Teen Queen' },
-  { file: '/works/img/img-006.webp', cn: '东坡上釉', en: 'Dongpo Glaze' },
-  { file: '/works/img/img-014.webp', cn: '极简人像', en: 'Minimal Portrait' }
+const IMAGES = [
+  {
+    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120544_94be5de4-0f4f-494c-bb78-c532290040a6.png&w=1920&q=85',
+    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120544_94be5de4-0f4f-494c-bb78-c532290040a6.png'
+  },
+  {
+    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120601_5c6e4705-b992-4227-9dff-9b000351c283.png&w=1920&q=85',
+    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120601_5c6e4705-b992-4227-9dff-9b000351c283.png'
+  },
+  {
+    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120619_7bc65416-a3d7-4e8c-9929-743f233378fe.png&w=1920&q=85',
+    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120619_7bc65416-a3d7-4e8c-9929-743f233378fe.png'
+  },
+  {
+    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120627_b40a97b0-c5fa-408c-a77e-dc8fa44f8584.png&w=1920&q=85',
+    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120627_b40a97b0-c5fa-408c-a77e-dc8fa44f8584.png'
+  },
+  {
+    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120635_515cde41-2dc6-48ce-a236-088a5bc74ca8.png&w=1920&q=85',
+    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120635_515cde41-2dc6-48ce-a236-088a5bc74ca8.png'
+  },
+  {
+    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120645_5a1170c6-145b-477b-abd2-f8620acccd8d.png&w=1920&q=85',
+    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120645_5a1170c6-145b-477b-abd2-f8620acccd8d.png'
+  }
 ]
 
-const N = ITEMS.length
-const COPIES = 5
-const EXPANDED = Array.from({ length: COPIES }, (_, c) =>
-  ITEMS.map((item, i) => ({ ...item, pos: c * N + i }))
-).flat()
+const LINKS = ['Work', 'Index', 'Events', 'Projects']
+const SPEED = 0.8
 
 export default function GalleryShowcase() {
-  const [sectionRef, inView] = useInView('0px 0px 600px 0px')
-  const viewRef = useRef(null)
+  const [open, setOpen] = useState(false)
   const trackRef = useRef(null)
-  const [pos, setPos] = useState(2 * N)
-  const [lightbox, setLightbox] = useState(null)
-  const dragRef = useRef({ down: false, startX: 0, baseX: 0, moved: 0, cardPos: -1 })
-  const pausedRef = useRef(false)
-  const wrapRef = useRef(false)
-  const pendingWrapRef = useRef(false)
+  const offsetRef = useRef(0)
+  const velocityRef = useRef(0)
+  const dragRef = useRef({ active: false, startX: 0, startOffset: 0, lastX: 0, lastT: 0 })
 
-  const measure = () => {
-    const view = viewRef.current
-    const card = view && view.querySelector('.gallery-card')
-    if (!view || !card) return { step: 0, cardW: 0 }
-    const r = card.getBoundingClientRect()
-    return { step: r.width + GAP, cardW: r.width }
-  }
-
-  const centerX = (p) => {
-    const view = viewRef.current
-    const { step, cardW } = measure()
-    if (!view || !step) return 0
-    return view.clientWidth / 2 - (p * step + cardW / 2)
-  }
-
-  const animateTo = (p, instant = false) => {
-    const track = trackRef.current
-    if (!track) return
-    const x = centerX(p)
-    if (instant) gsap.set(track, { x })
-    else gsap.to(track, { x, duration: 0.7, ease: 'power3.out' })
-  }
-
-  useLayoutEffect(() => {
-    animateTo(pos, true)
-    const onResize = () => animateTo(pos, true)
-    window.addEventListener('resize', onResize)
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.gallery__head > *',
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.1,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', once: true }
-        }
-      )
-      const cards = gsap.utils.toArray('.gallery-card')
-      gsap.fromTo(
-        cards,
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.02,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: sectionRef.current, start: 'top 70%', once: true },
-          onComplete: () => gsap.set(cards, { clearProps: 'transform,opacity' })
-        }
-      )
-    }, sectionRef)
+  // 菜单打开时锁定页面滚动
+  useEffect(() => {
+    document.body.style.overflow = open ? 'hidden' : ''
     return () => {
-      window.removeEventListener('resize', onResize)
-      ctx.revert()
+      document.body.style.overflow = ''
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open])
+
+  // 本页在视口内时隐藏全站导航，避免双导航冲突
+  useEffect(() => {
+    const sec = document.getElementById('gallery-showcase')
+    if (!sec) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        document.body.classList.toggle('hide-site-nav', entry.isIntersecting && entry.intersectionRatio > 0.35)
+      },
+      { threshold: [0.2, 0.35, 0.6] }
+    )
+    io.observe(sec)
+    return () => {
+      io.disconnect()
+      document.body.classList.remove('hide-site-nav')
+    }
   }, [])
 
-  useEffect(() => {
-    const t = setInterval(() => {
-      if (pausedRef.current || lightbox != null) return
-      setPos((p) => p + 1)
-    }, 2000)
-    return () => clearInterval(t)
-  }, [lightbox])
-
-  useEffect(() => {
-    if (pos >= 3 * N) {
-      pendingWrapRef.current = true
-    }
-  }, [pos])
-
+  // 图带动画引擎：requestAnimationFrame + 拖拽惯性 + 无缝循环
   useEffect(() => {
     const track = trackRef.current
     if (!track) return
-    const instant = wrapRef.current
-    wrapRef.current = false
-    const x = centerX(pos)
-    if (instant) {
-      gsap.set(track, { x })
-      return
-    }
-    const tween = gsap.to(track, {
-      x,
-      duration: 0.7,
-      ease: 'power3.out',
-      onComplete: () => {
-        if (pendingWrapRef.current) {
-          pendingWrapRef.current = false
-          wrapRef.current = true
-          setPos(pos - N)
+    let raf = 0
+    const loop = () => {
+      const d = dragRef.current
+      if (!d.active) {
+        if (Math.abs(velocityRef.current) > 0.1) {
+          offsetRef.current += velocityRef.current
+          velocityRef.current *= 0.95
+        } else {
+          velocityRef.current = 0
+          offsetRef.current -= SPEED
         }
       }
-    })
-    return () => tween.kill()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pos])
+      const half = track.scrollWidth / 2
+      if (offsetRef.current <= -half) offsetRef.current += half
+      if (offsetRef.current > 0) offsetRef.current -= half
+      track.style.transform = `translate3d(${offsetRef.current}px,0,0)`
+      raf = requestAnimationFrame(loop)
+    }
+    raf = requestAnimationFrame(loop)
+    return () => cancelAnimationFrame(raf)
+  }, [])
 
   const onPointerDown = (e) => {
-    const track = trackRef.current
-    if (!track) return
-    track.setPointerCapture(e.pointerId)
-    pausedRef.current = true
-    const x = gsap.getProperty(track, 'x')
-    const cardEl = e.target.closest('.gallery-card')
-    const cardPos = cardEl ? Number(cardEl.dataset.pos) : -1
-    dragRef.current = { down: true, startX: e.clientX, baseX: x, moved: 0, cardPos }
+    dragRef.current = {
+      active: true,
+      startX: e.clientX,
+      startOffset: offsetRef.current,
+      lastX: e.clientX,
+      lastT: performance.now()
+    }
+    velocityRef.current = 0
+    e.currentTarget.setPointerCapture?.(e.pointerId)
   }
 
   const onPointerMove = (e) => {
     const d = dragRef.current
-    if (!d.down) return
-    d.moved = e.clientX - d.startX
-    gsap.set(trackRef.current, { x: d.baseX + d.moved })
+    if (!d.active) return
+    const now = performance.now()
+    const dx = e.clientX - d.lastX
+    const dt = Math.max(1, now - d.lastT)
+    velocityRef.current = (dx / dt) * 16
+    d.lastX = e.clientX
+    d.lastT = now
+    offsetRef.current = d.startOffset + (e.clientX - d.startX)
   }
 
-  const onPointerUp = () => {
-    const d = dragRef.current
-    if (!d.down) return
-    d.down = false
-    pausedRef.current = false
-    const view = viewRef.current
-    const { step, cardW } = measure()
-    if (!view || !step) return
-    const center = view.clientWidth / 2 - cardW / 2
-    const cur = Math.round((center - d.baseX) / step)
-    if (Math.abs(d.moved) < 6) {
-      if (d.cardPos >= 0) {
-        const nearest = [d.cardPos - N, d.cardPos, d.cardPos + N].reduce((a, b) =>
-          Math.abs(b - cur) < Math.abs(a - cur) ? b : a
-        )
-        const clamped = Math.max(0, Math.min(EXPANDED.length - 1, nearest))
-        if (clamped === pos) setLightbox(clamped % N)
-        else setPos(clamped)
-      }
-      return
-    }
-    const target = cur - Math.round(d.moved / step)
-    setPos(Math.max(0, Math.min(EXPANDED.length - 1, target)))
+  const endDrag = () => {
+    dragRef.current.active = false
   }
-
-  const curItem = lightbox != null ? ITEMS[lightbox] : null
 
   return (
-    <section className="gallery-showcase" id="gallery-showcase" ref={sectionRef}>
-      <div className="gallery__bg" aria-hidden="true">
-        {inView && (
-          <Grainient
-            color1="#FF9FFC"
-            color2="#5227FF"
-            color3="#B497CF"
-            timeSpeed={1.2}
-            colorBalance={0.05}
-            warpStrength={1.25}
-            warpFrequency={6.2}
-            warpSpeed={3.6}
-            warpAmplitude={68}
-            blendAngle={3}
-            blendSoftness={0.18}
-            rotationAmount={460}
-            noiseScale={1.15}
-            grainAmount={0.08}
-            grainScale={1.8}
-            contrast={1.25}
-            gamma={1.0}
-            saturation={1.05}
-            centerX={0.0}
-            centerY={0.0}
-            zoom={0.95}
-          />
-        )}
-        <span className="gallery__shade" />
+    <section className="gallery-showcase ba" id="gallery-showcase">
+      {/* 固定导航 */}
+      <header className="ba-nav">
+        <svg width="28" height="28" viewBox="0 0 256 256" fill="#1a1a1a" aria-hidden="true">
+          <path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z" />
+        </svg>
+
+        <button className="ba-burger" onClick={() => setOpen(true)} aria-label="Open menu">
+          <i />
+          <i />
+        </button>
+
+        <a className="ba-cta" href="#">Book a meeting</a>
+        <span className="ba-balance" aria-hidden="true" />
+      </header>
+
+      {/* 遮罩 */}
+      <div className={`ba-overlay${open ? ' is-open' : ''}`} onClick={() => setOpen(false)} />
+
+      {/* 全屏/右侧抽屉菜单 */}
+      <div className={`ba-drawer${open ? ' is-open' : ''}`}>
+        <div className="ba-drawer-head">
+          <svg width="28" height="28" viewBox="0 0 256 256" fill="#1a1a1a" aria-hidden="true">
+            <path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z" />
+          </svg>
+          <button className={`ba-close${open ? ' is-open' : ''}`} onClick={() => setOpen(false)} aria-label="Close menu">
+            <i />
+            <i />
+          </button>
+        </div>
+        <nav className="ba-links">
+          {LINKS.map((label, i) => (
+            <a key={label} href="#" style={{ '--i': i }} onClick={() => setOpen(false)}>
+              {label}
+            </a>
+          ))}
+        </nav>
+        <div className="ba-drawer-cta">
+          <a className="ba-cta ba-cta--lg" href="#" onClick={() => setOpen(false)}>
+            Book a meeting
+          </a>
+        </div>
       </div>
 
-      <div className="gallery__head">
-        <span className="mono gallery__kicker">IMAGE GALLERY / 图片轮播</span>
-        <h2 className="gallery__title">Every frame is a world.</h2>
-        <span className="mono gallery__hint">AUTO LOOP · DRAG TO EXPLORE · CLICK TO VIEW</span>
+      {/* Hero */}
+      <div className="ba-hero">
+        <h1>
+          Bespoke Architecture
+          <br />
+          Studio
+        </h1>
+        <p>The building you deserve has never been built before.</p>
       </div>
 
-      <div
-        className="gallery__view"
-        ref={viewRef}
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerCancel={onPointerUp}
-      >
-        <div className="gallery__track" ref={trackRef}>
-          {EXPANDED.map((item) => (
-            <article
-              key={item.pos}
-              data-pos={item.pos}
-              className={`gallery-card ${item.pos === pos ? 'is-active' : ''}`}
-            >
-              <button className="gallery-card__media" aria-label={item.en}>
-                <img
-                  src={asset(item.file)}
-                  srcSet={imgSrcSet(item.file)}
-                  sizes="(min-width: 1400px) 480px, (min-width: 800px) 360px, 90vw"
-                  alt={item.cn}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </button>
-              <div className="gallery-card__info">
-                <span className="gallery-card__cn">{item.cn}</span>
-                <span className="gallery-card__en">{item.en}</span>
-                <div className="gallery-card__row">
-                  <span className="mono">2026</span>
-                  <span className="mono gallery-card__view">VIEW &#8594;</span>
-                </div>
-              </div>
-            </article>
+      {/* 无限图带 */}
+      <div className="ba-marquee">
+        <svg className="ba-mask ba-mask--top" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 0H1440V50C1440 50 1200 100 720 100C240 100 0 50 0 50V0Z" fill="#fff" />
+        </svg>
+
+        <div
+          className="ba-track"
+          ref={trackRef}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+        >
+          {[...IMAGES, ...IMAGES].map((img, i) => (
+            <div className="ba-slide" key={i}>
+              <img
+                src={img.src}
+                onError={(e) => {
+                  if (e.currentTarget.src !== img.fallback) e.currentTarget.src = img.fallback
+                }}
+                loading="lazy"
+                draggable={false}
+                alt=""
+              />
+            </div>
           ))}
         </div>
+
+        <svg className="ba-mask ba-mask--bottom" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 100H1440V50C1440 50 1200 0 720 0C240 0 0 50 0 50V100Z" fill="#fff" />
+        </svg>
       </div>
 
-      {curItem && (
-        <div className="gallery-modal" onClick={() => setLightbox(null)}>
-          <div className="gallery-modal__inner">
-              <img src={asset(curItem.file)} alt={curItem.cn} />
-            <div className="gallery-modal__cap">
-              <span className="mono gallery-modal__no">
-                {String((lightbox % N) + 1).padStart(2, '0')} / {String(N).padStart(2, '0')}
-              </span>
-              <h3>{curItem.cn}</h3>
-              <p className="mono">{curItem.en}</p>
-            </div>
-          </div>
+      {/* 底部 */}
+      <footer className="ba-bottom">
+        <p>We design private residences and commercial spaces from a blank page. No templates, no repeated floorplans, no shortcuts.</p>
+        <div className="ba-links-row">
+          <a href="#">Book a meeting</a>
+          <a href="#">See Projects</a>
         </div>
-      )}
+      </footer>
     </section>
   )
 }

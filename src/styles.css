@@ -6011,3 +6011,334 @@ a {
     width: min(64vw, 420px);
   }
 }
+
+/* ---------- Bespoke Architecture Studio（图片轮播页落地页） ---------- */
+body.hide-site-nav .nav {
+  display: none;
+}
+.gallery-showcase.ba {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+  background: #ffffff;
+  color: #171717;
+  overflow: hidden;
+  font-family: "Geist", sans-serif;
+}
+.ba-nav {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 20px;
+  background: #ffffff;
+}
+@media (min-width: 640px) {
+  .ba-nav { padding: 20px 24px 24px; }
+}
+@media (min-width: 768px) {
+  .ba-nav { padding: 20px 40px 24px; }
+}
+.ba-burger {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 8px;
+}
+.ba-burger i {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: #171717;
+  border-radius: 999px;
+  transition: all 0.3s;
+}
+.ba-burger:hover i {
+  width: 20px;
+}
+.ba-cta {
+  margin-left: auto;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #171717;
+  border-radius: 999px;
+  padding: 10px 20px;
+  transition: background 0.25s;
+  white-space: nowrap;
+}
+.ba-cta:hover {
+  background: #262626;
+}
+.ba-cta--lg {
+  padding: 12px 24px;
+  display: inline-block;
+}
+.ba-balance {
+  width: 28px;
+}
+@media (max-width: 639px) {
+  .ba-cta {
+    display: none;
+  }
+}
+.ba-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 60;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  pointer-events: none;
+}
+.ba-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.ba-drawer {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 70;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px 28px;
+  opacity: 0;
+  transform: translateY(100%);
+}
+.ba-drawer.is-open {
+  opacity: 1;
+  transform: none;
+}
+@media (min-width: 640px) {
+  .ba-drawer {
+    inset: 0 0 0 auto;
+    width: 100%;
+    max-width: 384px;
+    padding: 20px 24px 28px;
+    transform: translateX(100%);
+  }
+  .ba-drawer.is-open {
+    transform: none;
+  }
+}
+.ba-drawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ba-close {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+.ba-close:hover {
+  background: #f5f5f5;
+}
+.ba-close i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 1.5px;
+  background: #171717;
+  border-radius: 999px;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ba-close i:first-child {
+  transform: translate(-50%, -50%) translateY(-3px);
+}
+.ba-close i:last-child {
+  transform: translate(-50%, -50%) translateY(3px);
+}
+.ba-close.is-open i:first-child {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.ba-close.is-open i:last-child {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.ba-links {
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+}
+.ba-links a {
+  font-size: 30px;
+  font-weight: 500;
+  color: #171717;
+  padding: 12px 0;
+  opacity: 0;
+  transform: translateX(32px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ba-links a:hover {
+  color: #737373;
+}
+.ba-drawer.is-open .ba-links a {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(150ms + var(--i, 0) * 60ms);
+}
+.ba-drawer-cta {
+  padding-top: 48px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ba-drawer.is-open .ba-drawer-cta {
+  opacity: 1;
+  transform: none;
+  transition-delay: 400ms;
+}
+.ba-hero {
+  padding: 96px 16px 4px;
+  text-align: center;
+}
+@media (min-width: 640px) {
+  .ba-hero { padding-top: 112px; }
+}
+.ba-hero h1 {
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #171717;
+  line-height: 1.05;
+  max-width: 768px;
+  margin: 0 auto;
+}
+@media (min-width: 640px) {
+  .ba-hero h1 { font-size: 48px; }
+}
+@media (min-width: 768px) {
+  .ba-hero h1 { font-size: 72px; }
+}
+@media (min-width: 1024px) {
+  .ba-hero h1 { font-size: 88px; }
+}
+.ba-hero p {
+  margin: 16px auto 0;
+  font-size: 16px;
+  color: #171717;
+  max-width: 576px;
+  line-height: 1.6;
+}
+@media (min-width: 640px) {
+  .ba-hero p { margin-top: 24px; font-size: 18px; }
+}
+@media (min-width: 768px) {
+  .ba-hero p { font-size: 20px; }
+}
+.ba-marquee {
+  position: relative;
+  padding: 16px 0;
+  overflow: hidden;
+}
+.ba-mask {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 10;
+  width: 100%;
+  height: 80px;
+}
+.ba-mask--top { top: 0; }
+.ba-mask--bottom { bottom: 0; }
+@media (min-width: 640px) {
+  .ba-mask { height: 100px; }
+}
+.ba-track {
+  display: flex;
+  width: max-content;
+  gap: 12px;
+  padding: 16px 0;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: grab;
+  will-change: transform;
+  touch-action: pan-y;
+}
+.ba-track:active {
+  cursor: grabbing;
+}
+@media (min-width: 640px) {
+  .ba-track { gap: 16px; }
+}
+.ba-slide {
+  width: 240px;
+  height: 320px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.ba-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  display: block;
+}
+@media (min-width: 640px) {
+  .ba-slide { width: 320px; height: 512px; }
+}
+.ba-bottom {
+  text-align: center;
+  padding: 8px 16px 48px;
+  max-width: 672px;
+  margin: 0 auto;
+}
+@media (min-width: 640px) {
+  .ba-bottom { padding: 8px 24px 64px; }
+}
+.ba-bottom p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #171717;
+}
+@media (min-width: 640px) {
+  .ba-bottom p { font-size: 18px; }
+}
+@media (min-width: 768px) {
+  .ba-bottom p { font-size: 20px; }
+}
+.ba-links-row {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+@media (min-width: 640px) {
+  .ba-links-row { flex-direction: row; gap: 32px; margin-top: 32px; }
+}
+.ba-links-row a {
+  color: #171717;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: #a3a3a3;
+  transition: color 0.25s, text-decoration-color 0.25s;
+}
+.ba-links-row a:hover {
+  text-decoration-color: #171717;
+}
