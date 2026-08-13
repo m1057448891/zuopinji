@@ -13,12 +13,25 @@ import GalleryShowcase from './components/GalleryShowcase.jsx'
 import LazyContact from './components/LazyContact.jsx'
 import ShapeGrid from './components/ShapeGrid.jsx'
 import IntroLoader from './components/IntroLoader.jsx'
+import worksData from './data/works.json'
+
 gsap.registerPlugin(ScrollTrigger)
 
-const HERO_BG = 'https://pub-86dc5b5484314368ac5436a674b0d919.r2.dev/avideos/00Area.mp4'
+const works = worksData.works
+
+function resolveAsset(key, type) {
+  return works.find((w) => w.original.includes(key) && (!type || w.type === type)) || null
+}
 
 export default function App() {
-  const [heroVideo] = useState(HERO_BG)
+  const [heroVideo, setHeroVideo] = useState(null)
+
+  useEffect(() => {
+    const video =
+      resolveAsset('0001-0150', 'video') ||
+      works.find((w) => w.type === 'video')
+    setHeroVideo(video?.file || '/works/vid/vid-001.mp4')
+  }, [])
 
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.09, smoothWheel: true })
