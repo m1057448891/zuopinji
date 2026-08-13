@@ -37,7 +37,7 @@ export default function ToolsShowcase() {
             expandRatio={0.48}
             duration={0.65}
             ease="power3.out"
-            parallax={0.15}
+            parallax={0.5}
             tilt={6}
             stagger={0.06}
             trigger="hover"
