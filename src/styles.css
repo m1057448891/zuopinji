@@ -5758,9 +5758,256 @@ a {
 
 /* ---------- performance: skip offscreen rendering ---------- */
 
-.carousel-showcase,
 .gallery-showcase,
 .contact {
   content-visibility: auto;
   contain-intrinsic-size: auto 100vh;
+}
+
+/* ---------- 视频轮播（ORYZO 风格：滚动驱动主视觉 + 缩略图联动） ---------- */
+.reel-oryzo {
+  position: relative;
+  height: 400vh;
+  background: #0b0908;
+}
+.reel-oryzo__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  will-change: transform;
+}
+.reel-oryzo__bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  filter: blur(46px) brightness(0.3) saturate(0.85);
+  transform: scale(1.12);
+}
+.reel-oryzo__bg img.is-live {
+  opacity: 1;
+}
+.reel-oryzo__space {
+  position: relative;
+  height: 100%;
+  z-index: 1;
+}
+.reel-oryzo__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.reel-oryzo__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 4vw, 64px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  gap: 26px 48px;
+}
+.reel-oryzo__head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  will-change: transform, opacity;
+}
+.reel-oryzo__kicker {
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  color: #ff9f45;
+}
+.reel-oryzo__title {
+  font-size: clamp(30px, 3.4vw, 52px);
+  font-weight: 800;
+  color: #f5ede4;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+.reel-oryzo__sub {
+  font-style: normal;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: rgba(245, 237, 228, 0.6);
+}
+.reel-oryzo__main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 118px;
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+  width: 100%;
+}
+.reel-oryzo__stage {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+.reel-oryzo__frame {
+  position: relative;
+  width: min(52vh, 520px);
+  aspect-ratio: 1 / 1;
+  border: 1px dashed rgba(245, 237, 228, 0.32);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.4s var(--ease), border-color 0.4s;
+}
+.reel-oryzo__frame:hover {
+  transform: scale(1.02);
+  border-color: rgba(255, 159, 69, 0.65);
+}
+.reel-oryzo__slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
+  filter: saturate(0.72) brightness(0.86);
+}
+.reel-oryzo__slide.is-active {
+  filter: none;
+}
+.reel-oryzo__hud {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(6, 24, 20, 0.55);
+  border: 1px solid rgba(76, 224, 196, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #7ff5e0;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  box-shadow: 0 0 24px rgba(76, 224, 196, 0.18);
+}
+.reel-oryzo__hud-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ce0c4;
+  animation: hudPulse 1.6s ease-out infinite;
+}
+@keyframes hudPulse {
+  0% { box-shadow: 0 0 0 0 rgba(76, 224, 196, 0.5); }
+  70% { box-shadow: 0 0 0 9px rgba(76, 224, 196, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(76, 224, 196, 0); }
+}
+.reel-oryzo__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity 0.3s ease, background 0.3s ease;
+}
+.reel-oryzo__frame:hover .reel-oryzo__play {
+  opacity: 1;
+  background: rgba(255, 159, 69, 0.85);
+  color: #0b0908;
+}
+.reel-oryzo__desc {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(245, 237, 228, 0.72);
+}
+.reel-oryzo__desc b {
+  color: #fff;
+  font-weight: 600;
+}
+.reel-oryzo__thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.reel-oryzo__thumb {
+  position: relative;
+  width: 118px;
+  height: 88px;
+  border: 1px solid rgba(245, 237, 228, 0.18);
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  filter: saturate(0.45) brightness(0.72);
+  transition: transform 0.3s var(--ease), filter 0.3s ease, border-color 0.3s ease;
+}
+.reel-oryzo__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.reel-oryzo__thumb span {
+  position: absolute;
+  left: 6px;
+  bottom: 4px;
+  font-size: 9px;
+  color: #fff;
+  text-shadow: 0 1px 4px #000;
+}
+.reel-oryzo__thumb:hover {
+  transform: translateX(4px);
+  filter: none;
+}
+.reel-oryzo__thumb.is-active {
+  border-color: #ff9f45;
+  filter: none;
+  transform: translateX(6px);
+  box-shadow: 0 0 18px rgba(255, 159, 69, 0.25);
+}
+.reel-oryzo__hint {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: rgba(245, 237, 228, 0.55);
+  animation: downBob 1.8s ease-in-out infinite;
+}
+
+@media (max-width: 900px) {
+  .reel-oryzo__main {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+  .reel-oryzo__thumbs {
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .reel-oryzo__thumb {
+    width: 84px;
+    height: 62px;
+  }
+  .reel-oryzo__frame {
+    width: min(64vw, 420px);
+  }
 }

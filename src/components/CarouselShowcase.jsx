@@ -1,261 +1,148 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
-import useInView from '../lib/useInView.js'
 import { videoSources } from '../lib/videoSources.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const ITEMS = [
-  {
-    no: '01',
-    cn: '灯塔生花',
-    en: 'Lighthouse in Bloom',
-    tag: 'DREAMY 3D',
-    date: '2026',
-    file: '/works/vid/vid-024.mp4',
-    poster: '/works/carousel/p1.jpg'
-  },
-  {
-    no: '02',
-    cn: '赛博圣母',
-    en: 'Cyber Madonna',
-    tag: 'GLITCH ART',
-    date: '2026',
-    file: '/works/vid/vid-025.mp4',
-    poster: '/works/carousel/p2.jpg'
-  },
-  {
-    no: '03',
-    cn: '灯夜傩舞',
-    en: 'Masked Lantern Dancer',
-    tag: 'CHINESE FOLK',
-    date: '2026',
-    file: '/works/vid/vid-026.mp4',
-    poster: '/works/carousel/p3.jpg'
-  },
-  {
-    no: '04',
-    cn: '白幔圣殿',
-    en: 'Veiled Sanctum',
-    tag: 'EPIC FANTASY',
-    date: '2026',
-    file: '/works/vid/vid-027.mp4',
-    poster: '/works/carousel/p4.jpg'
-  },
-  {
-    no: '05',
-    cn: '剑染残阳',
-    en: 'Sword at Dusk',
-    tag: 'WUXIA CINEMA',
-    date: '2026',
-    file: '/works/vid/vid-028.mp4',
-    poster: '/works/carousel/p5.jpg'
-  },
-  {
-    no: '06',
-    cn: '透框守花',
-    en: 'Framed Tenderness',
-    tag: 'HEALING LIGHT',
-    date: '2026',
-    file: '/works/vid/vid-029.mp4',
-    poster: '/works/carousel/p6.jpg'
-  },
-  {
-    no: '07',
-    cn: '春樱秋千',
-    en: 'Sakura Swing',
-    tag: 'JAPANESE FRESH',
-    date: '2026',
-    file: '/works/vid/vid-016.mp4',
-    poster: '/works/carousel/p7.jpg'
-  }
+  { no: '01', cn: '灯塔生花', en: 'Lighthouse in Bloom', tag: 'DREAMY 3D', date: '2026', file: '/works/vid/vid-024.mp4', poster: '/works/carousel/p1.jpg' },
+  { no: '02', cn: '赛博圣母', en: 'Cyber Madonna', tag: 'GLITCH ART', date: '2026', file: '/works/vid/vid-025.mp4', poster: '/works/carousel/p2.jpg' },
+  { no: '03', cn: '灯夜傩舞', en: 'Masked Lantern Dancer', tag: 'CHINESE FOLK', date: '2026', file: '/works/vid/vid-026.mp4', poster: '/works/carousel/p3.jpg' },
+  { no: '04', cn: '白幔圣殿', en: 'Veiled Sanctum', tag: 'EPIC FANTASY', date: '2026', file: '/works/vid/vid-027.mp4', poster: '/works/carousel/p4.jpg' },
+  { no: '05', cn: '剑染残阳', en: 'Sword at Dusk', tag: 'WUXIA CINEMA', date: '2026', file: '/works/vid/vid-028.mp4', poster: '/works/carousel/p5.jpg' },
+  { no: '06', cn: '透框守花', en: 'Framed Tenderness', tag: 'HEALING LIGHT', date: '2026', file: '/works/vid/vid-029.mp4', poster: '/works/carousel/p6.jpg' },
+  { no: '07', cn: '春樱秋千', en: 'Sakura Swing', tag: 'JAPANESE FRESH', date: '2026', file: '/works/vid/vid-016.mp4', poster: '/works/carousel/p7.jpg' }
 ]
 
-const GAP = 24
-
-function CarouselCard({ item, onOpen }) {
-  const [cardRef, inView] = useInView('400px')
-  const [ever, setEver] = useState(false)
-
-  useEffect(() => {
-    if (inView) setEver(true)
-  }, [inView])
-
-  useEffect(() => {
-    const v = cardRef.current?.querySelector('video')
-    if (!v) return
-    if (inView) {
-      v.muted = true
-      const tryPlay = () => v.play().catch(() => {})
-      if (v.readyState >= 2) tryPlay()
-      v.addEventListener('canplay', tryPlay)
-      return () => v.removeEventListener('canplay', tryPlay)
-    }
-    v.pause()
-  }, [inView, cardRef, ever])
-
-  return (
-    <article className="car-card" ref={cardRef}>
-      <button
-        className="car-card__media"
-        onClick={() => onOpen(item)}
-        aria-label={item.en}
-      >
-          <video
-            poster={ever ? asset(item.poster) : undefined}
-            muted
-            loop
-            playsInline
-            preload={inView ? 'auto' : 'none'}
-          >
-            {ever &&
-              videoSources(item.file).map((s) => (
-                <source key={s.src} src={s.src} type={s.type} />
-              ))}
-          </video>
-        <span className="car-card__play" aria-hidden="true">
-          &#9654;
-        </span>
-      </button>
-      <div className="car-card__info">
-        <h3>{item.cn}</h3>
-        <span className="car-card__en">{item.en}</span>
-        <span className="car-card__rule" aria-hidden="true" />
-        <div className="car-card__meta mono">
-          <span>{item.tag}</span>
-          <span>{item.date}</span>
-        </div>
-      </div>
-    </article>
-  )
-}
+const N = ITEMS.length
 
 export default function CarouselShowcase() {
   const sectionRef = useRef(null)
-  const viewRef = useRef(null)
-  const trackRef = useRef(null)
+  const spaceRef = useRef(null)
+  const bgRef = useRef(null)
+  const headRef = useRef(null)
+  const indexRef = useRef(0)
   const [index, setIndex] = useState(0)
-  const [max, setMax] = useState(0)
   const [active, setActive] = useState(null)
 
-  useEffect(() => {
-    const measure = () => {
-      const view = viewRef.current
-      if (!view) return
-      const card = view.querySelector('.car-card')
-      if (!card) return
-      const step = card.getBoundingClientRect().width + GAP
-      const visible = Math.max(1, Math.floor(view.clientWidth / step))
-      setMax(Math.max(0, ITEMS.length - visible))
-    }
-    measure()
-    window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
-  }, [])
-
-  useEffect(() => {
-    const track = trackRef.current
-    if (!track) return
-    const card = track.querySelector('.car-card')
-    const step = card ? card.getBoundingClientRect().width + GAP : 0
-    gsap.to(track, { x: -index * step, duration: 0.9, ease: 'power3.out' })
-  }, [index])
+  const cur = ITEMS[index]
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.carousel__head > *',
-        { y: 36, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.12,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: '.carousel__head', start: 'top 82%', once: true }
+      ScrollTrigger.create({
+        trigger: spaceRef.current,
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+        onUpdate: (self) => {
+          const p = self.progress
+          const idx = Math.min(N - 1, Math.max(0, Math.round(p * (N - 1))))
+          if (idx !== indexRef.current) {
+            indexRef.current = idx
+            setIndex(idx)
+          }
+          if (bgRef.current) gsap.set(bgRef.current, { y: p * -140 })
+          if (headRef.current) gsap.set(headRef.current, { opacity: 1 - p * 0.55, y: p * -36 })
         }
-      )
-      gsap.fromTo(
-        '.car-card',
-        { y: 64, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.08,
-          duration: 0.9,
-          ease: 'power3.out',
-          scrollTrigger: { trigger: '.carousel__view', start: 'top 86%', once: true }
-        }
-      )
+      })
     }, sectionRef)
     return () => ctx.revert()
   }, [])
 
-  const go = (dir) => {
-    setIndex((i) => Math.min(max, Math.max(0, i + dir)))
+  const jumpTo = (i) => {
+    const space = spaceRef.current
+    if (!space) return
+    const top = space.offsetTop
+    const range = Math.max(0, space.offsetHeight - window.innerHeight)
+    const target = top + (i / (N - 1)) * range
+    const lenis = window.__lenis
+    if (lenis) lenis.scrollTo(target, { duration: 1.3 })
+    else window.scrollTo({ top: target, behavior: 'smooth' })
   }
 
-  const cur = active != null ? ITEMS[active] : null
-
   return (
-    <section className="carousel-showcase" id="carousel-showcase" ref={sectionRef}>
-      <div className="carousel__head">
-        <span className="mono carousel__kicker">SELECTED WORKS / 精选动态影像</span>
-        <h2 className="carousel__title">
-          MOVEMENT, MOOD &amp; STORY
-          <br />
-          <em>光影、情绪与叙事实验</em>
-        </h2>
-        <a className="carousel__btn mono" href="#gallery-showcase">
-          VIEW ALL WORKS <span aria-hidden="true">&rarr;</span>
-        </a>
+    <section className="reel-oryzo" id="carousel-showcase" ref={sectionRef}>
+      <div className="reel-oryzo__bg" ref={bgRef} aria-hidden="true">
+        {ITEMS.map((it) => (
+          <img key={it.no} className={it.no === cur.no ? 'is-live' : ''} src={asset(it.poster)} alt="" />
+        ))}
       </div>
 
-      <div className="carousel__view" ref={viewRef}>
-        <div className="carousel__track" ref={trackRef}>
-          {ITEMS.map((item) => (
-            <CarouselCard
-              key={item.no}
-              item={item}
-              onOpen={(it) => setActive(ITEMS.indexOf(it))}
-            />
-          ))}
+      <div className="reel-oryzo__space" ref={spaceRef}>
+        <div className="reel-oryzo__sticky">
+          <div className="reel-oryzo__inner">
+            <header className="reel-oryzo__head" ref={headRef}>
+              <span className="mono reel-oryzo__kicker">SELECTED WORKS / 精选动态影像</span>
+              <h2 className="reel-oryzo__title">MOVEMENT, MOOD &amp; STORY</h2>
+              <em className="reel-oryzo__sub">光影 · 情绪 · 叙事实验</em>
+            </header>
+
+            <div className="reel-oryzo__main">
+              <div className="reel-oryzo__stage">
+                <button
+                  className="reel-oryzo__frame"
+                  onClick={() => setActive(cur)}
+                  aria-label={cur.en}
+                >
+                  {ITEMS.map((it, i) => (
+                    <img
+                      key={it.no}
+                      className={`reel-oryzo__slide${i === index ? ' is-active' : ''}`}
+                      src={asset(it.poster)}
+                      alt={it.cn}
+                      style={{
+                        transform: `translateX(${(i - index) * 108}%) scale(${i === index ? 1 : 0.94})`,
+                        zIndex: i === index ? 2 : 1
+                      }}
+                    />
+                  ))}
+                  <span className="reel-oryzo__hud mono">
+                    <span className="reel-oryzo__hud-dot" aria-hidden="true" />
+                    {cur.tag} · {cur.date}
+                  </span>
+                  <span className="reel-oryzo__play" aria-hidden="true">
+                    ▶
+                  </span>
+                </button>
+                <p className="reel-oryzo__desc">
+                  <b>{cur.cn}</b> · {cur.en}
+                </p>
+              </div>
+
+              <aside className="reel-oryzo__thumbs">
+                {ITEMS.map((it, i) => (
+                  <button
+                    key={it.no}
+                    className={`reel-oryzo__thumb${i === index ? ' is-active' : ''}`}
+                    onClick={() => jumpTo(i)}
+                    aria-label={it.cn}
+                  >
+                    <img src={asset(it.poster)} alt={it.cn} />
+                    <span className="mono">{it.no}</span>
+                  </button>
+                ))}
+              </aside>
+            </div>
+
+            <p className="reel-oryzo__hint mono">SCROLL TO CONTINUE ↓</p>
+          </div>
         </div>
       </div>
 
-      <div className="carousel__nav">
-        <button
-          className="car-nav mono"
-          onClick={() => go(-1)}
-          disabled={index === 0}
-          aria-label="Previous"
-        >
-          &#8592;
-        </button>
-        <button
-          className="car-nav mono"
-          onClick={() => go(1)}
-          disabled={index >= max}
-          aria-label="Next"
-        >
-          &#8594;
-        </button>
-      </div>
-
-      {cur && (
+      {active && (
         <div className="car-modal" onClick={() => setActive(null)}>
           <div className="car-modal__inner" onClick={(e) => e.stopPropagation()}>
-            <video poster={asset(cur.poster)} autoPlay loop playsInline controls>
-              {videoSources(cur.file).map((s) => (
+            <video poster={asset(active.poster)} autoPlay loop playsInline controls>
+              {videoSources(active.file).map((s) => (
                 <source key={s.src} src={s.src} type={s.type} />
               ))}
             </video>
             <div className="car-modal__cap">
-              <span className="mono car-modal__no">NO.{cur.no}</span>
-              <h3>{cur.cn}</h3>
-              <p className="mono">{cur.en}</p>
+              <span className="mono car-modal__no">NO.{active.no}</span>
+              <h3>{active.cn}</h3>
+              <p className="mono">{active.en}</p>
             </div>
           </div>
         </div>

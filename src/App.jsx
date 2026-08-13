@@ -35,6 +35,7 @@ export default function App() {
 
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.09, smoothWheel: true })
+    window.__lenis = lenis
     lenis.on('scroll', ScrollTrigger.update)
     const raf = (time) => lenis.raf(time * 1000)
     gsap.ticker.add(raf)
@@ -69,6 +70,7 @@ export default function App() {
     document.addEventListener('click', onClick)
 
     return () => {
+      delete window.__lenis
       document.removeEventListener('click', onClick)
       gsap.ticker.remove(raf)
       lenis.destroy()
