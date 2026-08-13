@@ -6,6 +6,9 @@ import { videoSources } from '../lib/videoSources.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const EXT_BG = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260723_145606_ab143199-b593-4941-bb1b-9afca215416b.mp4'
+const isRemote = (p) => /^https?:/.test(p || '')
+
 const slides = [
   {
     no: '01',
@@ -51,7 +54,7 @@ function ThumbVideo({ slide }) {
   const handleEnter = () => {
     const v = videoRef.current
     if (!v) return
-    v.src = asset(slide.video)
+    v.src = isRemote(slide.video) ? slide.video : asset(slide.video)
     v.load()
     v.play().catch(() => {})
   }
@@ -180,10 +183,17 @@ export default function Hero({ video }) {
           loop
           playsInline
           preload="none"
-          poster={activeVideo ? asset(activeVideo.replace(/\.mp4$/, '-poster.jpg')) : undefined}
+          src={isRemote(activeVideo) ? activeVideo : undefined}
+          poster={
+            activeVideo
+              ? isRemote(activeVideo)
+                ? asset('/works/hero/hero-01-poster.jpg')
+                : asset(activeVideo.replace(/\.mp4$/, '-poster.jpg'))
+              : undefined
+          }
           aria-hidden="true"
         >
-          {videoSources(activeVideo).map((s) => (
+          {!isRemote(activeVideo) && videoSources(activeVideo).map((s) => (
             <source key={s.src} src={s.src} type={s.type} />
           ))}
         </video>
