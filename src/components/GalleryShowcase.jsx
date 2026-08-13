@@ -1,33 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
+import { asset } from '../lib/asset.js'
 
 const IMAGES = [
-  {
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120544_94be5de4-0f4f-494c-bb78-c532290040a6.png&w=1920&q=85',
-    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120544_94be5de4-0f4f-494c-bb78-c532290040a6.png'
-  },
-  {
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120601_5c6e4705-b992-4227-9dff-9b000351c283.png&w=1920&q=85',
-    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120601_5c6e4705-b992-4227-9dff-9b000351c283.png'
-  },
-  {
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120619_7bc65416-a3d7-4e8c-9929-743f233378fe.png&w=1920&q=85',
-    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120619_7bc65416-a3d7-4e8c-9929-743f233378fe.png'
-  },
-  {
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120627_b40a97b0-c5fa-408c-a77e-dc8fa44f8584.png&w=1920&q=85',
-    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120627_b40a97b0-c5fa-408c-a77e-dc8fa44f8584.png'
-  },
-  {
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120635_515cde41-2dc6-48ce-a236-088a5bc74ca8.png&w=1920&q=85',
-    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120635_515cde41-2dc6-48ce-a236-088a5bc74ca8.png'
-  },
-  {
-    src: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260725_120645_5a1170c6-145b-477b-abd2-f8620acccd8d.png&w=1920&q=85',
-    fallback: 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260725_120645_5a1170c6-145b-477b-abd2-f8620acccd8d.png'
-  }
+  { img: '/works/img/img-015.webp' },
+  { img: '/works/img/img-023.webp' },
+  { img: '/works/img/img-013.webp' },
+  { img: '/works/img/img-018.webp' },
+  { img: '/works/img/img-021.webp' },
+  { img: '/works/img/img-011.webp' }
 ]
 
-const LINKS = ['Work', 'Index', 'Events', 'Projects']
+const LINKS = [
+  { label: '图片作品', href: '#image-works' },
+  { label: '创意短片', href: '#shorts-showcase' },
+  { label: '商业广告', href: '#ads-showcase' },
+  { label: '联系我', href: '#contact' }
+]
 const SPEED = 0.8
 
 export default function GalleryShowcase() {
@@ -129,7 +117,7 @@ export default function GalleryShowcase() {
           <i />
         </button>
 
-        <a className="ba-cta" href="#">Book a meeting</a>
+        <a className="ba-cta" href="#contact">联系我</a>
         <span className="ba-balance" aria-hidden="true" />
       </header>
 
@@ -148,28 +136,28 @@ export default function GalleryShowcase() {
           </button>
         </div>
         <nav className="ba-links">
-          {LINKS.map((label, i) => (
-            <a key={label} href="#" style={{ '--i': i }} onClick={() => setOpen(false)}>
-              {label}
+          {LINKS.map((link, i) => (
+            <a key={link.label} href={link.href} style={{ '--i': i }} onClick={() => setOpen(false)}>
+              {link.label}
             </a>
           ))}
         </nav>
         <div className="ba-drawer-cta">
-          <a className="ba-cta ba-cta--lg" href="#" onClick={() => setOpen(false)}>
-            Book a meeting
+          <a className="ba-cta ba-cta--lg" href="#contact" onClick={() => setOpen(false)}>
+            联系我
           </a>
         </div>
       </div>
 
       {/* Hero */}
-      <div className="ba-hero">
-        <h1>
-          Bespoke Architecture
-          <br />
-          Studio
-        </h1>
-        <p>The building you deserve has never been built before.</p>
-      </div>
+        <div className="ba-hero">
+          <h1>
+            MOSATO SAKAI
+            <br />
+            VISUAL CREATOR
+          </h1>
+          <p>内容运营 × AI 视觉创作 · 把想象力变成可交付的作品</p>
+        </div>
 
       {/* 无限图带 */}
       <div className="ba-marquee">
@@ -187,15 +175,7 @@ export default function GalleryShowcase() {
         >
           {[...IMAGES, ...IMAGES].map((img, i) => (
             <div className="ba-slide" key={i}>
-              <img
-                src={img.src}
-                onError={(e) => {
-                  if (e.currentTarget.src !== img.fallback) e.currentTarget.src = img.fallback
-                }}
-                loading="lazy"
-                draggable={false}
-                alt=""
-              />
+              <img src={asset(img.img)} loading="lazy" draggable={false} alt="" />
             </div>
           ))}
         </div>
@@ -207,10 +187,10 @@ export default function GalleryShowcase() {
 
       {/* 底部 */}
       <footer className="ba-bottom">
-        <p>We design private residences and commercial spaces from a blank page. No templates, no repeated floorplans, no shortcuts.</p>
+        <p>从内容策略到 AI 视觉生产，我用生成式 AI 完成文案、图片与动态影像，覆盖从创意到交付的全流程。</p>
         <div className="ba-links-row">
-          <a href="#">Book a meeting</a>
-          <a href="#">See Projects</a>
+          <a href="#contact">联系我</a>
+          <a href="#image-works">查看作品</a>
         </div>
       </footer>
     </section>
