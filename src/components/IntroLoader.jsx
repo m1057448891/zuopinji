@@ -56,18 +56,25 @@ export default function IntroLoader() {
     document.body.style.overflow = 'hidden'
 
     const t0 = performance.now()
+    const startTime = performance.now()
     let raf = 0
     const tick = () => {
-      const p = Math.min(100, ((performance.now() - t0) / 3200) * 100)
+      const p = Math.min(100, ((performance.now() - t0) / 5200) * 100)
       setPercent(Math.round(p))
       if (p < 100) raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
 
-    const minTime = 3600
+    const minTime = 5600
     let finished = false
+    let finishTimer = 0
     const finish = () => {
       if (finished || !mountedRef.current) return
+      const elapsed = performance.now() - startTime
+      if (elapsed < minTime) {
+        finishTimer = setTimeout(finish, minTime - elapsed)
+        return
+      }
       finished = true
       setPhase('exit')
       setTimeout(() => {
@@ -77,7 +84,7 @@ export default function IntroLoader() {
     }
 
     const minTimer = setTimeout(finish, minTime)
-    const loadFallback = setTimeout(finish, 7000)
+    const loadFallback = setTimeout(finish, 9000)
     const onLoad = () => finish()
     if (document.readyState === 'complete') {
       // 等最小时间即可
@@ -90,6 +97,7 @@ export default function IntroLoader() {
       cancelAnimationFrame(raf)
       clearTimeout(minTimer)
       clearTimeout(loadFallback)
+      clearTimeout(finishTimer)
       window.removeEventListener('load', onLoad)
       document.body.style.overflow = ''
     }
@@ -106,48 +114,54 @@ export default function IntroLoader() {
       <span className="frame-corner frame-corner--br" />
 
       <div className="intro-loader__stage">
-        <svg viewBox="0 0 800 560" className="geo" aria-hidden="true">
-          {/* 贯穿的垂直线 */}
-          <line className="geo-line geo-v geo-v--1" x1="120" y1="0" x2="120" y2="560" pathLength="1000" />
-          <line className="geo-line geo-v geo-v--2" x1="680" y1="0" x2="680" y2="560" pathLength="1000" />
+        <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" className="geo" aria-hidden="true">
+          {/* 贯穿全屏的垂直线 */}
+          <line className="geo-line geo-v geo-v--1" x1="150" y1="0" x2="150" y2="1000" pathLength="1000" />
+          <line className="geo-line geo-v geo-v--2" x1="1450" y1="0" x2="1450" y2="1000" pathLength="1000" />
 
           {/* 两端渐隐的水平线 */}
-          <line className="geo-line geo-h geo-h--1" x1="80" y1="84" x2="720" y2="84" pathLength="1000" />
-          <line className="geo-line geo-h geo-h--2" x1="80" y1="180" x2="720" y2="180" pathLength="1000" />
-          <line className="geo-line geo-h geo-h--3" x1="80" y1="380" x2="720" y2="380" pathLength="1000" />
-          <line className="geo-line geo-h geo-h--4" x1="80" y1="476" x2="720" y2="476" pathLength="1000" />
+          <line className="geo-line geo-h geo-h--1" x1="80" y1="130" x2="1520" y2="130" pathLength="1000" />
+          <line className="geo-line geo-h geo-h--2" x1="80" y1="280" x2="1520" y2="280" pathLength="1000" />
+          <line className="geo-line geo-h geo-h--3" x1="80" y1="430" x2="1520" y2="430" pathLength="1000" />
+          <line className="geo-line geo-h geo-h--4" x1="80" y1="570" x2="1520" y2="570" pathLength="1000" />
+          <line className="geo-line geo-h geo-h--5" x1="80" y1="720" x2="1520" y2="720" pathLength="1000" />
+          <line className="geo-line geo-h geo-h--6" x1="80" y1="870" x2="1520" y2="870" pathLength="1000" />
+
+          {/* 全屏对角线构造线（低透明度） */}
+          <line className="geo-diag" x1="80" y1="920" x2="1520" y2="80" />
+          <line className="geo-diag" x1="80" y1="80" x2="1520" y2="920" />
 
           {/* 虚线辅助圆 */}
-          <circle className="geo-circle geo-circle--outer" cx="400" cy="280" r="212" />
-          <circle className="geo-circle geo-circle--inner" cx="400" cy="280" r="126" />
+          <circle className="geo-circle geo-circle--outer" cx="800" cy="500" r="430" />
+          <circle className="geo-circle geo-circle--inner" cx="800" cy="500" r="250" />
 
           {/* 放射虚线 */}
           {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
             <line
               key={deg}
               className="geo-radial"
-              x1="400"
-              y1="280"
-              x2={400 + 240 * Math.cos((deg * Math.PI) / 180)}
-              y2={280 + 240 * Math.sin((deg * Math.PI) / 180)}
+              x1="800"
+              y1="500"
+              x2={800 + 500 * Math.cos((deg * Math.PI) / 180)}
+              y2={500 + 500 * Math.sin((deg * Math.PI) / 180)}
             />
           ))}
 
-          {/* M 字三线勾勒 */}
-          <path className="m-path m-echo m-echo--l" d="M250 420 L250 170 L400 330 L550 170 L550 420" pathLength="1000" />
-          <path className="m-path m-echo m-echo--r" d="M250 420 L250 170 L400 330 L550 170 L550 420" pathLength="1000" />
-          <path className="m-path m-main" d="M250 420 L250 170 L400 330 L550 170 L550 420" pathLength="1000" />
+          {/* M 字三线勾勒（全屏主视觉） */}
+          <path className="m-path m-echo m-echo--l" d="M560 800 L560 330 L800 560 L1040 330 L1040 800" pathLength="1000" />
+          <path className="m-path m-echo m-echo--r" d="M560 800 L560 330 L800 560 L1040 330 L1040 800" pathLength="1000" />
+          <path className="m-path m-main" d="M560 800 L560 330 L800 560 L1040 330 L1040 800" pathLength="1000" />
 
           {/* M 关键点刻度 */}
           {[
-            [250, 170],
-            [400, 330],
-            [550, 170],
-            [550, 420]
+            [560, 330],
+            [800, 560],
+            [1040, 330],
+            [1040, 800]
           ].map(([x, y], i) => (
             <g key={i} className="geo-tick">
-              <line x1={x - 10} y1={y} x2={x + 10} y2={y} />
-              <line x1={x} y1={y - 10} x2={x} y2={y + 10} />
+              <line x1={x - 16} y1={y} x2={x + 16} y2={y} />
+              <line x1={x} y1={y - 16} x2={x} y2={y + 16} />
             </g>
           ))}
         </svg>
