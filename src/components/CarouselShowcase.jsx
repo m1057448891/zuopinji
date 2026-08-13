@@ -54,7 +54,8 @@ export default function CarouselShowcase() {
   const jumpTo = (i) => {
     const space = spaceRef.current
     if (!space) return
-    const top = space.offsetTop
+    const rect = space.getBoundingClientRect()
+    const top = rect.top + window.scrollY
     const range = Math.max(0, space.offsetHeight - window.innerHeight)
     const target = top + (i / (N - 1)) * range
     const lenis = window.__lenis
