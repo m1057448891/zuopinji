@@ -3597,13 +3597,16 @@ a {
 /* 商业广告 → Skill搭建：像素切换舞台 */
 .swap-stage {
   position: relative;
-  height: 200vh;
+  height: 150vh;
 }
 .swap-stage__pin {
   position: sticky;
   top: 0;
   height: 100vh;
   overflow: hidden;
+}
+.grid-stage__bg.is-swapping {
+  display: none;
 }
 
 .carousel__bg {
@@ -5770,8 +5773,6 @@ a {
 
 /* ---------- performance: skip offscreen rendering ---------- */
 
-.shop,
-.tools,
 .carousel-showcase,
 .gallery-showcase,
 .contact {

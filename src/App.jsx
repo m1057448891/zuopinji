@@ -27,6 +27,7 @@ export default function App() {
   const [heroVideo, setHeroVideo] = useState(null)
   const [skillsActive, setSkillsActive] = useState(false)
   const swapRef = useRef(null)
+  const swapState = useRef({ active: false, cooldown: 0 })
 
   useEffect(() => {
     const video =
@@ -45,9 +46,22 @@ export default function App() {
     const syncSwap = () => {
       const el = swapRef.current
       if (!el) return
+      const now = Date.now()
+      if (now < swapState.current.cooldown) return
       const progress = -el.getBoundingClientRect().top / window.innerHeight
-      if (progress > 0.52) setSkillsActive(true)
-      else if (progress < 0.45) setSkillsActive(false)
+      if (progress > 0.32) {
+        if (!swapState.current.active) {
+          swapState.current.active = true
+          swapState.current.cooldown = now + 1600
+          setSkillsActive(true)
+        }
+      } else if (progress < 0.05) {
+        if (swapState.current.active) {
+          swapState.current.active = false
+          swapState.current.cooldown = now + 1600
+          setSkillsActive(false)
+        }
+      }
     }
     lenis.on('scroll', syncSwap)
     window.addEventListener('scroll', syncSwap, { passive: true })
@@ -99,7 +113,7 @@ export default function App() {
         <SectorsShowcase />
         <ShortsShowcase />
         <div className="grid-stage">
-          <div className="grid-stage__bg" aria-hidden="true">
+          <div className={`grid-stage__bg${skillsActive ? ' is-swapping' : ''}`} aria-hidden="true">
             <ShapeGrid
               direction="diagonal"
               speed={0.35}
@@ -119,16 +133,16 @@ export default function App() {
                 active={skillsActive}
                 onActiveChange={setSkillsActive}
                 style={{ aspectRatio: 'auto', height: '100vh' }}
-                pixelSize={96}
+                pixelSize={150}
                 gap={0}
                 pixelRadius={0}
-                pixelSpin={6}
-                pixelScale={0.22}
+                pixelSpin={4}
+                pixelScale={0.18}
                 fade
-                duration={1400}
-                pixelDuration={460}
+                duration={1150}
+                pixelDuration={380}
                 pattern="edges"
-                randomness={0.12}
+                randomness={0.1}
               />
             </div>
           </div>
