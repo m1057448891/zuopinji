@@ -11,6 +11,7 @@ import ToolsShowcase from './components/ToolsShowcase.jsx'
 import CarouselShowcase from './components/CarouselShowcase.jsx'
 import GalleryShowcase from './components/GalleryShowcase.jsx'
 import LazyContact from './components/LazyContact.jsx'
+import ShapeGrid from './components/ShapeGrid.jsx'
 import worksData from './data/works.json'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -82,8 +83,21 @@ export default function App() {
         <SectorsShowcase />
         <ShortsShowcase />
         <AdsShowcase />
-        <ToolsShowcase />
-        <CarouselShowcase />
+        <div className="grid-stage">
+          <div className="grid-stage__bg" aria-hidden="true">
+            <ShapeGrid
+              direction="diagonal"
+              speed={0.35}
+              squareSize={44}
+              borderColor="rgba(255,255,255,0.09)"
+              hoverFillColor="rgba(156,195,255,0.22)"
+              shape="square"
+              hoverTrailAmount={6}
+            />
+          </div>
+          <ToolsShowcase />
+          <CarouselShowcase />
+        </div>
         <GalleryShowcase />
       </main>
       <LazyContact />

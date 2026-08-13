@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
 import { videoSources } from '../lib/videoSources.js'
-import ShapeGrid from './ShapeGrid.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -202,19 +201,6 @@ export default function CarouselShowcase() {
 
   return (
     <section className="carousel-showcase" id="carousel-showcase" ref={sectionRef}>
-      <div className="carousel__bg" aria-hidden="true">
-        <ShapeGrid
-          className="carousel__grid"
-          direction="diagonal"
-          speed={0.35}
-          squareSize={44}
-          borderColor="rgba(255,255,255,0.09)"
-          hoverFillColor="rgba(156,195,255,0.22)"
-          shape="square"
-          hoverTrailAmount={6}
-        />
-      </div>
-
       <div className="carousel__head">
         <span className="mono carousel__kicker">SELECTED WORKS / 精选动态影像</span>
         <h2 className="carousel__title">
@@ -225,13 +211,6 @@ export default function CarouselShowcase() {
         <a className="carousel__btn mono" href="#gallery-showcase">
           VIEW ALL WORKS <span aria-hidden="true">&rarr;</span>
         </a>
-      </div>
-
-      <div className="carousel__bg-marquee" aria-hidden="true">
-        <div className="carousel__bg-marquee-track">
-          <span className="carousel__bg-word">MOTION</span>
-          <span className="carousel__bg-word">MOTION</span>
-        </div>
       </div>
 
       <div className="carousel__view" ref={viewRef}>
