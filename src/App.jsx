@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -12,7 +12,7 @@ import CarouselShowcase from './components/CarouselShowcase.jsx'
 import GalleryShowcase from './components/GalleryShowcase.jsx'
 import LazyContact from './components/LazyContact.jsx'
 import ShapeGrid from './components/ShapeGrid.jsx'
-import TargetCursor from './components/TargetCursor.jsx'
+import PixelSwap from './components/PixelSwap.jsx'
 import worksData from './data/works.json'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -25,6 +25,8 @@ function resolveAsset(key, type) {
 
 export default function App() {
   const [heroVideo, setHeroVideo] = useState(null)
+  const [skillsActive, setSkillsActive] = useState(false)
+  const swapRef = useRef(null)
 
   useEffect(() => {
     const video =
@@ -39,6 +41,17 @@ export default function App() {
     const raf = (time) => lenis.raf(time * 1000)
     gsap.ticker.add(raf)
     gsap.ticker.lagSmoothing(0)
+
+    const syncSwap = () => {
+      const el = swapRef.current
+      if (!el) return
+      const progress = -el.getBoundingClientRect().top / window.innerHeight
+      if (progress > 0.52) setSkillsActive(true)
+      else if (progress < 0.45) setSkillsActive(false)
+    }
+    lenis.on('scroll', syncSwap)
+    window.addEventListener('scroll', syncSwap, { passive: true })
+    syncSwap()
 
     const onClick = (e) => {
       const link = e.target.closest('a[href^="#"]')
@@ -70,6 +83,8 @@ export default function App() {
 
     return () => {
       document.removeEventListener('click', onClick)
+      lenis.off('scroll', syncSwap)
+      window.removeEventListener('scroll', syncSwap)
       gsap.ticker.remove(raf)
       lenis.destroy()
       ScrollTrigger.getAll().forEach((t) => t.kill())
@@ -78,20 +93,11 @@ export default function App() {
 
   return (
     <div className="site">
-      <TargetCursor
-        targetSelector="a, button, .ag-panel, .car-card"
-        spinDuration={2}
-        hideDefaultCursor
-        parallaxOn
-        cursorColor="#ffffff"
-        cursorColorOnTarget="#9cc3ff"
-      />
       <Nav />
       <main>
         <Hero video={heroVideo} />
         <SectorsShowcase />
         <ShortsShowcase />
-        <AdsShowcase />
         <div className="grid-stage">
           <div className="grid-stage__bg" aria-hidden="true">
             <ShapeGrid
@@ -104,7 +110,28 @@ export default function App() {
               hoverTrailAmount={6}
             />
           </div>
-          <ToolsShowcase />
+          <div className="swap-stage" ref={swapRef}>
+            <div className="swap-stage__pin">
+              <PixelSwap
+                firstContent={<AdsShowcase />}
+                secondContent={<ToolsShowcase />}
+                trigger="manual"
+                active={skillsActive}
+                onActiveChange={setSkillsActive}
+                style={{ aspectRatio: 'auto', height: '100vh' }}
+                pixelSize={96}
+                gap={0}
+                pixelRadius={0}
+                pixelSpin={6}
+                pixelScale={0.22}
+                fade
+                duration={1400}
+                pixelDuration={460}
+                pattern="edges"
+                randomness={0.12}
+              />
+            </div>
+          </div>
           <CarouselShowcase />
         </div>
         <GalleryShowcase />

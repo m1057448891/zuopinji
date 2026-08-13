@@ -4,7 +4,7 @@ const links = [
   { href: '#image-works', label: '图片作品', en: 'IMAGES' },
   { href: '#shorts-showcase', label: '创意短片', en: 'SHORTS' },
   { href: '#ads-showcase', label: '商业广告', en: 'ADS' },
-  { href: '#tools-showcase', label: 'AI 工具', en: 'TOOLS' },
+  { href: '#tools-showcase', label: 'Skill搭建', en: 'SKILL BUILD' },
   { href: '#carousel-showcase', label: '视频轮播', en: 'MOTION REEL' },
   { href: '#gallery-showcase', label: '图片轮播', en: 'IMAGE GALLERY' }
 ]

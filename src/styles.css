@@ -3594,6 +3594,18 @@ a {
   opacity: 0.9;
 }
 
+/* 商业广告 → Skill搭建：像素切换舞台 */
+.swap-stage {
+  position: relative;
+  height: 200vh;
+}
+.swap-stage__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
 .carousel__bg {
   position: absolute;
   inset: 0;
@@ -5670,11 +5682,11 @@ a {
 /* ---------- AI 工具（手风琴画廊） ---------- */
 .tools {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 0;
+  padding: 48px 0;
   background: transparent;
   overflow: hidden;
 }
@@ -5689,7 +5701,7 @@ a {
   align-items: center;
   gap: 14px;
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 28px;
 }
 .tools__kicker {
   font-size: 11px;

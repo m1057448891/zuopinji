@@ -10,19 +10,22 @@ const ITEMS = [
 ]
 
 export default function ToolsShowcase() {
+  const vh = typeof window !== 'undefined' ? window.innerHeight : 900
+  const galleryHeight = Math.max(380, Math.min(520, Math.round(vh * 0.5)))
+
   return (
     <section className="tools" id="tools-showcase">
       <span className="tools__watermark" aria-hidden="true">
-        TOOLS
+        SKILLS
       </span>
       <div className="container tools__inner">
         <header className="tools__head">
-          <span className="mono tools__kicker">AI TOOLS / AI 工具集</span>
+          <span className="mono tools__kicker">SKILL BUILD / Skill搭建</span>
           <h2 className="tools__title">
             CONTENT, IN SECONDS
             <em>文案 · 封面 · 音乐 · 辟谣 · 字幕</em>
           </h2>
-          <p className="mono tools__sub">FIVE AI TOOLS · ONE WORKFLOW</p>
+          <p className="mono tools__sub">FIVE AI SKILLS · ONE WORKFLOW</p>
         </header>
         <div className="tools__gallery">
           <AccordionGallery
@@ -31,7 +34,7 @@ export default function ToolsShowcase() {
             accentColor="#9cc3ff"
             overlayColor="#060010"
             textColor="#ffffff"
-            height={540}
+            height={galleryHeight}
             gap={10}
             radius={14}
             expandRatio={0.48}
@@ -45,7 +48,7 @@ export default function ToolsShowcase() {
         </div>
       </div>
       <span className="tools__vertical mono" aria-hidden="true">
-        AI TOOLS
+        SKILL BUILD
       </span>
     </section>
   )
