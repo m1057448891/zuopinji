@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -12,7 +12,6 @@ import CarouselShowcase from './components/CarouselShowcase.jsx'
 import GalleryShowcase from './components/GalleryShowcase.jsx'
 import LazyContact from './components/LazyContact.jsx'
 import ShapeGrid from './components/ShapeGrid.jsx'
-import PixelSwap from './components/PixelSwap.jsx'
 import worksData from './data/works.json'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -25,9 +24,6 @@ function resolveAsset(key, type) {
 
 export default function App() {
   const [heroVideo, setHeroVideo] = useState(null)
-  const [skillsActive, setSkillsActive] = useState(false)
-  const swapRef = useRef(null)
-  const swapState = useRef({ active: false, cooldown: 0 })
 
   useEffect(() => {
     const video =
@@ -42,30 +38,6 @@ export default function App() {
     const raf = (time) => lenis.raf(time * 1000)
     gsap.ticker.add(raf)
     gsap.ticker.lagSmoothing(0)
-
-    const syncSwap = () => {
-      const el = swapRef.current
-      if (!el) return
-      const now = Date.now()
-      if (now < swapState.current.cooldown) return
-      const progress = -el.getBoundingClientRect().top / window.innerHeight
-      if (progress > 0.32) {
-        if (!swapState.current.active) {
-          swapState.current.active = true
-          swapState.current.cooldown = now + 1600
-          setSkillsActive(true)
-        }
-      } else if (progress < 0.05) {
-        if (swapState.current.active) {
-          swapState.current.active = false
-          swapState.current.cooldown = now + 1600
-          setSkillsActive(false)
-        }
-      }
-    }
-    lenis.on('scroll', syncSwap)
-    window.addEventListener('scroll', syncSwap, { passive: true })
-    syncSwap()
 
     const onClick = (e) => {
       const link = e.target.closest('a[href^="#"]')
@@ -97,8 +69,6 @@ export default function App() {
 
     return () => {
       document.removeEventListener('click', onClick)
-      lenis.off('scroll', syncSwap)
-      window.removeEventListener('scroll', syncSwap)
       gsap.ticker.remove(raf)
       lenis.destroy()
       ScrollTrigger.getAll().forEach((t) => t.kill())
@@ -112,8 +82,9 @@ export default function App() {
         <Hero video={heroVideo} />
         <SectorsShowcase />
         <ShortsShowcase />
+        <AdsShowcase />
         <div className="grid-stage">
-          <div className={`grid-stage__bg${skillsActive ? ' is-swapping' : ''}`} aria-hidden="true">
+          <div className="grid-stage__bg" aria-hidden="true">
             <ShapeGrid
               direction="diagonal"
               speed={0.35}
@@ -124,28 +95,7 @@ export default function App() {
               hoverTrailAmount={6}
             />
           </div>
-          <div className="swap-stage" ref={swapRef}>
-            <div className="swap-stage__pin">
-              <PixelSwap
-                firstContent={<AdsShowcase />}
-                secondContent={<ToolsShowcase />}
-                trigger="manual"
-                active={skillsActive}
-                onActiveChange={setSkillsActive}
-                style={{ aspectRatio: 'auto', height: '100vh' }}
-                pixelSize={150}
-                gap={0}
-                pixelRadius={0}
-                pixelSpin={4}
-                pixelScale={0.18}
-                fade
-                duration={1150}
-                pixelDuration={380}
-                pattern="edges"
-                randomness={0.1}
-              />
-            </div>
-          </div>
+          <ToolsShowcase />
           <CarouselShowcase />
         </div>
         <GalleryShowcase />

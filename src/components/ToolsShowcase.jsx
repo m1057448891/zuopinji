@@ -10,9 +10,6 @@ const ITEMS = [
 ]
 
 export default function ToolsShowcase() {
-  const vh = typeof window !== 'undefined' ? window.innerHeight : 900
-  const galleryHeight = Math.max(380, Math.min(520, Math.round(vh * 0.5)))
-
   return (
     <section className="tools" id="tools-showcase">
       <span className="tools__watermark" aria-hidden="true">
@@ -34,7 +31,7 @@ export default function ToolsShowcase() {
             accentColor="#9cc3ff"
             overlayColor="#060010"
             textColor="#ffffff"
-            height={galleryHeight}
+            height={540}
             gap={10}
             radius={14}
             expandRatio={0.48}
