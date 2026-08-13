@@ -6342,3 +6342,265 @@ body.hide-site-nav .nav {
 .ba-links-row a:hover {
   text-decoration-color: #171717;
 }
+
+/* ---------- Flow & Fluidity（图片轮播页全屏编辑页） ---------- */
+.gallery-showcase.flow {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: #1a1a1a;
+  color: #ffffff;
+  font-family: "JetBrains Mono", monospace;
+}
+.flow__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.flow__content {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .flow__content { padding: 48px; }
+}
+@media (min-width: 1024px) {
+  .flow__content { padding: 64px; }
+}
+.flow__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.flow__logo {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+.flow__blurb {
+  display: none;
+  font-size: 10px;
+  line-height: 1.8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: right;
+  max-width: 180px;
+}
+@media (min-width: 640px) {
+  .flow__blurb { display: block; }
+}
+@media (min-width: 768px) {
+  .flow__blurb { font-size: 12px; max-width: 240px; }
+}
+.flow__mid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 24px;
+  max-width: 768px;
+}
+@media (min-width: 768px) {
+  .flow__mid { padding-top: 48px; }
+}
+.flow__headline {
+  font-family: "Meutas Medium", sans-serif;
+  font-size: 48px;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+@media (min-width: 768px) {
+  .flow__headline { font-size: 72px; }
+}
+@media (min-width: 1024px) {
+  .flow__headline { font-size: 96px; }
+}
+@media (min-width: 1280px) {
+  .flow__headline { font-size: 110px; }
+}
+.flow__copy {
+  margin-top: 24px;
+  max-width: 448px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #dbdda1;
+}
+@media (min-width: 768px) {
+  .flow__copy { margin-top: 48px; font-size: 14px; }
+}
+.flow__cta-wrap {
+  position: relative;
+  width: fit-content;
+  margin-top: 24px;
+}
+@media (min-width: 768px) {
+  .flow__cta-wrap { margin-top: 48px; }
+}
+.flow__bracket {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #dbdda1;
+  border-right: 0;
+  border-bottom: 0;
+}
+.flow__bracket--tl { top: -8px; left: -8px; }
+.flow__bracket--tr { top: -8px; right: -8px; border-right: 2px solid #dbdda1; border-left: 0; border-bottom: 0; }
+.flow__bracket--bl { bottom: -8px; left: -8px; border-bottom: 2px solid #dbdda1; border-top: 0; border-right: 0; }
+.flow__bracket--br { bottom: -8px; right: -8px; border-bottom: 2px solid #dbdda1; border-top: 0; border-left: 0; }
+.flow__cta {
+  background: #63624b;
+  color: #dbdda1;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  padding: 14px 40px;
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.flow__cta:hover {
+  background: #73725a;
+}
+.flow__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+@media (min-width: 768px) {
+  .flow__bottom {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+.flow__arrows {
+  display: flex;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  .flow__arrows { gap: 24px; }
+}
+.flow__arrow-wrap {
+  position: relative;
+}
+.flow__mini {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #dbdda1;
+  border-right: 0;
+  border-bottom: 0;
+}
+.flow__mini--tl { top: -8px; left: -8px; }
+.flow__mini--tr { top: -8px; right: -8px; border-right: 2px solid #dbdda1; border-left: 0; border-bottom: 0; }
+.flow__mini--bl { bottom: -8px; left: -8px; border-bottom: 2px solid #dbdda1; border-top: 0; border-right: 0; }
+.flow__mini--br { bottom: -8px; right: -8px; border-bottom: 2px solid #dbdda1; border-top: 0; border-left: 0; }
+.flow__arrow {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #63624b;
+  color: #dbdda1;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.flow__arrow:hover {
+  background: #73725a;
+}
+@media (min-width: 768px) {
+  .flow__arrow { width: 44px; height: 44px; }
+}
+.flow__side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+@media (min-width: 768px) {
+  .flow__side { align-items: flex-end; gap: 16px; }
+}
+.flow__counter {
+  font-family: "Meutas Medium", sans-serif;
+  font-size: 36px;
+  line-height: 1;
+  color: #ffffff;
+}
+@media (min-width: 768px) {
+  .flow__counter { font-size: 72px; }
+}
+@media (min-width: 1024px) {
+  .flow__counter { font-size: 96px; }
+}
+@media (min-width: 1280px) {
+  .flow__counter { font-size: 110px; }
+}
+.flow__thumbs {
+  display: flex;
+  gap: 8px;
+  overflow: visible;
+}
+@media (min-width: 768px) {
+  .flow__thumbs { gap: 10px; }
+}
+.flow__thumb {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+@media (min-width: 768px) {
+  .flow__thumb { width: 80px; height: 80px; }
+}
+@media (min-width: 1024px) {
+  .flow__thumb { width: 96px; height: 96px; }
+}
+.flow__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.flow__frame {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  border: 2px solid #ffffff;
+  pointer-events: none;
+}
+.flow__dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #ffffff;
+  z-index: 20;
+}
+.flow__dot--tl { top: -4px; left: -4px; }
+.flow__dot--tr { top: -4px; right: -4px; }
+.flow__dot--bl { bottom: -4px; left: -4px; }
+.flow__dot--br { bottom: -4px; right: -4px; }
+.flow__dot--tm { top: -4px; left: 50%; transform: translateX(-50%); }
+.flow__dot--bm { bottom: -4px; left: 50%; transform: translateX(-50%); }
+.flow__dot--lm { left: -4px; top: 50%; transform: translateY(-50%); }
+.flow__dot--rm { right: -4px; top: 50%; transform: translateY(-50%); }

@@ -1,37 +1,20 @@
-import { useEffect, useRef, useState } from 'react'
-import { asset } from '../lib/asset.js'
+import { useEffect, useState } from 'react'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+
+const BG_VIDEO =
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260723_145606_ab143199-b593-4941-bb1b-9afca215416b.mp4'
 
 const IMAGES = [
-  { img: '/works/img/img-015.webp' },
-  { img: '/works/img/img-023.webp' },
-  { img: '/works/img/img-013.webp' },
-  { img: '/works/img/img-018.webp' },
-  { img: '/works/img/img-021.webp' },
-  { img: '/works/img/img-011.webp' }
+  'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260723_152456_65bd59eb-4e9c-4be8-82eb-2aadd5b91e03.png&w=1920&q=85',
+  'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260723_152522_96817909-a45f-4d68-9509-f399dda97419.png&w=1920&q=85',
+  'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260723_152537_150da197-35c4-483c-bd9e-ebcf9335a640.png&w=1920&q=85',
+  'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260723_152546_2e114d2c-293d-4c42-89e5-da7eddcfbfa3.png&w=1920&q=85'
 ]
 
-const LINKS = [
-  { label: '图片作品', href: '#image-works' },
-  { label: '创意短片', href: '#shorts-showcase' },
-  { label: '商业广告', href: '#ads-showcase' },
-  { label: '联系我', href: '#contact' }
-]
-const SPEED = 0.8
+const N = IMAGES.length
 
 export default function GalleryShowcase() {
-  const [open, setOpen] = useState(false)
-  const trackRef = useRef(null)
-  const offsetRef = useRef(0)
-  const velocityRef = useRef(0)
-  const dragRef = useRef({ active: false, startX: 0, startOffset: 0, lastX: 0, lastT: 0 })
-
-  // 菜单打开时锁定页面滚动
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [open])
+  const [active, setActive] = useState(2)
 
   // 本页在视口内时隐藏全站导航，避免双导航冲突
   useEffect(() => {
@@ -50,149 +33,101 @@ export default function GalleryShowcase() {
     }
   }, [])
 
-  // 图带动画引擎：requestAnimationFrame + 拖拽惯性 + 无缝循环
-  useEffect(() => {
-    const track = trackRef.current
-    if (!track) return
-    let raf = 0
-    const loop = () => {
-      const d = dragRef.current
-      if (!d.active) {
-        if (Math.abs(velocityRef.current) > 0.1) {
-          offsetRef.current += velocityRef.current
-          velocityRef.current *= 0.95
-        } else {
-          velocityRef.current = 0
-          offsetRef.current -= SPEED
-        }
-      }
-      const half = track.scrollWidth / 2
-      if (offsetRef.current <= -half) offsetRef.current += half
-      if (offsetRef.current > 0) offsetRef.current -= half
-      track.style.transform = `translate3d(${offsetRef.current}px,0,0)`
-      raf = requestAnimationFrame(loop)
-    }
-    raf = requestAnimationFrame(loop)
-    return () => cancelAnimationFrame(raf)
-  }, [])
-
-  const onPointerDown = (e) => {
-    dragRef.current = {
-      active: true,
-      startX: e.clientX,
-      startOffset: offsetRef.current,
-      lastX: e.clientX,
-      lastT: performance.now()
-    }
-    velocityRef.current = 0
-    e.currentTarget.setPointerCapture?.(e.pointerId)
-  }
-
-  const onPointerMove = (e) => {
-    const d = dragRef.current
-    if (!d.active) return
-    const now = performance.now()
-    const dx = e.clientX - d.lastX
-    const dt = Math.max(1, now - d.lastT)
-    velocityRef.current = (dx / dt) * 16
-    d.lastX = e.clientX
-    d.lastT = now
-    offsetRef.current = d.startOffset + (e.clientX - d.startX)
-  }
-
-  const endDrag = () => {
-    dragRef.current.active = false
-  }
+  const prev = () => setActive((a) => (a - 1 + N) % N)
+  const next = () => setActive((a) => (a + 1) % N)
 
   return (
-    <section className="gallery-showcase ba" id="gallery-showcase">
-      {/* 固定导航 */}
-      <header className="ba-nav">
-        <svg width="28" height="28" viewBox="0 0 256 256" fill="#1a1a1a" aria-hidden="true">
-          <path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z" />
-        </svg>
+    <section className="gallery-showcase flow" id="gallery-showcase">
+      {/* 背景视频（整页循环播放） */}
+      <video className="flow__bg" src={BG_VIDEO} autoPlay loop muted playsInline aria-hidden="true" />
 
-        <button className="ba-burger" onClick={() => setOpen(true)} aria-label="Open menu">
-          <i />
-          <i />
-        </button>
-
-        <a className="ba-cta" href="#contact">联系我</a>
-        <span className="ba-balance" aria-hidden="true" />
-      </header>
-
-      {/* 遮罩 */}
-      <div className={`ba-overlay${open ? ' is-open' : ''}`} onClick={() => setOpen(false)} />
-
-      {/* 全屏/右侧抽屉菜单 */}
-      <div className={`ba-drawer${open ? ' is-open' : ''}`}>
-        <div className="ba-drawer-head">
-          <svg width="28" height="28" viewBox="0 0 256 256" fill="#1a1a1a" aria-hidden="true">
-            <path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z" />
-          </svg>
-          <button className={`ba-close${open ? ' is-open' : ''}`} onClick={() => setOpen(false)} aria-label="Close menu">
-            <i />
-            <i />
-          </button>
+      {/* 内容层 */}
+      <div className="flow__content">
+        {/* ZONE A — 顶部 */}
+        <div className="flow__top">
+          <span className="flow__logo">V — IX</span>
+          <p className="flow__blurb">
+            Let your gaze wander and linger. Pass over each frame to uncover what li...
+          </p>
         </div>
-        <nav className="ba-links">
-          {LINKS.map((link, i) => (
-            <a key={link.label} href={link.href} style={{ '--i': i }} onClick={() => setOpen(false)}>
-              {link.label}
-            </a>
-          ))}
-        </nav>
-        <div className="ba-drawer-cta">
-          <a className="ba-cta ba-cta--lg" href="#contact" onClick={() => setOpen(false)}>
-            联系我
-          </a>
-        </div>
-      </div>
 
-      {/* Hero */}
-        <div className="ba-hero">
-          <h1>
-            MOSATO SAKAI
+        {/* ZONE B — 中部 */}
+        <div className="flow__mid">
+          <h1 className="flow__headline">
+            Form &amp;
             <br />
-            VISUAL CREATOR
+            Function
           </h1>
-          <p>内容运营 × AI 视觉创作 · 把想象力变成可交付的作品</p>
+          <p className="flow__copy">
+            Every frame holds a piece of an unfolding story — surfaces, forms, and gestures caught in transit. Wander
+            through the arrangements with silent observation.
+          </p>
+          <div className="flow__cta-wrap">
+            <i className="flow__bracket flow__bracket--tl" />
+            <i className="flow__bracket flow__bracket--tr" />
+            <i className="flow__bracket flow__bracket--bl" />
+            <i className="flow__bracket flow__bracket--br" />
+            <button className="flow__cta" type="button">
+              Reveal Hidden
+            </button>
+          </div>
         </div>
 
-      {/* 无限图带 */}
-      <div className="ba-marquee">
-        <svg className="ba-mask ba-mask--top" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 0H1440V50C1440 50 1200 100 720 100C240 100 0 50 0 50V0Z" fill="#fff" />
-        </svg>
+        {/* ZONE C — 底部 */}
+        <div className="flow__bottom">
+          <div className="flow__arrows">
+            <span className="flow__arrow-wrap">
+              <i className="flow__mini flow__mini--tl" />
+              <i className="flow__mini flow__mini--tr" />
+              <i className="flow__mini flow__mini--bl" />
+              <i className="flow__mini flow__mini--br" />
+              <button className="flow__arrow" type="button" onClick={prev} aria-label="Previous">
+                <ArrowLeft size={18} />
+              </button>
+            </span>
+            <span className="flow__arrow-wrap">
+              <i className="flow__mini flow__mini--tl" />
+              <i className="flow__mini flow__mini--tr" />
+              <i className="flow__mini flow__mini--bl" />
+              <i className="flow__mini flow__mini--br" />
+              <button className="flow__arrow" type="button" onClick={next} aria-label="Next">
+                <ArrowRight size={18} />
+              </button>
+            </span>
+          </div>
 
-        <div
-          className="ba-track"
-          ref={trackRef}
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={endDrag}
-          onPointerCancel={endDrag}
-        >
-          {[...IMAGES, ...IMAGES].map((img, i) => (
-            <div className="ba-slide" key={i}>
-              <img src={asset(img.img)} loading="lazy" draggable={false} alt="" />
+          <div className="flow__side">
+            <span className="flow__counter">
+              {String(active + 1).padStart(2, '0')}/{String(N).padStart(2, '0')}
+            </span>
+            <div className="flow__thumbs">
+              {IMAGES.map((src, i) => (
+                <button
+                  key={i}
+                  className={`flow__thumb${i === active ? ' is-active' : ''}`}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  aria-label={`Slide ${i + 1}`}
+                >
+                  <img src={src} alt="" />
+                  {i === active && (
+                    <span className="flow__frame" aria-hidden="true">
+                      <i className="flow__dot flow__dot--tl" />
+                      <i className="flow__dot flow__dot--tr" />
+                      <i className="flow__dot flow__dot--bl" />
+                      <i className="flow__dot flow__dot--br" />
+                      <i className="flow__dot flow__dot--tm" />
+                      <i className="flow__dot flow__dot--bm" />
+                      <i className="flow__dot flow__dot--lm" />
+                      <i className="flow__dot flow__dot--rm" />
+                    </span>
+                  )}
+                </button>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
-
-        <svg className="ba-mask ba-mask--bottom" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 100H1440V50C1440 50 1200 0 720 0C240 0 0 50 0 50V100Z" fill="#fff" />
-        </svg>
       </div>
-
-      {/* 底部 */}
-      <footer className="ba-bottom">
-        <p>从内容策略到 AI 视觉生产，我用生成式 AI 完成文案、图片与动态影像，覆盖从创意到交付的全流程。</p>
-        <div className="ba-links-row">
-          <a href="#contact">联系我</a>
-          <a href="#image-works">查看作品</a>
-        </div>
-      </footer>
     </section>
   )
 }
