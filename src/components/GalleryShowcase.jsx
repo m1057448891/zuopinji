@@ -1,241 +1,292 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
+import useInView from '../lib/useInView.js'
+import { imgSrcSet } from '../lib/imgAttrs.js'
+import Grainient from './Grainient.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
-// —— 素材层：8 张方形卡片，每张对应一个关键词与作品 ——
-const CARDS = [
-  { no: '01', cn: '深空漫游', en: 'Spatial', img: '/works/img/img-015.webp' },
-  { no: '02', cn: '雾霭新生', en: 'Vision', img: '/works/img/img-023.webp' },
-  { no: '03', cn: '软糖小屋', en: 'Texture', img: '/works/img/img-013.webp' },
-  { no: '04', cn: '风影席卷', en: 'Motion', img: '/works/img/img-018.webp' },
-  { no: '05', cn: '冷白逆光', en: 'Light', img: '/works/img/img-021.webp' },
-  { no: '06', cn: '透明机能', en: 'Form', img: '/works/img/img-011.webp' },
-  { no: '07', cn: '刃光惊鸿', en: 'Color', img: '/works/img/img-009.webp' },
-  { no: '08', cn: '草甸低云', en: 'System', img: '/works/img/img-016.webp' }
-]
-const N = CARDS.length
-const R = 236
-const SPACING = 158
+const GAP = 10
 
-const smooth = (p) => (p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2)
-const clamp01 = (v) => Math.min(1, Math.max(0, v))
+const ITEMS = [
+  { file: '/works/img/img-015.webp', cn: '深空漫游', en: 'Deep Space Drift' },
+  { file: '/works/img/img-023.webp', cn: '雾霭新生', en: 'Mist & Newborn Light' },
+  { file: '/works/img/img-013.webp', cn: '软糖小屋', en: 'Candy Cottage' },
+  { file: '/works/img/img-018.webp', cn: '风影席卷', en: 'Wind Sweep' },
+  { file: '/works/img/img-021.webp', cn: '冷白逆光', en: 'Cold Backlit' },
+  { file: '/works/img/img-011.webp', cn: '透明机能', en: 'Glass Massager' },
+  { file: '/works/img/img-009.webp', cn: '刀光惊尘', en: 'Blade & Dust' },
+  { file: '/works/img/img-016.webp', cn: '草甸低云', en: 'Meadow Clouds' },
+  { file: '/works/img/img-017.webp', cn: '草浪云天', en: 'Grass Wave Sky' },
+  { file: '/works/img/img-019.webp', cn: '胶片古色', en: 'Film Ancient Beauty' },
+  { file: '/works/img/img-022.webp', cn: '仙侠猎妖', en: 'Myth Hunter' },
+  { file: '/works/img/img-003.webp', cn: '新春纳福', en: 'New Year Blessing' },
+  { file: '/works/img/img-008.webp', cn: '暗夜朦光', en: 'Nocturne' },
+  { file: '/works/img/img-012.webp', cn: '花海果酒', en: 'Flower Wine' },
+  { file: '/works/img/img-010.webp', cn: '蓝调春日', en: 'Blue Spring' },
+  { file: '/works/img/img-004.webp', cn: '千禧幻梦', en: 'Millennium Dream' },
+  { file: '/works/img/img-002.webp', cn: '甜酷少女', en: 'Y2K Pop Rebel' },
+  { file: '/works/img/img-001.webp', cn: '赛博天使', en: 'Y2K Cyber Angel' },
+  { file: '/works/img/img-005.webp', cn: '高校女王', en: 'High Teen Queen' },
+  { file: '/works/img/img-006.webp', cn: '东坡上釉', en: 'Dongpo Glaze' },
+  { file: '/works/img/img-014.webp', cn: '极简人像', en: 'Minimal Portrait' }
+]
+
+const N = ITEMS.length
+const COPIES = 5
+const EXPANDED = Array.from({ length: COPIES }, (_, c) =>
+  ITEMS.map((item, i) => ({ ...item, pos: c * N + i }))
+).flat()
 
 export default function GalleryShowcase() {
-  const sectionRef = useRef(null)
-  const stageRef = useRef(null)
-  const cardsRef = useRef([])
-  const idxRef = useRef(0)
-  const [index, setIndex] = useState(0)
-  const [layer, setLayer] = useState(false)
-  const [notes, setNotes] = useState(true)
+  const [sectionRef, inView] = useInView('0px 0px 600px 0px')
+  const viewRef = useRef(null)
+  const trackRef = useRef(null)
+  const [pos, setPos] = useState(2 * N)
+  const [lightbox, setLightbox] = useState(null)
+  const dragRef = useRef({ down: false, startX: 0, baseX: 0, moved: 0, cardPos: -1 })
+  const pausedRef = useRef(false)
+  const wrapRef = useRef(false)
+  const pendingWrapRef = useRef(false)
 
-  const cur = CARDS[index]
+  const measure = () => {
+    const view = viewRef.current
+    const card = view && view.querySelector('.gallery-card')
+    if (!view || !card) return { step: 0, cardW: 0 }
+    const r = card.getBoundingClientRect()
+    return { step: r.width + GAP, cardW: r.width }
+  }
+
+  const centerX = (p) => {
+    const view = viewRef.current
+    const { step, cardW } = measure()
+    if (!view || !step) return 0
+    return view.clientWidth / 2 - (p * step + cardW / 2)
+  }
+
+  const animateTo = (p, instant = false) => {
+    const track = trackRef.current
+    if (!track) return
+    const x = centerX(p)
+    if (instant) gsap.set(track, { x })
+    else gsap.to(track, { x, duration: 0.7, ease: 'power3.out' })
+  }
 
   useLayoutEffect(() => {
-    const section = sectionRef.current
-    const stage = stageRef.current
-    const cards = cardsRef.current
-    if (!section || !stage || !cards.length) return
-
-    const vw = () => stage.clientWidth
-    const vh = () => stage.clientHeight
-
-    const circleXY = (i, w, h) => {
-      const a = (i / N) * Math.PI * 2 - Math.PI / 2
-      return { x: w / 2 + Math.cos(a) * R, y: h / 2 + Math.sin(a) * R * 0.72 }
-    }
-    const stripXY = (i, w, h) => ({ x: w / 2 + (i - (N - 1) / 2) * SPACING, y: h / 2 + 30 })
-
+    animateTo(pos, true)
+    const onResize = () => animateTo(pos, true)
+    window.addEventListener('resize', onResize)
     const ctx = gsap.context(() => {
-      // 入场：四角汇聚 → 直线 → 圆环（一次）
-      const tl = gsap.timeline({
-        defaults: { ease: 'power3.out' },
-        scrollTrigger: { trigger: section, start: 'top 82%', once: true }
-      })
-      tl.fromTo(
-        cards,
+      gsap.fromTo(
+        '.gallery__head > *',
+        { y: 30, opacity: 0 },
         {
-          opacity: 0,
-          scale: 0.3,
-          x: (i) => (i % 2 ? -1 : 1) * vw() * 0.62,
-          y: (i) => (i % 2 ? 1 : -1) * vh() * 0.52,
-          rotation: (i) => (i % 2 ? 28 : -28)
-        },
-        {
+          y: 0,
           opacity: 1,
-          scale: 1,
-          x: (i) => vw() / 2 + (i - (N - 1) / 2) * SPACING,
-          y: (i) => vh() / 2 + 30,
-          rotation: 0,
-          stagger: 0.05,
-          duration: 1.0
-        },
-        0
-      )
-        .to(
-          cards,
-          {
-            x: (i) => circleXY(i, vw(), vh()).x,
-            y: (i) => circleXY(i, vw(), vh()).y,
-            rotation: (i) => i * 14 - 50,
-            duration: 1.0,
-            ease: 'power2.inOut',
-            stagger: 0.045
-          },
-          0.8
-        )
-
-      // 滚动：圆环 → 长卷 → 收拢为菱形智能层
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1,
-        onUpdate: (self) => {
-          const p = self.progress
-          const w = vw()
-          const h = vh()
-          const stripE = smooth(clamp01(p / 0.7))
-          const collapseE = smooth(clamp01((p - 0.74) / 0.26))
-          const idx = Math.min(N - 1, Math.max(0, Math.round(p * (N - 1))))
-
-          if (idx !== idxRef.current) {
-            idxRef.current = idx
-            setIndex(idx)
-          }
-          const nextLayer = p > 0.74
-          setLayer(nextLayer)
-
-          cards.forEach((el, i) => {
-            const c = circleXY(i, w, h)
-            const s = stripXY(i, w, h)
-            const off = i - idx
-            const x = c.x + (s.x - c.x) * stripE
-            const y = c.y + (s.y - c.y) * stripE
-            const rot = (1 - stripE) * (i * 14 - 50) + stripE * off * 8
-            const scale = stripE > 0 ? (i === idx ? 1 : 0.82) : 1
-            const opacity = stripE > 0 ? (i === idx ? 1 : 0.42) : 1
-            const blur = stripE > 0 ? (i === idx ? 0 : 3) : 0
-
-            gsap.set(el, {
-              x: x + (w / 2 - x) * collapseE,
-              y: y + (h / 2 - y) * collapseE,
-              rotation: rot * (1 - collapseE),
-              scale: scale * (1 - collapseE * 0.86),
-              opacity: opacity * (1 - collapseE),
-              filter: `blur(${blur * (1 - collapseE * 0.5)}px)`,
-              zIndex: i === idx ? 5 : 1
-            })
-          })
-
-          gsap.set('.proto__diamond', { scale: 0.4 + collapseE * 0.6, opacity: collapseE })
-          gsap.set('.proto__headline', { opacity: 1 - p * 4, y: -p * 80 })
-          gsap.set('.proto__fill', { opacity: collapseE })
+          stagger: 0.1,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 78%', once: true }
         }
-      })
-    }, section)
-    return () => ctx.revert()
+      )
+      const cards = gsap.utils.toArray('.gallery-card')
+      gsap.fromTo(
+        cards,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.02,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 70%', once: true },
+          onComplete: () => gsap.set(cards, { clearProps: 'transform,opacity' })
+        }
+      )
+    }, sectionRef)
+    return () => {
+      window.removeEventListener('resize', onResize)
+      ctx.revert()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    const t = setInterval(() => {
+      if (pausedRef.current || lightbox != null) return
+      setPos((p) => p + 1)
+    }, 2000)
+    return () => clearInterval(t)
+  }, [lightbox])
+
+  useEffect(() => {
+    if (pos >= 3 * N) {
+      pendingWrapRef.current = true
+    }
+  }, [pos])
+
+  useEffect(() => {
+    const track = trackRef.current
+    if (!track) return
+    const instant = wrapRef.current
+    wrapRef.current = false
+    const x = centerX(pos)
+    if (instant) {
+      gsap.set(track, { x })
+      return
+    }
+    const tween = gsap.to(track, {
+      x,
+      duration: 0.7,
+      ease: 'power3.out',
+      onComplete: () => {
+        if (pendingWrapRef.current) {
+          pendingWrapRef.current = false
+          wrapRef.current = true
+          setPos(pos - N)
+        }
+      }
+    })
+    return () => tween.kill()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pos])
+
+  const onPointerDown = (e) => {
+    const track = trackRef.current
+    if (!track) return
+    track.setPointerCapture(e.pointerId)
+    pausedRef.current = true
+    const x = gsap.getProperty(track, 'x')
+    const cardEl = e.target.closest('.gallery-card')
+    const cardPos = cardEl ? Number(cardEl.dataset.pos) : -1
+    dragRef.current = { down: true, startX: e.clientX, baseX: x, moved: 0, cardPos }
+  }
+
+  const onPointerMove = (e) => {
+    const d = dragRef.current
+    if (!d.down) return
+    d.moved = e.clientX - d.startX
+    gsap.set(trackRef.current, { x: d.baseX + d.moved })
+  }
+
+  const onPointerUp = () => {
+    const d = dragRef.current
+    if (!d.down) return
+    d.down = false
+    pausedRef.current = false
+    const view = viewRef.current
+    const { step, cardW } = measure()
+    if (!view || !step) return
+    const center = view.clientWidth / 2 - cardW / 2
+    const cur = Math.round((center - d.baseX) / step)
+    if (Math.abs(d.moved) < 6) {
+      if (d.cardPos >= 0) {
+        const nearest = [d.cardPos - N, d.cardPos, d.cardPos + N].reduce((a, b) =>
+          Math.abs(b - cur) < Math.abs(a - cur) ? b : a
+        )
+        const clamped = Math.max(0, Math.min(EXPANDED.length - 1, nearest))
+        if (clamped === pos) setLightbox(clamped % N)
+        else setPos(clamped)
+      }
+      return
+    }
+    const target = cur - Math.round(d.moved / step)
+    setPos(Math.max(0, Math.min(EXPANDED.length - 1, target)))
+  }
+
+  const curItem = lightbox != null ? ITEMS[lightbox] : null
+
   return (
-    <section className="proto" id="gallery-showcase" ref={sectionRef}>
-      <div className={`proto__stage${layer ? ' is-layer' : ''}`} ref={stageRef}>
-        {/* L1 背景层 */}
-        <div className="proto__fill" aria-hidden="true" />
+    <section className="gallery-showcase" id="gallery-showcase" ref={sectionRef}>
+      <div className="gallery__bg" aria-hidden="true">
+        {inView && (
+          <Grainient
+            color1="#FF9FFC"
+            color2="#5227FF"
+            color3="#B497CF"
+            timeSpeed={1.2}
+            colorBalance={0.05}
+            warpStrength={1.25}
+            warpFrequency={6.2}
+            warpSpeed={3.6}
+            warpAmplitude={68}
+            blendAngle={3}
+            blendSoftness={0.18}
+            rotationAmount={460}
+            noiseScale={1.15}
+            grainAmount={0.08}
+            grainScale={1.8}
+            contrast={1.25}
+            gamma={1.0}
+            saturation={1.05}
+            centerX={0.0}
+            centerY={0.0}
+            zoom={0.95}
+          />
+        )}
+        <span className="gallery__shade" />
+      </div>
 
-        {/* L2 导航层 */}
-        <nav className="proto__nav" aria-hidden="true">
-          <span className="proto__brand">MZS · PROTO</span>
-          <span className="proto__menu">
-            <i>INTRO</i>
-            <i>VISION</i>
-            <i>INTELLIGENCE</i>
-          </span>
-        </nav>
+      <div className="gallery__head">
+        <span className="mono gallery__kicker">IMAGE GALLERY / 图片轮播</span>
+        <h2 className="gallery__title">Every frame is a world.</h2>
+        <span className="mono gallery__hint">AUTO LOOP · DRAG TO EXPLORE · CLICK TO VIEW</span>
+      </div>
 
-        {/* L4 文本层：中央标题 */}
-        <div className="proto__headline">
-          <h2>The future is built on Artificial Intelligence.</h2>
-          <p>AI × CONTENT WORKFLOW</p>
-        </div>
-
-        {/* 智能层收拢态 */}
-        <div className="proto__layer">
-          <span className="proto__diamond" aria-hidden="true" />
-          <h3>INTELLIGENCE LAYER</h3>
-          <p>优化流程 · 降低成本 · 激发创造</p>
-          <div className="proto__layer-words mono">
-            <span>HIGH LEVEL</span>
-            <span>OPERATIONAL</span>
-            <span>GRANULAR</span>
-            <span>AGNOSTIC</span>
-          </div>
-        </div>
-
-        {/* L3 卡片层 */}
-        <div className="proto__cards">
-          {CARDS.map((c, i) => (
-            <button
-              key={c.no}
-              ref={(el) => (cardsRef.current[i] = el)}
-              className={`proto__card${i === index ? ' is-active' : ''}`}
-              aria-label={c.cn}
+      <div
+        className="gallery__view"
+        ref={viewRef}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+      >
+        <div className="gallery__track" ref={trackRef}>
+          {EXPANDED.map((item) => (
+            <article
+              key={item.pos}
+              data-pos={item.pos}
+              className={`gallery-card ${item.pos === pos ? 'is-active' : ''}`}
             >
-              <img src={asset(c.img)} alt={c.cn} />
-              <span className="proto__card-no mono">{c.no}</span>
-            </button>
+              <button className="gallery-card__media" aria-label={item.en}>
+                <img
+                  src={asset(item.file)}
+                  srcSet={imgSrcSet(item.file)}
+                  sizes="(min-width: 1400px) 480px, (min-width: 800px) 360px, 90vw"
+                  alt={item.cn}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+              <div className="gallery-card__info">
+                <span className="gallery-card__cn">{item.cn}</span>
+                <span className="gallery-card__en">{item.en}</span>
+                <div className="gallery-card__row">
+                  <span className="mono">2026</span>
+                  <span className="mono gallery-card__view">VIEW &#8594;</span>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
-
-        {/* 底部关键词 / 步骤联动 */}
-        <div className="proto__progress">
-          <span className="mono proto__keyword">{cur.en}</span>
-          <span className="mono proto__step">
-            {String(index + 1).padStart(2, '0')} / {String(N).padStart(2, '0')}
-          </span>
-          <div className="proto__bar">
-            <i style={{ width: `${((index + 1) / N) * 100}%` }} />
-          </div>
-          <span className="proto__desc">{cur.cn}</span>
-        </div>
-
-        {/* L5 标注层 */}
-        {notes && (
-          <div className="proto__notes">
-            <span className="proto-note proto-note--1">
-              ① 入场：四角汇聚 → 直线 → 圆环
-              <em>GSAP timeline · stagger 0.05 · 约 1.9s</em>
-            </span>
-            <span className="proto-note proto-note--2">
-              ② 滚动 p 0→0.7：圆环 → 横向长卷
-              <em>中间清晰 scale 1，两侧 0.82 / 0.42 / blur 3px</em>
-            </span>
-            <span className="proto-note proto-note--3">
-              ③ p 0.74→1：卡片收拢为菱形智能层
-              <em>背景切换蓝绿渐变 · 关键词淡入</em>
-            </span>
-            <span className="proto-note proto-note--4">
-              ④ 关键词与步骤计数随当前卡片联动
-              <em>SPATIAL → SYSTEM · 01/08 → 08/08</em>
-            </span>
-            <div className="proto-states">
-              <i>默认</i>
-              <i>悬停</i>
-              <i>滚动中</i>
-            </div>
-            <div className="proto-legend mono">
-              L1 背景 / L2 导航 / L3 卡片 / L4 文本 / L5 标注
-            </div>
-          </div>
-        )}
-
-        <button className="proto__toggle mono" onClick={() => setNotes((v) => !v)}>
-          {notes ? '标注 ON' : '标注 OFF'}
-        </button>
       </div>
+
+      {curItem && (
+        <div className="gallery-modal" onClick={() => setLightbox(null)}>
+          <div className="gallery-modal__inner">
+              <img src={asset(curItem.file)} alt={curItem.cn} />
+            <div className="gallery-modal__cap">
+              <span className="mono gallery-modal__no">
+                {String((lightbox % N) + 1).padStart(2, '0')} / {String(N).padStart(2, '0')}
+              </span>
+              <h3>{curItem.cn}</h3>
+              <p className="mono">{curItem.en}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
