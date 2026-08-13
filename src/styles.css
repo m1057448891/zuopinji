@@ -5758,10 +5758,264 @@ a {
 
 /* ---------- performance: skip offscreen rendering ---------- */
 
-.gallery-showcase,
 .contact {
   content-visibility: auto;
   contain-intrinsic-size: auto 100vh;
+}
+
+/* ---------- 图片轮播：Inkwell 交互原型 ---------- */
+/* 视觉约束（锁定值，不随主题替换）：
+   --proto-bg:#FFFFFF  --proto-ink:#1A1A1A  --proto-dim:#8A8A92  --proto-faint:#C2C2C8
+   --proto-accent:#1F5F5B  --proto-accent-2:#7FD1C4
+   字体：DM Sans / JetBrains Mono；导航 11px、标题 38px、卡片标签 12px、标注 10px */
+.proto {
+  position: relative;
+  height: 320vh;
+  background: #ffffff;
+}
+.proto__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: #ffffff;
+}
+.proto__fill {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background: radial-gradient(60% 55% at 50% 46%, rgba(31, 95, 91, 0.5), transparent 70%);
+  transition: opacity 0.4s;
+}
+.proto__nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px clamp(24px, 4vw, 64px);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: #8a8a92;
+  z-index: 6;
+  pointer-events: none;
+}
+.proto__brand {
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #1a1a1a;
+}
+.proto__menu {
+  display: flex;
+  gap: 26px;
+}
+.proto__menu i {
+  font-style: normal;
+}
+.proto__headline {
+  position: absolute;
+  left: clamp(24px, 4vw, 64px);
+  top: 14vh;
+  z-index: 4;
+  pointer-events: none;
+}
+.proto__headline h2 {
+  font-size: clamp(24px, 2.7vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: #1a1a1a;
+  line-height: 1.1;
+}
+.proto__headline p {
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: #8a8a92;
+}
+.proto__cards {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+.proto__card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 132px;
+  height: 176px;
+  padding: 0;
+  border: 1px solid rgba(26, 26, 26, 0.14);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(26, 26, 26, 0.1);
+  cursor: pointer;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s;
+  will-change: transform;
+}
+.proto__card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.proto__card-no {
+  position: absolute;
+  left: 8px;
+  bottom: 6px;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+.proto__card.is-active {
+  box-shadow: 0 20px 46px rgba(31, 95, 91, 0.26);
+  outline: 2px solid #7fd1c4;
+  outline-offset: -2px;
+}
+.proto__card:hover {
+  transform: scale(1.05);
+}
+.proto__progress {
+  position: absolute;
+  left: 50%;
+  bottom: 42px;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(680px, 72vw);
+}
+.proto__step {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: #1f5f5b;
+  white-space: nowrap;
+}
+.proto__bar {
+  flex: 1;
+  height: 2px;
+  background: rgba(26, 26, 26, 0.12);
+  position: relative;
+}
+.proto__bar i {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #1f5f5b, #7fd1c4);
+  transition: width 0.45s var(--ease);
+}
+.proto__desc {
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: #8a8a92;
+  white-space: nowrap;
+}
+.proto__desc b {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+.proto__toggle {
+  position: absolute;
+  right: clamp(24px, 4vw, 64px);
+  bottom: 44px;
+  z-index: 8;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #1f5f5b;
+  border: 1px solid rgba(31, 95, 91, 0.4);
+  border-radius: 999px;
+  padding: 8px 14px;
+  background: rgba(31, 95, 91, 0.06);
+  cursor: pointer;
+  transition: background 0.25s;
+}
+.proto__toggle:hover {
+  background: rgba(31, 95, 91, 0.14);
+}
+/* L5 标注层 */
+.proto__notes {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+}
+.proto-note {
+  position: absolute;
+  max-width: 210px;
+  font-size: 10px;
+  line-height: 1.55;
+  color: #1f5f5b;
+  background: rgba(31, 95, 91, 0.07);
+  border: 1px solid rgba(31, 95, 91, 0.3);
+  border-left: 3px solid #1f5f5b;
+  padding: 7px 10px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.proto-note em {
+  display: block;
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: rgba(31, 95, 91, 0.75);
+  margin-top: 3px;
+}
+.proto-note--1 { left: clamp(24px, 4vw, 64px); top: 30vh; }
+.proto-note--2 { right: clamp(24px, 4vw, 64px); top: 26vh; }
+.proto-note--3 { left: clamp(24px, 4vw, 64px); bottom: 22vh; }
+.proto-note--4 { right: clamp(24px, 4vw, 64px); bottom: 22vh; }
+.proto-states {
+  position: absolute;
+  right: clamp(24px, 4vw, 64px);
+  bottom: 96px;
+  display: flex;
+  gap: 8px;
+}
+.proto-states i {
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(26, 26, 26, 0.2);
+  color: #8a8a92;
+  background: #fff;
+}
+.proto-states i:nth-child(2) {
+  border-color: #7fd1c4;
+  color: #1f5f5b;
+}
+.proto-states i:nth-child(3) {
+  border-color: #1f5f5b;
+  color: #fff;
+  background: #1f5f5b;
+}
+.proto-legend {
+  position: absolute;
+  left: clamp(24px, 4vw, 64px);
+  bottom: 96px;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: #c2c2c8;
+}
+@media (max-width: 900px) {
+  .proto__card {
+    width: 104px;
+    height: 139px;
+  }
+  .proto__headline {
+    top: 12vh;
+  }
+  .proto-note {
+    display: none;
+  }
 }
 
 /* ---------- 视频轮播（ORYZO 风格：滚动驱动主视觉 + 缩略图联动） ---------- */
