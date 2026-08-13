@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
 import { videoSources } from '../lib/videoSources.js'
+import ShapeGrid from './ShapeGrid.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -202,10 +203,16 @@ export default function CarouselShowcase() {
   return (
     <section className="carousel-showcase" id="carousel-showcase" ref={sectionRef}>
       <div className="carousel__bg" aria-hidden="true">
-        <span className="carousel__bg-light carousel__bg-light--1" />
-        <span className="carousel__bg-light carousel__bg-light--2" />
-        <span className="carousel__bg-sweep" />
-        <span className="carousel__bg-sweep carousel__bg-sweep--2" />
+        <ShapeGrid
+          className="carousel__grid"
+          direction="diagonal"
+          speed={0.35}
+          squareSize={44}
+          borderColor="rgba(255,255,255,0.09)"
+          hoverFillColor="rgba(156,195,255,0.22)"
+          shape="square"
+          hoverTrailAmount={6}
+        />
       </div>
 
       <div className="carousel__head">
