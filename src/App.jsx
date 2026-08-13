@@ -12,6 +12,7 @@ import CarouselShowcase from './components/CarouselShowcase.jsx'
 import GalleryShowcase from './components/GalleryShowcase.jsx'
 import LazyContact from './components/LazyContact.jsx'
 import ShapeGrid from './components/ShapeGrid.jsx'
+import IntroLoader from './components/IntroLoader.jsx'
 import worksData from './data/works.json'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -77,6 +78,7 @@ export default function App() {
 
   return (
     <div className="site">
+      <IntroLoader />
       <Nav />
       <main>
         <Hero video={heroVideo} />
