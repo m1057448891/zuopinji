@@ -6018,6 +6018,133 @@ a {
   }
 }
 
+/* ---------- 图片轮播原型 v2：贴合参考视频 ---------- */
+.proto__card {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+}
+.proto__headline {
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: min(760px, 88vw);
+}
+.proto__headline h2 {
+  font-size: clamp(20px, 2.3vw, 32px);
+  line-height: 1.28;
+}
+.proto__headline p {
+  margin-top: 10px;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: #8a8a92;
+}
+.proto__progress {
+  width: min(780px, 82vw);
+  gap: 14px;
+}
+.proto__keyword {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: #1f5f5b;
+  min-width: 78px;
+  text-transform: uppercase;
+}
+.proto__step {
+  color: #1a1a1a;
+  letter-spacing: 0.18em;
+}
+/* 智能层收拢态 */
+.proto__layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+  transition: opacity 0.5s ease;
+}
+.proto__stage.is-layer .proto__layer {
+  opacity: 1;
+}
+.proto__stage.is-layer .proto__fill {
+  background: linear-gradient(180deg, #0b3a44 0%, #6fc9b4 100%);
+  opacity: 1 !important;
+}
+.proto__stage.is-layer .proto__headline {
+  display: none;
+}
+.proto__stage.is-layer .proto__nav,
+.proto__stage.is-layer .proto__brand {
+  color: #fff;
+}
+.proto__stage.is-layer .proto__menu i {
+  color: rgba(255, 255, 255, 0.75);
+}
+.proto__stage.is-layer .proto__progress {
+  opacity: 0;
+}
+.proto__diamond {
+  width: 74px;
+  height: 74px;
+  transform: rotate(45deg);
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 34px rgba(255, 255, 255, 0.35);
+  opacity: 0;
+}
+.proto__layer h3 {
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+  margin-top: 10px;
+}
+.proto__layer p {
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.82);
+}
+.proto__layer-words {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.proto__layer-words span {
+  position: absolute;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  color: rgba(255, 255, 255, 0.65);
+  opacity: 0;
+  animation: protoWordIn 1.1s ease forwards;
+}
+.proto__layer-words span:nth-child(1) { top: 24%; left: 50%; transform: translateX(-50%); }
+.proto__layer-words span:nth-child(2) { right: 12%; top: 50%; transform: translateY(-50%); }
+.proto__layer-words span:nth-child(3) { bottom: 24%; left: 50%; transform: translateX(-50%); }
+.proto__layer-words span:nth-child(4) { left: 12%; top: 50%; transform: translateY(-50%); }
+.proto__layer-words span:nth-child(2) { animation-delay: 0.25s; }
+.proto__layer-words span:nth-child(3) { animation-delay: 0.5s; }
+.proto__layer-words span:nth-child(4) { animation-delay: 0.75s; }
+@keyframes protoWordIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@media (max-width: 900px) {
+  .proto__card {
+    width: 88px;
+    height: 88px;
+  }
+  .proto__layer-words {
+    position: absolute;
+    inset: 0;
+  }
+}
+
 /* ---------- 视频轮播（ORYZO 风格：滚动驱动主视觉 + 缩略图联动） ---------- */
 .reel-oryzo {
   position: relative;
