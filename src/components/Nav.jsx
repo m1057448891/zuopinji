@@ -10,6 +10,7 @@ const LINKS = [
 export default function Nav() {
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState('top')
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     let raf = 0
@@ -52,8 +53,17 @@ export default function Nav() {
     }
   }, [])
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 90)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
-    <header className={`ln-nav${open ? ' is-open' : ''}`}>
+    <header
+      className={`ln-nav${open ? ' is-open' : ''}${scrolled ? ' ln-nav--scrolled' : ''}`}
+    >
       <div className="ln-nav__row">
         <a className="ln-logo" href="#top" aria-label="Home">
           <img src="/assets/logo.webp" alt="" width="52" height="52" />
