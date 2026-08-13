@@ -12,6 +12,7 @@ import CarouselShowcase from './components/CarouselShowcase.jsx'
 import GalleryShowcase from './components/GalleryShowcase.jsx'
 import LazyContact from './components/LazyContact.jsx'
 import ShapeGrid from './components/ShapeGrid.jsx'
+import TargetCursor from './components/TargetCursor.jsx'
 import worksData from './data/works.json'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -77,6 +78,14 @@ export default function App() {
 
   return (
     <div className="site">
+      <TargetCursor
+        targetSelector="a, button, .ag-panel, .car-card"
+        spinDuration={2}
+        hideDefaultCursor
+        parallaxOn
+        cursorColor="#ffffff"
+        cursorColorOnTarget="#9cc3ff"
+      />
       <Nav />
       <main>
         <Hero video={heroVideo} />
