@@ -53,7 +53,8 @@ export default function App() {
             href === '#contact' ||
             href === '#tools-showcase' ||
             href === '#gallery-showcase' ||
-            href === '#carousel-showcase'
+            href === '#carousel-showcase' ||
+            href === '#ads-showcase'
               ? 0
               : -72,
           duration: 1.4
