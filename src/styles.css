@@ -5767,6 +5767,8 @@ a {
 /* ---------- 视频轮播（ORYZO 风格：滚动驱动主视觉 + 缩略图联动） ---------- */
 .reel-oryzo {
   position: relative;
+  z-index: 11;
+  margin-top: calc(clamp(72px, 8vh, 110px) * -1);
   height: 400vh;
   background: #0b0908;
 }

@@ -52,7 +52,8 @@ export default function App() {
           offset:
             href === '#contact' ||
             href === '#tools-showcase' ||
-            href === '#gallery-showcase'
+            href === '#gallery-showcase' ||
+            href === '#carousel-showcase'
               ? 0
               : -72,
           duration: 1.4
