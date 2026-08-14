@@ -4,16 +4,9 @@ import { AnimatePresence, motion } from 'motion/react'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
 
-const PORTRAITS = [1, 2, 3, 4, 5, 7, 8].map((n, i) => {
-  const fileNo = String(n).padStart(2, '0')
-  return {
-    file: `/works/ads/portrait/${fileNo}.mp4`,
-    no: String(i + 1).padStart(2, '0'),
-    fileNo,
-    en: `VERTICAL ${fileNo}`,
-    cn: `竖屏作品 ${fileNo}`
-  }
-})
+const PORTRAITS = [1, 2, 3, 4, 5].map((n) => ({
+  file: `/works/ads/portrait/${String(n).padStart(2, '0')}.mp4`
+}))
 
 export default function PortraitShowcase() {
   const [active, setActive] = useState(0)
@@ -50,34 +43,21 @@ export default function PortraitShowcase() {
   }, [])
 
   return (
-    <section
-      className="ember-ads ember-ads--portrait"
-      id="portrait-showcase"
-      ref={sectionRef}
-    >
-      <div className="ember-ads__stage" aria-hidden="true">
+    <section className="ember-ads vhs-page" id="portrait-showcase" ref={sectionRef}>
+      <div className="vhs-page__glow" aria-hidden="true" />
+
+      <div className="vhs-card">
         <AnimatePresence initial={false}>
           <motion.div
             key={active}
-            className="ember-ads__slide"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="vhs-card__media"
+            initial={{ opacity: 0, scale: 1.03 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           >
             <video
-              className="ember-ads__video ember-ads__video--mirror"
-              data-play="true"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload={inView ? 'auto' : 'none'}
-            >
-              <source src={asset(cur.file)} type="video/mp4" />
-            </video>
-            <video
-              className="ember-ads__video ember-ads__video--right"
+              className="vhs-card__video"
               data-play="true"
               autoPlay
               muted
@@ -89,6 +69,11 @@ export default function PortraitShowcase() {
             </video>
           </motion.div>
         </AnimatePresence>
+
+        <div className="vhs-scanlines" aria-hidden="true" />
+        <div className="vhs-noise" aria-hidden="true" />
+        <div className="vhs-glitch-bar" aria-hidden="true" />
+        <div className="vhs-card__vignette" aria-hidden="true" />
       </div>
 
       <div className="ember-ads__preload" aria-hidden="true">
@@ -98,66 +83,6 @@ export default function PortraitShowcase() {
         <video preload="auto" muted loop playsInline>
           <source src={asset(prev.file)} type="video/mp4" />
         </video>
-      </div>
-
-      <div className="ember-ads__panel">
-        <div className="ember-ads__left">
-          <svg className="ember-ads__svg" aria-hidden="true">
-            <defs>
-              <mask
-                id="portraitGlassMask"
-                maskUnits="userSpaceOnUse"
-                x="0"
-                y="0"
-                width="100%"
-                height="100%"
-              >
-                <rect width="100%" height="100%" fill="white" />
-                <text
-                  className="ember-ads__cut"
-                  x="9%"
-                  y="52%"
-                  textLength="82%"
-                  lengthAdjust="spacingAndGlyphs"
-                  fill="black"
-                >
-                  STYLE EFFECTS
-                </text>
-              </mask>
-            </defs>
-          </svg>
-          <div className="ember-ads__blur" />
-          <div className="ember-ads__left-inner">
-            <div className="ember-ads__top">
-              <span className="ember-ads__eyebrow">
-                MOSATO SAKAI — 马中帅
-              </span>
-              <h2 className="ember-ads__heading">
-                竖屏作品<em>精选尝试</em>
-              </h2>
-              <span className="ember-ads__sub">VERTICAL WORKS</span>
-            </div>
-            <div className="ember-ads__spacer" aria-hidden="true" />
-            <div className="ember-ads__bottom">
-              <div className="ember-ads__rule" aria-hidden="true" />
-              <p className="ember-ads__intro">
-                AI 视觉 × 风格尝试 — 竖屏沉浸展示，点击两侧箭头切换。
-              </p>
-              <div className="ember-ads__meta mono">
-                <span>NO.{cur.no} / {String(PORTRAITS.length).padStart(2, '0')}</span>
-                <span>{cur.en}</span>
-                <span>{cur.cn}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="ember-ads__right">
-          <div className="ember-ads__right-title">
-            PORTRAIT
-            <span>VERTICAL SHOWREEL — AI STYLE</span>
-          </div>
-        </div>
       </div>
 
       <button

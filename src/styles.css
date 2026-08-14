@@ -7554,11 +7554,6 @@ body.hide-site-nav .ln-nav {
   -webkit-mask-repeat: no-repeat;
 }
 
-.ember-ads--portrait .ember-ads__blur {
-  mask-image: url(#portraitGlassMask);
-  -webkit-mask-image: url(#portraitGlassMask);
-}
-
 .ember-ads__left-inner {
   position: relative;
   z-index: 2;
@@ -7756,5 +7751,167 @@ body.hide-site-nav .ln-nav {
 
   .ember-ads__nav--next {
     right: 10px;
+  }
+}
+
+/* ============ VHS PORTRAIT CARD ============ */
+
+.vhs-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(1000px 700px at 50% 40%, rgba(130, 150, 210, 0.1), transparent 62%),
+    #000;
+}
+
+.vhs-page__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    560px 720px at 50% 50%,
+    rgba(255, 255, 255, 0.06),
+    transparent 70%
+  );
+  animation: vhsGlow 7s ease-in-out infinite alternate;
+}
+
+@keyframes vhsGlow {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.vhs-card {
+  position: relative;
+  width: min(calc(78vh * 0.75), 92vw, 600px);
+  aspect-ratio: 3 / 4;
+  border-radius: clamp(20px, 2.4vw, 30px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #000;
+  overflow: hidden;
+  box-shadow:
+    0 34px 90px rgba(0, 0, 0, 0.72),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 0 80px rgba(0, 0, 0, 0.4);
+}
+
+.vhs-card__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.vhs-card__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #000;
+}
+
+.vhs-card__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.22),
+    transparent 18%,
+    transparent 82%,
+    rgba(0, 0, 0, 0.3)
+  );
+}
+
+.vhs-scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.16) 50%,
+    rgba(0, 0, 0, 0.16)
+  );
+  background-size: 100% 4px;
+}
+
+.vhs-noise {
+  position: absolute;
+  inset: -100%;
+  width: 300%;
+  height: 300%;
+  z-index: 3;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+  animation: vhs-noise-anim 0.2s steps(2) infinite;
+}
+
+@keyframes vhs-noise-anim {
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-5%, 5%);
+  }
+  40% {
+    transform: translate(-10%, -5%);
+  }
+  60% {
+    transform: translate(5%, 10%);
+  }
+  80% {
+    transform: translate(10%, -10%);
+  }
+  100% {
+    transform: translate(0, 5%);
+  }
+}
+
+.vhs-glitch-bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 38px;
+  z-index: 4;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(2px) hue-rotate(5deg);
+  -webkit-backdrop-filter: blur(2px) hue-rotate(5deg);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  animation: vhs-glitch-bar 4s linear infinite;
+}
+
+@keyframes vhs-glitch-bar {
+  0% {
+    top: -10%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    top: 110%;
+    opacity: 1;
+  }
+  100% {
+    top: 110%;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .vhs-card {
+    width: min(calc(72vh * 0.75), 92vw, 560px);
   }
 }
