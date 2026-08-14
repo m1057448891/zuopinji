@@ -8189,7 +8189,7 @@ body.hide-site-nav .ln-nav {
   font-weight: 700;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.46);
+  color: #000;
 }
 
 .flow-cards__heading--zh {
@@ -8207,7 +8207,7 @@ body.hide-site-nav .ln-nav {
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.42);
+  color: #000;
 }
 
 .flow-cards__big-sub {
