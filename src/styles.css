@@ -632,31 +632,6 @@ a {
   filter: brightness(1.05) saturate(1);
 }
 
-.hero__float-btn {
-  position: fixed;
-  right: 26px;
-  bottom: 132px;
-  z-index: 60;
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: #ff5c8a;
-  color: #fff;
-  font-size: 20px;
-  display: grid;
-  place-items: center;
-  text-decoration: none;
-  box-shadow: 0 12px 36px rgba(255, 92, 138, 0.35);
-  transition:
-    transform 0.4s var(--ease),
-    box-shadow 0.4s;
-}
-
-.hero__float-btn:hover {
-  transform: scale(1.1) rotate(90deg);
-  box-shadow: 0 16px 44px rgba(255, 92, 138, 0.5);
-}
-
 @media (max-width: 900px) {
   .hero__giant--right {
     display: none;

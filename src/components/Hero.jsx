@@ -269,10 +269,6 @@ export default function Hero({ video }) {
           ))}
         </div>
       </div>
-
-      <a className="hero__float-btn" href="#contact" aria-label="联系我">
-        ✦
-      </a>
     </section>
   )
 }
