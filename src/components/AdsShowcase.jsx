@@ -4,10 +4,12 @@ import { AnimatePresence, motion } from 'motion/react'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
 
-const ADS = Array.from({ length: 10 }, (_, i) => {
+const ORDER = ['01', 'playback', '02', '03', '04', '05', '06', '07', '08', '09', '10']
+
+const ADS = ORDER.map((file, i) => {
   const no = String(i + 1).padStart(2, '0')
   return {
-    file: `/works/ads/landscape/${no}.mp4`,
+    file: `/works/ads/landscape/${file}.mp4`,
     no,
     en: `AI STYLE ${no}`,
     cn: `横屏作品 ${no}`
