@@ -9,7 +9,7 @@ import ShortsShowcase from './components/ShortsShowcase.jsx'
 import AdsShowcase from './components/AdsShowcase.jsx'
 import ToolsShowcase from './components/ToolsShowcase.jsx'
 import CarouselShowcase from './components/CarouselShowcase.jsx'
-import GalleryShowcase from './components/GalleryShowcase.jsx'
+import LazyGallery from './components/LazyGallery.jsx'
 import LazyContact from './components/LazyContact.jsx'
 import ShapeGrid from './components/ShapeGrid.jsx'
 import IntroLoader from './components/IntroLoader.jsx'
@@ -96,7 +96,7 @@ export default function App() {
           <ToolsShowcase />
           <CarouselShowcase />
         </div>
-        <GalleryShowcase />
+        <LazyGallery />
       </main>
       <LazyContact />
     </div>

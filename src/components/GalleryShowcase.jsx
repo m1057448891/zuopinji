@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { asset } from '../lib/asset.js'
+import AxionShaderBg from './AxionShaderBg.jsx'
 
 const IMAGES = [
   { img: '/works/img/img-015.webp' },
@@ -74,6 +75,10 @@ export default function GalleryShowcase() {
 
   return (
     <section className="gallery-showcase ba" id="gallery-showcase">
+      <div className="ba-axion" aria-hidden="true">
+        <AxionShaderBg />
+      </div>
+
       {/* Hero */}
         <div className="ba-hero">
           <h1>
@@ -87,7 +92,7 @@ export default function GalleryShowcase() {
       {/* 无限图带 */}
       <div className="ba-marquee">
         <svg className="ba-mask ba-mask--top" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 0H1440V50C1440 50 1200 100 720 100C240 100 0 50 0 50V0Z" fill="#fff" />
+          <path d="M0 0H1440V50C1440 50 1200 100 720 100C240 100 0 50 0 50V0Z" fill="#efefef" />
         </svg>
 
         <div
@@ -106,7 +111,7 @@ export default function GalleryShowcase() {
         </div>
 
         <svg className="ba-mask ba-mask--bottom" viewBox="0 0 1440 100" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M0 100H1440V50C1440 50 1200 0 720 0C240 0 0 50 0 50V100Z" fill="#fff" />
+          <path d="M0 100H1440V50C1440 50 1200 0 720 0C240 0 0 50 0 50V100Z" fill="#efefef" />
         </svg>
       </div>
 
