@@ -103,6 +103,7 @@ export default function App() {
         <ShortsShowcase />
         <AdsShowcase />
         <PortraitShowcase />
+        <LazyGallery />
         <div className="grid-stage">
           <div className="grid-stage__bg" aria-hidden="true">
             <ShapeGrid
@@ -117,7 +118,6 @@ export default function App() {
           </div>
           <ToolsShowcase />
         </div>
-        <LazyGallery />
       </main>
       <LazyContact />
     </div>

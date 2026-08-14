@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import { asset } from '../lib/asset.js'
 import useInViewNear from '../lib/useInView.js'
+
+const AxionShaderBg = lazy(() => import('./AxionShaderBg.jsx'))
 
 const FILES = [
   '01',
@@ -83,6 +85,12 @@ export default function PortraitShowcase() {
 
   return (
     <section className="flow-cards" id="portrait-showcase" ref={sectionRef}>
+      <div className="ba-axion" aria-hidden="true">
+        <Suspense fallback={null}>
+          <AxionShaderBg />
+        </Suspense>
+      </div>
+
       <motion.div
         className="flow-cards__inner"
         ref={revealRef}
@@ -95,7 +103,7 @@ export default function PortraitShowcase() {
       >
         <motion.header className="flow-cards__head" variants={itemVar}>
           <div className="flow-cards__head-left">
-            <h2 className="flow-cards__title">风格效果02</h2>
+            <h2 className="flow-cards__title">竖屏视频</h2>
             <span className="flow-cards__sub">AI VERTICAL MOTION</span>
           </div>
           <div className="flow-cards__nav">

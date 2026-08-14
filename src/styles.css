@@ -6004,7 +6004,7 @@ body.hide-site-nav .nav {
 .lazy-gallery {
   position: relative;
   z-index: 12;
-  margin-top: calc(clamp(150px, 15vh, 200px) * -1);
+  margin-top: 0;
   min-height: 100vh;
   background: #fff;
 }
@@ -8059,8 +8059,7 @@ body.hide-site-nav .ln-nav {
 
 .flow-cards {
   position: relative;
-  background: #fff;
-  border-top: 1px solid #e8e8e8;
+  background: transparent;
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
@@ -8074,6 +8073,8 @@ body.hide-site-nav .ln-nav {
 }
 
 .flow-cards__inner {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
@@ -8103,7 +8104,7 @@ body.hide-site-nav .ln-nav {
   font-weight: 500;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #8a8a8a;
+  color: #6f6f6f;
 }
 
 .flow-cards__nav {
@@ -8188,6 +8189,7 @@ body.hide-site-nav .ln-nav {
   color: #fff;
   font-size: 14px;
   font-weight: 500;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
 }
 
 .flow-card__text {
@@ -8196,6 +8198,7 @@ body.hide-site-nav .ln-nav {
   font-size: 20px;
   font-weight: 400;
   line-height: 1.4;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
 }
 
 @media (min-width: 768px) {
