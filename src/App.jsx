@@ -7,6 +7,7 @@ import Hero from './components/Hero.jsx'
 import SectorsShowcase from './components/SectorsShowcase.jsx'
 import ShortsShowcase from './components/ShortsShowcase.jsx'
 import AdsShowcase from './components/AdsShowcase.jsx'
+import PortraitShowcase from './components/PortraitShowcase.jsx'
 import ToolsShowcase from './components/ToolsShowcase.jsx'
 import CarouselShowcase from './components/CarouselShowcase.jsx'
 import LazyGallery from './components/LazyGallery.jsx'
@@ -61,7 +62,8 @@ export default function App() {
           href === '#tools-showcase' ||
           href === '#gallery-showcase' ||
           href === '#carousel-showcase' ||
-          href === '#ads-showcase'
+          href === '#ads-showcase' ||
+          href === '#portrait-showcase'
             ? 0
             : -72
         const y = target.getBoundingClientRect().top + window.scrollY + offset
@@ -102,6 +104,7 @@ export default function App() {
         <SectorsShowcase />
         <ShortsShowcase />
         <AdsShowcase />
+        <PortraitShowcase />
         <div className="grid-stage">
           <div className="grid-stage__bg" aria-hidden="true">
             <ShapeGrid

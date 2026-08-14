@@ -4,26 +4,27 @@ import { AnimatePresence, motion } from 'motion/react'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
 
-const ADS = Array.from({ length: 10 }, (_, i) => {
-  const no = String(i + 1).padStart(2, '0')
+const PORTRAITS = [1, 2, 3, 4, 5, 7, 8].map((n, i) => {
+  const fileNo = String(n).padStart(2, '0')
   return {
-    file: `/works/ads/landscape/${no}.mp4`,
-    no,
-    en: `AI STYLE ${no}`,
-    cn: `横屏作品 ${no}`
+    file: `/works/ads/portrait/${fileNo}.mp4`,
+    no: String(i + 1).padStart(2, '0'),
+    fileNo,
+    en: `VERTICAL ${fileNo}`,
+    cn: `竖屏作品 ${fileNo}`
   }
 })
 
-export default function AdsShowcase() {
+export default function PortraitShowcase() {
   const [active, setActive] = useState(0)
   const [sectionRef, inView] = useInView('0px 0px 600px 0px')
 
-  const cur = ADS[active]
-  const next = ADS[(active + 1) % ADS.length]
-  const prev = ADS[(active - 1 + ADS.length) % ADS.length]
+  const cur = PORTRAITS[active]
+  const next = PORTRAITS[(active + 1) % PORTRAITS.length]
+  const prev = PORTRAITS[(active - 1 + PORTRAITS.length) % PORTRAITS.length]
 
   const go = (dir) =>
-    setActive((a) => (a + dir + ADS.length) % ADS.length)
+    setActive((a) => (a + dir + PORTRAITS.length) % PORTRAITS.length)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -49,7 +50,11 @@ export default function AdsShowcase() {
   }, [])
 
   return (
-    <section className="ember-ads" id="ads-showcase" ref={sectionRef}>
+    <section
+      className="ember-ads ember-ads--portrait"
+      id="portrait-showcase"
+      ref={sectionRef}
+    >
       <div className="ember-ads__stage" aria-hidden="true">
         <AnimatePresence initial={false}>
           <motion.div
@@ -61,7 +66,18 @@ export default function AdsShowcase() {
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
             <video
-              className="ember-ads__video"
+              className="ember-ads__video ember-ads__video--mirror"
+              data-play="true"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload={inView ? 'auto' : 'none'}
+            >
+              <source src={asset(cur.file)} type="video/mp4" />
+            </video>
+            <video
+              className="ember-ads__video ember-ads__video--right"
               data-play="true"
               autoPlay
               muted
@@ -89,7 +105,7 @@ export default function AdsShowcase() {
           <svg className="ember-ads__svg" aria-hidden="true">
             <defs>
               <mask
-                id="adsGlassMask"
+                id="portraitGlassMask"
                 maskUnits="userSpaceOnUse"
                 x="0"
                 y="0"
@@ -105,7 +121,7 @@ export default function AdsShowcase() {
                   lengthAdjust="spacingAndGlyphs"
                   fill="black"
                 >
-                  MOSATO
+                  PORTRAIT
                 </text>
               </mask>
             </defs>
@@ -120,7 +136,7 @@ export default function AdsShowcase() {
               lengthAdjust="spacingAndGlyphs"
               fill="none"
             >
-              MOSATO
+              PORTRAIT
             </text>
           </svg>
           <div className="ember-ads__left-inner">
@@ -129,18 +145,18 @@ export default function AdsShowcase() {
                 MOSATO SAKAI — 马中帅
               </span>
               <h2 className="ember-ads__heading">
-                商业广告<em>精选作品</em>
+                竖屏作品<em>精选尝试</em>
               </h2>
-              <span className="ember-ads__sub">SELECTED COMMERCIALS</span>
+              <span className="ember-ads__sub">VERTICAL WORKS</span>
             </div>
             <div className="ember-ads__spacer" aria-hidden="true" />
             <div className="ember-ads__bottom">
               <div className="ember-ads__rule" aria-hidden="true" />
               <p className="ember-ads__intro">
-                AI 视觉 × 创意制作 — 横屏全屏沉浸，点击两侧箭头切换。
+                AI 视觉 × 风格尝试 — 竖屏沉浸展示，点击两侧箭头切换。
               </p>
               <div className="ember-ads__meta mono">
-                <span>NO.{cur.no} / {String(ADS.length).padStart(2, '0')}</span>
+                <span>NO.{cur.no} / {String(PORTRAITS.length).padStart(2, '0')}</span>
                 <span>{cur.en}</span>
                 <span>{cur.cn}</span>
               </div>
@@ -150,8 +166,8 @@ export default function AdsShowcase() {
 
         <div className="ember-ads__right">
           <div className="ember-ads__right-title">
-            COMMERCIAL
-            <span>SHOWREEL — AI STYLE</span>
+            PORTRAIT
+            <span>VERTICAL SHOWREEL — AI STYLE</span>
           </div>
         </div>
       </div>
