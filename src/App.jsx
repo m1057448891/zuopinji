@@ -51,11 +51,12 @@ export default function App() {
         const offset =
           href === '#contact' ||
           href === '#tools-showcase' ||
-          href === '#gallery-showcase' ||
           href === '#carousel-showcase' ||
           href === '#ads-showcase'
             ? 0
-            : -72
+            : href === '#gallery-showcase'
+              ? -162
+              : -72
         const y = target.getBoundingClientRect().top + window.scrollY + offset
         lenis.scrollTo(y, {
           duration: 1.4,

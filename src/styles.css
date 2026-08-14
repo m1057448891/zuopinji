@@ -5758,14 +5758,6 @@ a {
   }
 }
 
-/* ---------- performance: skip offscreen rendering ---------- */
-
-.gallery-showcase,
-.contact {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 100vh;
-}
-
 /* ---------- 视频轮播（ORYZO 风格：滚动驱动主视觉 + 缩略图联动） ---------- */
 .reel-oryzo {
   position: relative;
@@ -6033,8 +6025,8 @@ body.hide-site-nav .nav {
 }
 
 .lazy-gallery {
-  min-height: calc(100vh + clamp(150px, 15vh, 200px));
-  padding-top: clamp(150px, 15vh, 200px);
+  min-height: 100vh;
+  background: #fff;
 }
 
 .ba-axion {
