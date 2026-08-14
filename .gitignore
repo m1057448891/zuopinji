@@ -11,3 +11,8 @@ qa/
 .build/
 马中帅作品集-单文件版.html
 过渡效果预览.html
+
+# 大媒体文件（视频/图片）不进入 Git，部署后由对象存储 CDN 提供
+public/works/
+works-upload.zip
+作品集网站-最新版.zip

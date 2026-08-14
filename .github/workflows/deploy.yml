@@ -37,6 +37,9 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          VITE_BASE: /zuopinji/
+          VITE_MEDIA_BASE: https://cdn.jsdelivr.net/gh/m1057448891/zuopinji-media@main
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
