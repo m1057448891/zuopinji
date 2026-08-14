@@ -48,17 +48,18 @@ export default function App() {
           lenis.scrollTo(y, { duration: 1.4 })
           return
         }
-        lenis.scrollTo(target, {
-          offset:
-            href === '#contact' ||
-            href === '#tools-showcase' ||
-            href === '#gallery-showcase' ||
-            href === '#carousel-showcase' ||
-            href === '#ads-showcase'
-              ? 0
-              : -72,
-          duration: 1.4
-        })
+        const offset =
+          href === '#contact' ||
+          href === '#tools-showcase' ||
+          href === '#gallery-showcase' ||
+          href === '#carousel-showcase' ||
+          href === '#ads-showcase'
+            ? 0
+            : -72
+        lenis.scrollTo(
+          target.getBoundingClientRect().top + window.scrollY + offset,
+          { duration: 1.4 }
+        )
       }
     }
     document.addEventListener('click', onClick)

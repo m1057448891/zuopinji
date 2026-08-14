@@ -6033,7 +6033,7 @@ body.hide-site-nav .nav {
 }
 
 .lazy-gallery {
-  min-height: 100vh;
+  min-height: calc(100vh + clamp(150px, 15vh, 200px));
   padding-top: clamp(150px, 15vh, 200px);
 }
 
