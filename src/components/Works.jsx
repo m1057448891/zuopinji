@@ -5,6 +5,7 @@ import worksData from '../data/works.json'
 import Reveal from './Reveal.jsx'
 import SectionHead from './SectionHead.jsx'
 import ImageShowcase from './ImageShowcase.jsx'
+import { asset } from '../lib/asset.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -65,7 +66,7 @@ function WorkCard({ item, variant = '', index }) {
         {item.type === 'video' ? (
           <video
             ref={videoRef}
-            src={item.file}
+            src={asset(item.file)}
             muted
             loop
             playsInline
@@ -73,7 +74,7 @@ function WorkCard({ item, variant = '', index }) {
             aria-label={item.title}
           />
         ) : (
-          <img src={item.file} alt={item.title} loading={index < 2 ? 'eager' : 'lazy'} />
+          <img src={asset(item.file)} alt={item.title} loading={index < 2 ? 'eager' : 'lazy'} />
         )}
       </div>
       <div className="work-card__overlay">
@@ -90,7 +91,7 @@ function WorkCard({ item, variant = '', index }) {
           </span>
         </div>
       </div>
-      <a className="work-card__link" href={item.file} target="_blank" rel="noreferrer">
+      <a className="work-card__link" href={asset(item.file)} target="_blank" rel="noreferrer">
         <span className="visually-hidden">打开作品：{item.title}</span>
       </a>
     </article>
