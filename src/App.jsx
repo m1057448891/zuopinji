@@ -49,7 +49,12 @@ export default function App() {
           return
         }
         lenis.scrollTo(target, {
-          offset: href === '#contact' || href === '#tools-showcase' ? 0 : -72,
+          offset:
+            href === '#contact' ||
+            href === '#tools-showcase' ||
+            href === '#gallery-showcase'
+              ? 0
+              : -72,
           duration: 1.4
         })
       }

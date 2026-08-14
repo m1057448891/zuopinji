@@ -6210,11 +6210,11 @@ body.hide-site-nav .nav {
   transition-delay: 400ms;
 }
 .ba-hero {
-  padding: 96px 16px 4px;
+  padding: 56px 16px 4px;
   text-align: center;
 }
 @media (min-width: 640px) {
-  .ba-hero { padding-top: 112px; }
+  .ba-hero { padding-top: 72px; }
 }
 .ba-hero h1 {
   font-size: 36px;

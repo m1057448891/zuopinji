@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { asset } from '../lib/asset.js'
 
 const IMAGES = [
@@ -10,28 +10,13 @@ const IMAGES = [
   { img: '/works/img/img-011.webp' }
 ]
 
-const LINKS = [
-  { label: '图片作品', href: '#image-works' },
-  { label: '创意短片', href: '#shorts-showcase' },
-  { label: '商业广告', href: '#ads-showcase' },
-  { label: '联系我', href: '#contact' }
-]
 const SPEED = 0.8
 
 export default function GalleryShowcase() {
-  const [open, setOpen] = useState(false)
   const trackRef = useRef(null)
   const offsetRef = useRef(0)
   const velocityRef = useRef(0)
   const dragRef = useRef({ active: false, startX: 0, startOffset: 0, lastX: 0, lastT: 0 })
-
-  // 菜单打开时锁定页面滚动
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [open])
 
   // 本页在视口内时隐藏全站导航，避免双导航冲突
   useEffect(() => {
@@ -106,49 +91,6 @@ export default function GalleryShowcase() {
 
   return (
     <section className="gallery-showcase ba" id="gallery-showcase">
-      {/* 固定导航 */}
-      <header className="ba-nav">
-        <svg width="28" height="28" viewBox="0 0 256 256" fill="#1a1a1a" aria-hidden="true">
-          <path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z" />
-        </svg>
-
-        <button className="ba-burger" onClick={() => setOpen(true)} aria-label="Open menu">
-          <i />
-          <i />
-        </button>
-
-        <a className="ba-cta" href="#contact">联系我</a>
-        <span className="ba-balance" aria-hidden="true" />
-      </header>
-
-      {/* 遮罩 */}
-      <div className={`ba-overlay${open ? ' is-open' : ''}`} onClick={() => setOpen(false)} />
-
-      {/* 全屏/右侧抽屉菜单 */}
-      <div className={`ba-drawer${open ? ' is-open' : ''}`}>
-        <div className="ba-drawer-head">
-          <svg width="28" height="28" viewBox="0 0 256 256" fill="#1a1a1a" aria-hidden="true">
-            <path d="M 144 256 L 27.598 256 L 144 139.598 Z M 256 207.5 L 200 256 L 200 56 L 0 56 L 48 0 L 256 0 Z M 0 204.402 L 0 112 L 92.402 112 Z" />
-          </svg>
-          <button className={`ba-close${open ? ' is-open' : ''}`} onClick={() => setOpen(false)} aria-label="Close menu">
-            <i />
-            <i />
-          </button>
-        </div>
-        <nav className="ba-links">
-          {LINKS.map((link, i) => (
-            <a key={link.label} href={link.href} style={{ '--i': i }} onClick={() => setOpen(false)}>
-              {link.label}
-            </a>
-          ))}
-        </nav>
-        <div className="ba-drawer-cta">
-          <a className="ba-cta ba-cta--lg" href="#contact" onClick={() => setOpen(false)}>
-            联系我
-          </a>
-        </div>
-      </div>
-
       {/* Hero */}
         <div className="ba-hero">
           <h1>
