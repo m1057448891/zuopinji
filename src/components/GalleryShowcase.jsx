@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { asset } from '../lib/asset.js'
 import AxionShaderBg from './AxionShaderBg.jsx'
 import FoldText from './FoldText.jsx'
-import ParallaxRise from './ParallaxRise.jsx'
 
 const IMAGES = [
   { img: '/works/gallery/g-01.webp' },
@@ -97,14 +96,7 @@ export default function GalleryShowcase() {
       </div>
 
       {/* Hero */}
-        <ParallaxRise
-          className="ba-hero"
-          amount={120}
-          scale={1.04}
-          fromOpacity={0.3}
-          blur={6}
-          end="top 8%"
-        >
+        <div className="ba-hero">
           <h1>
             <FoldText
               text={'MOSATO SAKAI\nVISUAL CREATOR'}
@@ -122,17 +114,10 @@ export default function GalleryShowcase() {
             />
           </h1>
           <p>内容运营 × AI 视觉创作 · 把想象力变成可交付的作品</p>
-        </ParallaxRise>
+        </div>
 
       {/* 无限图带 */}
-      <ParallaxRise
-        className="ba-marquee"
-        amount={70}
-        scale={1.02}
-        fromOpacity={0.5}
-        blur={3}
-        end="top 10%"
-      >
+      <div className="ba-marquee">
         <div
           className="ba-track"
           ref={trackRef}
@@ -147,7 +132,7 @@ export default function GalleryShowcase() {
             </div>
           ))}
         </div>
-      </ParallaxRise>
+      </div>
 
       {/* 底部 */}
       <footer className="ba-bottom">

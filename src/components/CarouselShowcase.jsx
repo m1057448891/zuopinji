@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
 import { videoSources } from '../lib/videoSources.js'
 import FoldText from './FoldText.jsx'
-import ParallaxRise from './ParallaxRise.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -50,36 +49,6 @@ export default function CarouselShowcase() {
         }
       })
 
-      // 图片轮播页到来时，轮播页整体退后淡出（视差）
-      gsap.fromTo(
-        '.reel-oryzo__sticky',
-        { opacity: 1 },
-        {
-          opacity: 0.5,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.lazy-gallery',
-            start: 'top 60%',
-            end: 'top 8%',
-            scrub: 0.6
-          }
-        }
-      )
-
-      gsap.fromTo(
-        '.reel-oryzo__bg',
-        { scale: 1, transformOrigin: '50% 100%' },
-        {
-          scale: 0.97,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.lazy-gallery',
-            start: 'top 60%',
-            end: 'top 8%',
-            scrub: 0.6
-          }
-        }
-      )
     }, sectionRef)
     return () => ctx.revert()
   }, [])
@@ -106,14 +75,7 @@ export default function CarouselShowcase() {
 
       <div className="reel-oryzo__space" ref={spaceRef}>
         <div className="reel-oryzo__sticky">
-          <ParallaxRise
-            className="reel-oryzo__inner"
-            amount={170}
-            scale={1.04}
-            fromOpacity={0.25}
-            blur={6}
-            end="top 5%"
-          >
+          <div className="reel-oryzo__inner">
             <header className="reel-oryzo__head" ref={headRef}>
               <span className="mono reel-oryzo__kicker">SELECTED WORKS / 精选动态影像</span>
               <h2 className="reel-oryzo__title">
@@ -183,7 +145,7 @@ export default function CarouselShowcase() {
             </div>
 
             <p className="reel-oryzo__hint mono">SCROLL TO CONTINUE ↓</p>
-          </ParallaxRise>
+          </div>
         </div>
       </div>
 

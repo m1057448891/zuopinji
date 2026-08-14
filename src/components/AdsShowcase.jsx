@@ -1,11 +1,7 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect, useRef, useState } from 'react'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
 import { videoSources } from '../lib/videoSources.js'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const PRODUCTS = [
   {
@@ -38,27 +34,6 @@ export default function AdsShowcase() {
   const [active, setActive] = useState(0)
   const videoRef = useRef(null)
   const [sectionRef, inView] = useInView('0px 0px 600px 0px')
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.shop__window',
-        { opacity: 1, scale: 1, transformOrigin: '50% 50%' },
-        {
-          opacity: 0.35,
-          scale: 0.985,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.projects',
-            start: 'top bottom',
-            end: 'top 65%',
-            scrub: 0.6
-          }
-        }
-      )
-    })
-    return () => ctx.revert()
-  }, [])
 
   useEffect(() => {
     const v = videoRef.current

@@ -3,7 +3,6 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
 import FoldText from './FoldText.jsx'
-import ParallaxRise from './ParallaxRise.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -95,6 +94,22 @@ export default function ToolsShowcase() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      gsap.fromTo(
+        '.projects__head',
+        { autoAlpha: 0, y: 40 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: '.projects__head',
+            start: 'top 80%',
+            once: true
+          }
+        }
+      )
+
       const cards = gsap.utils.toArray('.projects-card__inner')
       cards.forEach((card, i) => {
         const next = cards[i + 1]
@@ -121,14 +136,7 @@ export default function ToolsShowcase() {
 
   return (
     <section className="projects" id="tools-showcase" ref={scope}>
-      <ParallaxRise
-        className="container projects__head"
-        amount={140}
-        scale={1.05}
-        fromOpacity={0.2}
-        blur={6}
-        end="top 5%"
-      >
+      <div className="container projects__head">
         <span className="mono projects__kicker">SKILL BUILD / Skill搭建</span>
         <h2 className="projects__heading projects__heading--fold">
           <FoldText
@@ -147,7 +155,7 @@ export default function ToolsShowcase() {
           />
         </h2>
         <p className="mono projects__sub">FIVE AI SKILLS · ONE WORKFLOW</p>
-      </ParallaxRise>
+      </div>
 
       <div className="projects__stack">
         {ITEMS.map((item, i) => (

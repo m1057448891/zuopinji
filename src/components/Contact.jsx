@@ -6,7 +6,6 @@ import { profile } from '../data/content.js'
 import Reveal from './Reveal.jsx'
 import Aurora from './Aurora.jsx'
 import TrueFocus from './TrueFocus.jsx'
-import ParallaxRise from './ParallaxRise.jsx'
 import { asset } from '../lib/asset.js'
 import { RESUME_URL } from '../data/site.js'
 
@@ -100,14 +99,7 @@ export default function Contact() {
       </div>
       <span className="contact__coords mono">MOSATO SAKAI · 42.0°N 121.7°E</span>
 
-      <ParallaxRise
-        className="container contact__inner"
-        amount={140}
-        scale={1.03}
-        fromOpacity={0.35}
-        blur={6}
-        end="top 5%"
-      >
+      <div className="container contact__inner">
         <header className="contact__top">
           <div className="contact__weather">
             <span className="contact__sun" aria-hidden="true">
@@ -223,7 +215,7 @@ export default function Contact() {
             </span>
           </div>
         </footer>
-      </ParallaxRise>
+      </div>
 
       <div className="contact__brand" aria-hidden="true">
         MOSATO
