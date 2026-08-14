@@ -9,7 +9,6 @@ import ShortsShowcase from './components/ShortsShowcase.jsx'
 import AdsShowcase from './components/AdsShowcase.jsx'
 import PortraitShowcase from './components/PortraitShowcase.jsx'
 import ToolsShowcase from './components/ToolsShowcase.jsx'
-import CarouselShowcase from './components/CarouselShowcase.jsx'
 import LazyGallery from './components/LazyGallery.jsx'
 import LazyContact from './components/LazyContact.jsx'
 import ShapeGrid from './components/ShapeGrid.jsx'
@@ -61,9 +60,7 @@ export default function App() {
           href === '#contact' ||
           href === '#tools-showcase' ||
           href === '#gallery-showcase' ||
-          href === '#carousel-showcase' ||
-          href === '#ads-showcase' ||
-          href === '#portrait-showcase'
+          href === '#ads-showcase'
             ? 0
             : -72
         const y = target.getBoundingClientRect().top + window.scrollY + offset
@@ -118,7 +115,6 @@ export default function App() {
             />
           </div>
           <ToolsShowcase />
-          <CarouselShowcase />
         </div>
         <LazyGallery />
       </main>

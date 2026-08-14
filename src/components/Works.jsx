@@ -158,7 +158,7 @@ export default function Works() {
 
         <CategoryBlock id="image-gallery" no="01" en="IMAGE WORKS" title="图片作品" items={images} />
         <CategoryBlock id="posters" no="02" en="POSTERS" title="海报" items={posters} />
-        <CategoryBlock id="ads" no="03" en="COMMERCIAL" title="商业广告" items={ads} />
+        <CategoryBlock id="ads" no="03" en="STYLE EFFECTS" title="风格效果" items={ads} />
         <CategoryBlock id="shorts" no="04" en="CREATIVE SHORTS" title="创意短片" items={shorts} />
       </div>
     </section>

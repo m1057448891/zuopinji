@@ -144,9 +144,8 @@ export default function Contact() {
               <span className="contact__col-rule" aria-hidden="true" />
               <a href="#image-works">图片作品</a>
               <a href="#shorts-showcase">创意短片</a>
-              <a href="#ads-showcase">商业广告</a>
+              <a href="#ads-showcase">风格效果</a>
               <a href="#tools-showcase">Skill搭建</a>
-              <a href="#carousel-showcase">视频轮播</a>
             </div>
           </Reveal>
           <Reveal delay={120}>

@@ -24,16 +24,6 @@ const SHORTS = [
   },
   {
     no: '02',
-    file: '/works/hero/hero-02.mp4',
-    badge: 'AERIAL FILM',
-    en: 'SEAGULLS OVER THE CLIFF',
-    cn: '海鸥与悬崖',
-    desc: '成群白色海鸥在阳光下的绿色海边悬崖上空翱翔，两侧海水深邃，电影感航拍视角。',
-    date: '2026',
-    tags: ['SEAGULLS', 'COASTAL CLIFF', 'AERIAL']
-  },
-  {
-    no: '03',
     file: '/works/hero/hero-04.mp4',
     badge: 'FISHEYE FILM',
     en: 'BEE — LOW FLIGHT',
@@ -43,7 +33,7 @@ const SHORTS = [
     tags: ['BEE', 'PLAYGROUND', 'FISHEYE']
   },
   {
-    no: '04',
+    no: '03',
     file: '/works/hero/hero-05.mp4',
     badge: 'DARK FILM',
     en: 'EMBERS & SMOKE',

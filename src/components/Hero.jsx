@@ -27,7 +27,7 @@ const slides = [
   },
   {
     no: '04',
-    cn: '商业广告',
+    cn: '风格效果',
     video: '/works/hero/hero-04.mp4'
   },
   {
@@ -40,10 +40,9 @@ const slides = [
 const listItems = [
   { no: '01', cn: '图片作品', en: 'IMAGE WORKS', href: '#image-works' },
   { no: '02', cn: '创意短片', en: 'SHORTS', href: '#shorts-showcase' },
-  { no: '03', cn: '商业广告', en: 'COMMERCIAL', href: '#ads-showcase' },
+  { no: '03', cn: '风格效果', en: 'STYLE EFFECTS', href: '#ads-showcase' },
   { no: '04', cn: 'Skill搭建', en: 'SKILL BUILD', href: '#tools-showcase' },
-  { no: '05', cn: '视频轮播', en: 'MOTION REEL', href: '#carousel-showcase' },
-  { no: '06', cn: '图片轮播', en: 'IMAGE GALLERY', href: '#gallery-showcase' }
+  { no: '05', cn: '图片轮播', en: 'IMAGE GALLERY', href: '#gallery-showcase' }
 ]
 
 const WAVE = Array.from({ length: 24 }, (_, i) => 24 + ((i * 29) % 60))

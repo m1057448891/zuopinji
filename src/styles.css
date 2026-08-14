@@ -7554,23 +7554,6 @@ body.hide-site-nav .ln-nav {
   -webkit-mask-repeat: no-repeat;
 }
 
-.ember-ads__cut-svg {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.ember-ads__cut--edge {
-  fill: none;
-  stroke: rgba(0, 0, 0, 0.42);
-  stroke-width: 3;
-  opacity: 0.82;
-}
-
 .ember-ads--portrait .ember-ads__blur {
   mask-image: url(#portraitGlassMask);
   -webkit-mask-image: url(#portraitGlassMask);
@@ -7675,7 +7658,7 @@ body.hide-site-nav .ln-nav {
 
 .ember-ads__right-title {
   font-family: "Archivo Black", var(--font-sans);
-  font-size: clamp(42px, 6.6vw, 104px);
+  font-size: clamp(36px, 5.4vw, 92px);
   font-weight: 900;
   line-height: 0.9;
   letter-spacing: -0.02em;
@@ -7759,7 +7742,7 @@ body.hide-site-nav .ln-nav {
   }
 
   .ember-ads__right-title {
-    font-size: clamp(28px, 8vw, 46px);
+    font-size: clamp(22px, 6.2vw, 40px);
   }
 
   .ember-ads__nav {

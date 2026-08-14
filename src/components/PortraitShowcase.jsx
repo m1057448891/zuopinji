@@ -121,24 +121,12 @@ export default function PortraitShowcase() {
                   lengthAdjust="spacingAndGlyphs"
                   fill="black"
                 >
-                  PORTRAIT
+                  STYLE EFFECTS
                 </text>
               </mask>
             </defs>
           </svg>
           <div className="ember-ads__blur" />
-          <svg className="ember-ads__cut-svg" aria-hidden="true">
-            <text
-              className="ember-ads__cut ember-ads__cut--edge"
-              x="9%"
-              y="52%"
-              textLength="82%"
-              lengthAdjust="spacingAndGlyphs"
-              fill="none"
-            >
-              PORTRAIT
-            </text>
-          </svg>
           <div className="ember-ads__left-inner">
             <div className="ember-ads__top">
               <span className="ember-ads__eyebrow">

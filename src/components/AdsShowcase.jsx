@@ -111,33 +111,21 @@ export default function AdsShowcase() {
             </defs>
           </svg>
           <div className="ember-ads__blur" />
-          <svg className="ember-ads__cut-svg" aria-hidden="true">
-            <text
-              className="ember-ads__cut ember-ads__cut--edge"
-              x="9%"
-              y="52%"
-              textLength="82%"
-              lengthAdjust="spacingAndGlyphs"
-              fill="none"
-            >
-              MOSATO
-            </text>
-          </svg>
           <div className="ember-ads__left-inner">
             <div className="ember-ads__top">
               <span className="ember-ads__eyebrow">
                 MOSATO SAKAI — 马中帅
               </span>
               <h2 className="ember-ads__heading">
-                商业广告<em>精选作品</em>
+                风格效果<em>精选作品</em>
               </h2>
-              <span className="ember-ads__sub">SELECTED COMMERCIALS</span>
+              <span className="ember-ads__sub">SELECTED STYLE EFFECTS</span>
             </div>
             <div className="ember-ads__spacer" aria-hidden="true" />
             <div className="ember-ads__bottom">
               <div className="ember-ads__rule" aria-hidden="true" />
               <p className="ember-ads__intro">
-                AI 视觉 × 创意制作 — 横屏全屏沉浸，点击两侧箭头切换。
+                AI 视觉 × 风格尝试 — 横屏全屏沉浸，点击两侧箭头切换。
               </p>
               <div className="ember-ads__meta mono">
                 <span>NO.{cur.no} / {String(ADS.length).padStart(2, '0')}</span>
@@ -150,7 +138,7 @@ export default function AdsShowcase() {
 
         <div className="ember-ads__right">
           <div className="ember-ads__right-title">
-            COMMERCIAL
+            STYLE EFFECTS
             <span>SHOWREEL — AI STYLE</span>
           </div>
         </div>
