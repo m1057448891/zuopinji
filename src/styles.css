@@ -7506,3 +7506,7 @@ body.hide-site-nav .ln-nav {
     justify-content: flex-start;
   }
 }
+
+.px-rise {
+  will-change: transform, opacity, filter;
+}
