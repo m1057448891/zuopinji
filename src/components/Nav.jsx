@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
 
 const LINKS = [
   { label: '首页', href: '#top', id: 'top' },
@@ -10,6 +11,64 @@ const LINKS = [
   { label: '图片轮播', href: '#gallery-showcase', id: 'gallery-showcase' },
   { label: '联系我', href: '#contact', id: 'contact' }
 ]
+
+function ArrowUpRight() {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M7 17 17 7" />
+      <path d="M9 7h8v8" />
+    </svg>
+  )
+}
+
+function MenuIcon() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 7h16" />
+      <path d="M4 12h16" />
+      <path d="M4 17h16" />
+    </svg>
+  )
+}
+
+function XIcon() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M18 6 6 18" />
+      <path d="m6 6 12 12" />
+    </svg>
+  )
+}
 
 export default function Nav() {
   const [open, setOpen] = useState(false)
@@ -56,7 +115,7 @@ export default function Nav() {
       if (e.key === 'Escape') setOpen(false)
     }
     const onResize = () => {
-      if (window.innerWidth > 720) setOpen(false)
+      if (window.innerWidth > 900) setOpen(false)
     }
     window.addEventListener('keydown', onKey)
     window.addEventListener('resize', onResize)
@@ -78,8 +137,11 @@ export default function Nav() {
       className={`ln-nav${open ? ' is-open' : ''}${scrolled ? ' ln-nav--scrolled' : ''}`}
     >
       <div className="ln-nav__row">
-        <a className="ln-logo" href="#top" aria-label="Home">
-          <img src="/assets/logo.webp" alt="" width="52" height="52" />
+        <a className="ln-brand" href="#top" aria-label="回到顶部">
+          <span className="ln-logo">
+            <img src="/assets/logo.webp" alt="" width="52" height="52" />
+          </span>
+          <span className="ln-brand__text">MOSATO</span>
         </a>
 
         <nav className="ln-pill" aria-label="Main">
@@ -89,14 +151,26 @@ export default function Nav() {
               href={l.href}
               className={active === l.id ? 'is-active' : ''}
             >
-              {l.label}
+              {active === l.id && (
+                <motion.span
+                  className="ln-active-pill"
+                  layoutId="lnActivePill"
+                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                />
+              )}
+              <span className="ln-pill__label">{l.label}</span>
             </a>
           ))}
         </nav>
 
-        <a className="ln-signin" href="#contact">
-          Sign in
-        </a>
+        <div className="ln-actions">
+          <a className="ln-icon-btn" href="#contact" aria-label="Contact">
+            <ArrowUpRight />
+          </a>
+          <a className="ln-cta" href="#contact">
+            Contact Us
+          </a>
+        </div>
 
         <button
           className="ln-burger"
@@ -105,9 +179,7 @@ export default function Nav() {
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
         >
-          <i />
-          <i />
-          <i />
+          {open ? <XIcon /> : <MenuIcon />}
         </button>
       </div>
 
@@ -117,27 +189,33 @@ export default function Nav() {
         onClick={() => setOpen(false)}
       />
 
-      <div className={`ln-sheet${open ? ' is-open' : ''}`} aria-hidden={!open}>
-        {LINKS.map((l, i) => (
-          <a
-            key={l.id}
-            href={l.href}
-            className={active === l.id ? 'is-active' : ''}
-            style={{ '--i': i }}
-            onClick={() => setOpen(false)}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="ln-sheet"
+            initial={{ opacity: 0, x: '-50%', y: -14, scale: 0.98 }}
+            animate={{ opacity: 1, x: '-50%', y: 0, scale: 1 }}
+            exit={{ opacity: 0, x: '-50%', y: -14, scale: 0.98 }}
+            transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
           >
-            {l.label}
-          </a>
-        ))}
-        <a
-          className="ln-sheet__signin"
-          href="#contact"
-          style={{ '--i': LINKS.length }}
-          onClick={() => setOpen(false)}
-        >
-          Sign in
-        </a>
-      </div>
+            {LINKS.map((l) => (
+              <a
+                key={l.id}
+                href={l.href}
+                className={active === l.id ? 'is-active' : ''}
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </a>
+            ))}
+            <div className="ln-sheet__actions">
+              <a className="ln-cta" href="#contact" onClick={() => setOpen(false)}>
+                Contact Us
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   )
 }
