@@ -12,25 +12,6 @@ const LINKS = [
   { label: '联系我', href: '#contact', id: 'contact' }
 ]
 
-function ArrowUpRight() {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M7 17 17 7" />
-      <path d="M9 7h8v8" />
-    </svg>
-  )
-}
-
 function MenuIcon() {
   return (
     <svg
@@ -163,14 +144,7 @@ export default function Nav() {
           ))}
         </nav>
 
-        <div className="ln-actions">
-          <a className="ln-icon-btn" href="#contact" aria-label="Contact">
-            <ArrowUpRight />
-          </a>
-          <a className="ln-cta" href="#contact">
-            Contact Us
-          </a>
-        </div>
+        <span className="ln-nav__spacer" aria-hidden="true" />
 
         <button
           className="ln-burger"
@@ -208,11 +182,6 @@ export default function Nav() {
                 {l.label}
               </a>
             ))}
-            <div className="ln-sheet__actions">
-              <a className="ln-cta" href="#contact" onClick={() => setOpen(false)}>
-                Contact Us
-              </a>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
