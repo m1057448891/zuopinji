@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>转场方案预览 · 10 种</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #08090b;
+        color: #e8eaf0;
+        font-family:
+          "Inter",
+          "PingFang SC",
+          "Microsoft YaHei",
+          system-ui,
+          sans-serif;
+        padding: 40px 24px 80px;
+      }
+      .wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 34px;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+      }
+      .sub {
+        color: #8b93a3;
+        font-size: 14px;
+        margin-bottom: 36px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+      }
+      @media (max-width: 880px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .demo {
+        border: 1px solid #22252c;
+        border-radius: 18px;
+        background: #101216;
+        padding: 14px;
+      }
+      .demo-head {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .no {
+        font-variant-numeric: tabular-nums;
+        font-weight: 700;
+        color: #ff9f45;
+        font-size: 13px;
+      }
+      .name {
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .play {
+        margin-left: auto;
+        border: 1px solid #3a3f4a;
+        background: #1a1d24;
+        color: #fff;
+        border-radius: 999px;
+        padding: 7px 16px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .play:hover {
+        background: #262b35;
+      }
+      .stage {
+        position: relative;
+        height: 300px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #000;
+      }
+      .panel {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        overflow: hidden;
+      }
+      .panel-a {
+        z-index: 2;
+        background: linear-gradient(135deg, #262a33, #101218);
+        color: #cfd6e0;
+      }
+      .panel-b {
+        z-index: 1;
+        background: linear-gradient(135deg, #eceaf2, #d9d7e1);
+        color: #17181c;
+      }
+      .demo[data-b="dark"] .panel-b {
+        background: linear-gradient(135deg, #1e2733, #0b0e13);
+        color: #cfd6e0;
+      }
+      .panel .tag {
+        font-size: 11px;
+        letter-spacing: 0.32em;
+        opacity: 0.65;
+      }
+      .panel .big {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+      }
+      .panel .lines {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 6px;
+        width: 45%;
+      }
+      .panel .lines i {
+        height: 5px;
+        border-radius: 3px;
+        background: currentColor;
+        opacity: 0.25;
+      }
+      .demo-desc {
+        color: #8b93a3;
+        font-size: 12.5px;
+        line-height: 1.6;
+        margin-top: 10px;
+      }
+      .fx {
+        position: absolute;
+        pointer-events: none;
+      }
+      .curtain {
+        top: -5%;
+        width: 52%;
+        height: 110%;
+        z-index: 3;
+        background:
+          repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.08) 0 2px,
+            transparent 2px 10px
+          ),
+          linear-gradient(180deg, #3a2c22, #241a13);
+      }
+      .curtain-l {
+        left: 0;
+        border-radius: 0 14px 14px 0;
+      }
+      .curtain-r {
+        right: 0;
+        border-radius: 14px 0 0 14px;
+      }
+      .strip {
+        left: 0;
+        width: 100%;
+        height: 25.5%;
+        z-index: 3;
+      }
+      .wave {
+        inset: 0;
+        z-index: 3;
+        background: linear-gradient(135deg, #262a33, #101218);
+      }
+      .wave svg {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        width: 100%;
+        height: 54px;
+        display: block;
+      }
+      .glass {
+        inset: 0;
+        z-index: 3;
+        background: rgba(255, 255, 255, 0.14);
+        -webkit-backdrop-filter: blur(7px);
+        backdrop-filter: blur(7px);
+      }
+      .sq {
+        width: 12.5%;
+        height: 20%;
+        z-index: 3;
+        background: #1a1d24;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+      }
+      .scan {
+        left: 0;
+        width: 100%;
+        height: 46px;
+        z-index: 4;
+        background: linear-gradient(
+          180deg,
+          transparent,
+          rgba(120, 255, 220, 0.75),
+          transparent
+        );
+        box-shadow: 0 0 24px rgba(120, 255, 220, 0.5);
+      }
+      .beam {
+        left: 0;
+        top: 0;
+        width: 130%;
+        height: 150px;
+        z-index: 4;
+        transform: rotate(-16deg);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.5),
+          rgba(255, 190, 100, 0.35),
+          transparent
+        );
+        filter: blur(12px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>页面转场方案预览</h1>
+      <p class="sub">
+        共 10 种 · 点击每个演示区的「播放」查看效果 · 深色块代表深色页（商业广告 / Skill搭建 / 视频轮播），浅色块代表浅色页（图片轮播 / 联系页）
+      </p>
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+    <script>
+      const DEMOS = [
+        {
+          name: '滑动帷幕 Curtain Sweep',
+          desc: '两条幕布从两侧合拢遮住当前页，再向两边拉开露出下一页，像剧场开幕。',
+          b: 'light',
+          fx: 'curtain'
+        },
+        {
+          name: '视差错层 Parallax Stack',
+          desc: '下一页以不同速度从下方浮起、轻微缩放压住上一页，形成前后景深。',
+          b: 'dark',
+          fx: 'parallax'
+        },
+        {
+          name: '百叶窗 Venetian Blinds',
+          desc: '边界裂成 4 条水平叶片，交替上下滑开露出下一页。',
+          b: 'light',
+          fx: 'blinds'
+        },
+        {
+          name: '液体波浪 Liquid Wave',
+          desc: '一条流动的波浪线从下往上把当前页“冲”走，露出下一页。',
+          b: 'dark',
+          fx: 'wave'
+        },
+        {
+          name: '圆角卡入 Card Zoom-in',
+          desc: '下一页以一张大圆角卡片从底部浮现，放大铺满整个屏幕。',
+          b: 'light',
+          fx: 'card'
+        },
+        {
+          name: '玻璃擦除 Glass Wipe',
+          desc: '毛玻璃面板自上而下扫过边界，模糊压住当前页后淡出。',
+          b: 'light',
+          fx: 'glass'
+        },
+        {
+          name: '网格溶解 Grid Dissolve',
+          desc: '当前页边界溶解成一个个小方块，错落淡出露出下一页。',
+          b: 'dark',
+          fx: 'grid'
+        },
+        {
+          name: '扫描线 Scanline Sweep',
+          desc: '一条 CRT 亮线从顶部扫到底部，扫过区域提亮后切入下一页。',
+          b: 'dark',
+          fx: 'scan'
+        },
+        {
+          name: '折页翻转 Page Fold',
+          desc: '下一页像纸张一样从底部向上折起，立起后铺平。',
+          b: 'dark',
+          fx: 'fold'
+        },
+        {
+          name: '光带滑动 Light Beam Sweep',
+          desc: '一条斜向渐变光带扫过边界，光带经过时上一页淡出、下一页淡入。',
+          b: 'light',
+          fx: 'beam'
+        }
+      ]
+
+      const grid = document.getElementById('grid')
+      const states = []
+
+      DEMOS.forEach((demo, idx) => {
+        const i = idx + 1
+        const el = document.createElement('div')
+        el.className = 'demo'
+        el.dataset.i = i
+        el.dataset.b = demo.b
+        el.innerHTML = `
+          <div class="demo-head">
+            <span class="no">${String(i).padStart(2, '0')}</span>
+            <span class="name">${demo.name}</span>
+            <button class="play">▶ 播放</button>
+          </div>
+          <div class="stage">
+            <div class="panel panel-a">
+              <span class="tag">PREV PAGE</span>
+              <span class="big">上一页</span>
+              <span class="lines"><i></i><i></i><i></i></span>
+            </div>
+            <div class="panel panel-b">
+              <span class="tag">NEXT PAGE</span>
+              <span class="big">下一页</span>
+              <span class="lines"><i></i><i></i><i></i></span>
+            </div>
+          </div>
+          <p class="demo-desc">${demo.desc}</p>`
+        grid.appendChild(el)
+
+        const stage = el.querySelector('.stage')
+        const a = el.querySelector('.panel-a')
+        const b = el.querySelector('.panel-b')
+        const fx = { el: null, extra: [] }
+
+        if (demo.fx === 'curtain') {
+          const cl = document.createElement('div')
+          cl.className = 'fx curtain curtain-l'
+          const cr = document.createElement('div')
+          cr.className = 'fx curtain curtain-r'
+          stage.appendChild(cl)
+          stage.appendChild(cr)
+          fx.el = cl
+          fx.extra = [cr]
+        } else if (demo.fx === 'blinds') {
+          const bg = getComputedStyle(b).backgroundImage
+          for (let k = 0; k < 4; k++) {
+            const s = document.createElement('div')
+            s.className = 'fx strip'
+            s.style.top = k * 25 + '%'
+            s.style.background = bg
+            stage.appendChild(s)
+            fx.extra.push(s)
+          }
+        } else if (demo.fx === 'wave') {
+          const w = document.createElement('div')
+          w.className = 'fx wave'
+          w.innerHTML = `<svg viewBox="0 0 600 54" preserveAspectRatio="none"><path d="M0 28 C 60 2, 120 2, 180 20 S 300 48, 360 28 480 0, 600 18 L 600 54 L 0 54 Z" fill="#101218"/></svg>`
+          stage.appendChild(w)
+          fx.el = w
+        } else if (demo.fx === 'glass') {
+          const g = document.createElement('div')
+          g.className = 'fx glass'
+          stage.appendChild(g)
+          fx.el = g
+        } else if (demo.fx === 'grid') {
+          for (let r = 0; r < 5; r++) {
+            for (let c = 0; c < 8; c++) {
+              const sq = document.createElement('div')
+              sq.className = 'fx sq'
+              sq.style.left = c * 12.5 + '%'
+              sq.style.top = r * 20 + '%'
+              stage.appendChild(sq)
+              fx.extra.push(sq)
+            }
+          }
+        } else if (demo.fx === 'scan') {
+          const s = document.createElement('div')
+          s.className = 'fx scan'
+          stage.appendChild(s)
+          fx.el = s
+        } else if (demo.fx === 'beam') {
+          const bm = document.createElement('div')
+          bm.className = 'fx beam'
+          stage.appendChild(bm)
+          fx.el = bm
+        } else if (demo.fx === 'fold') {
+          stage.style.perspective = '900px'
+          b.style.transformOrigin = '50% 100%'
+        }
+
+        states.push({ el, stage, a, b, fx, type: demo.fx })
+      })
+
+      const reset = (s) => {
+        gsap.killTweensOf([s.a, s.b, s.fx.el, ...s.fx.extra])
+        gsap.set([s.a, s.b, s.fx.el, ...s.fx.extra], { clearProps: 'all' })
+        s.a.style.opacity = 1
+        s.a.style.visibility = 'visible'
+        s.b.style.opacity = 1
+        s.b.style.visibility = 'visible'
+        s.b.style.zIndex = 1
+        s.a.style.zIndex = 2
+      }
+
+      const play = (s) => {
+        reset(s)
+        const t = 1.1
+        const tl = gsap.timeline()
+
+        if (s.type === 'curtain') {
+          gsap.set([s.fx.el, ...s.fx.extra], { xPercent: -50, x: '-0.5%' })
+          gsap.set(s.fx.extra[0], { xPercent: 50, x: '0.5%' })
+          tl.to([s.fx.el, ...s.fx.extra], {
+            xPercent: -106,
+            x: 0,
+            duration: 0.85,
+            ease: 'power3.inOut',
+            stagger: 0.09
+          })
+            .to(s.a, { opacity: 0, duration: 0.25 }, 0.25)
+            .set(s.fx.extra[0], { xPercent: 106 })
+        } else if (s.type === 'parallax') {
+          gsap.set(s.b, { yPercent: 100, scale: 0.96, zIndex: 3 })
+          tl.to(s.b, { yPercent: 0, scale: 1, duration: t, ease: 'power3.out' }, 0)
+            .to(
+              s.a,
+              {
+                yPercent: -8,
+                scale: 1.04,
+                opacity: 0.25,
+                duration: t,
+                ease: 'power3.out'
+              },
+              0
+            )
+            .to(s.a, { opacity: 0, duration: 0.25 }, t - 0.25)
+        } else if (s.type === 'blinds') {
+          s.fx.extra.forEach((st, k) => {
+            gsap.set(st, { yPercent: k % 2 ? 120 : -120 })
+          })
+          tl.to(s.fx.extra, {
+            yPercent: 0,
+            duration: 0.8,
+            stagger: 0.07,
+            ease: 'power3.inOut'
+          })
+            .to(s.a, { opacity: 0, duration: 0.2 }, 0.15)
+        } else if (s.type === 'wave') {
+          gsap.set(s.fx.el, { yPercent: 0 })
+          tl.to(s.fx.el, {
+            yPercent: -106,
+            duration: 1.05,
+            ease: 'power2.inOut'
+          })
+            .to(s.a, { opacity: 0, duration: 0.2 }, 0.15)
+            .to(s.fx.el, { opacity: 0, duration: 0.3 }, 0.8)
+        } else if (s.type === 'card') {
+          gsap.set(s.b, {
+            scale: 0.55,
+            yPercent: 42,
+            borderRadius: 36,
+            zIndex: 3
+          })
+          tl.to(s.b, {
+            scale: 1,
+            yPercent: 0,
+            borderRadius: 0,
+            duration: 0.95,
+            ease: 'power3.out'
+          })
+            .to(s.a, { opacity: 0, scale: 1.06, duration: 0.4 }, 0.2)
+        } else if (s.type === 'glass') {
+          gsap.set(s.fx.el, { yPercent: -105 })
+          gsap.set(s.b, { opacity: 0.35 })
+          tl.to(s.fx.el, { yPercent: 0, duration: 0.45, ease: 'power2.inOut' })
+            .to(
+              s.b,
+              { opacity: 1, duration: 0.35 },
+              0.25
+            )
+            .to(s.fx.el, { yPercent: 105, duration: 0.55, ease: 'power2.inOut' }, 0.55)
+            .to(s.a, { opacity: 0, duration: 0.3 }, 0.45)
+        } else if (s.type === 'grid') {
+          gsap.set(s.fx.extra, { scale: 1, opacity: 1 })
+          tl.to(s.fx.extra, {
+            scale: 0.15,
+            opacity: 0,
+            duration: 0.55,
+            stagger: { each: 0.018, from: 'random' },
+            ease: 'power2.in'
+          })
+            .to(s.a, { opacity: 0, duration: 0.3 }, 0.15)
+        } else if (s.type === 'scan') {
+          gsap.set(s.fx.el, { top: -60 })
+          gsap.set(s.b, { opacity: 0.2 })
+          tl.to(s.fx.el, { top: '110%', duration: 1.25, ease: 'none' })
+            .to(
+              s.b,
+              { opacity: 1, duration: 0.55 },
+              0.3
+            )
+            .to(s.a, { opacity: 0, duration: 0.35 }, 0.35)
+        } else if (s.type === 'fold') {
+          gsap.set(s.b, { rotateX: -84, zIndex: 3 })
+          tl.to(s.b, {
+            rotateX: 0,
+            duration: 1.05,
+            ease: 'power3.out'
+          })
+            .to(s.a, { opacity: 0, duration: 0.3 }, 0.25)
+        } else if (s.type === 'beam') {
+          gsap.set(s.fx.el, { xPercent: -120 })
+          gsap.set(s.b, { opacity: 0.25 })
+          tl.to(s.fx.el, { xPercent: 140, duration: 1.25, ease: 'power2.inOut' })
+            .to(
+              s.b,
+              { opacity: 1, duration: 0.5 },
+              0.35
+            )
+            .to(s.a, { opacity: 0, duration: 0.45 }, 0.35)
+        }
+      }
+
+      document.querySelectorAll('.demo .play').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const demo = btn.closest('.demo')
+          const s = states.find((st) => st.el === demo)
+          if (s) play(s)
+        })
+      })
+    </script>
+  </body>
+</html>
