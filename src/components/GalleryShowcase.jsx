@@ -18,23 +18,6 @@ export default function GalleryShowcase() {
   const velocityRef = useRef(0)
   const dragRef = useRef({ active: false, startX: 0, startOffset: 0, lastX: 0, lastT: 0 })
 
-  // 本页在视口内时隐藏全站导航，避免双导航冲突
-  useEffect(() => {
-    const sec = document.getElementById('gallery-showcase')
-    if (!sec) return
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        document.body.classList.toggle('hide-site-nav', entry.isIntersecting && entry.intersectionRatio > 0.35)
-      },
-      { threshold: [0.2, 0.35, 0.6] }
-    )
-    io.observe(sec)
-    return () => {
-      io.disconnect()
-      document.body.classList.remove('hide-site-nav')
-    }
-  }, [])
-
   // 图带动画引擎：requestAnimationFrame + 拖拽惯性 + 无缝循环
   useEffect(() => {
     const track = trackRef.current
