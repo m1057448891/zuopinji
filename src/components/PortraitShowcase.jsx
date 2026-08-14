@@ -3,6 +3,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import { asset } from '../lib/asset.js'
 import useInViewNear from '../lib/useInView.js'
+import BorderGlow from './BorderGlow.jsx'
+import MaskedHeading from './MaskedHeading.jsx'
 
 const AxionShaderBg = lazy(() => import('./AxionShaderBg.jsx'))
 
@@ -18,26 +20,12 @@ const FILES = [
   'anim-08'
 ]
 
-const NAMES = [
-  ['微光秘境', 'GLOW HAVEN'],
-  ['声波幻境', 'SONIC MIRAGE'],
-  ['微距奇境', 'MACRO WONDER'],
-  ['霓虹脉动', 'NEON PULSE'],
-  ['流体梦境', 'FLUID DREAM'],
-  ['星尘漫游', 'STARDUST DRIFT'],
-  ['赛博律动', 'CYBER RHYTHM'],
-  ['鎏金时光', 'GILDED HOUR'],
-  ['山海幻影', 'MOUNTAIN MIRAGE']
-]
-
 const VIDEOS = FILES.map((file, i) => {
   const no = String(i + 1).padStart(2, '0')
   return {
     id: i + 1,
     no,
-    file: `/works/ads/portrait/${file}.mp4`,
-    name: NAMES[i][0],
-    en: NAMES[i][1]
+    file: `/works/ads/portrait/${file}.mp4`
   }
 })
 
@@ -102,10 +90,6 @@ export default function PortraitShowcase() {
         }}
       >
         <motion.header className="flow-cards__head" variants={itemVar}>
-          <div className="flow-cards__head-left">
-            <h2 className="flow-cards__title">竖屏视频</h2>
-            <span className="flow-cards__sub">AI VERTICAL MOTION</span>
-          </div>
           <div className="flow-cards__nav">
             <button
               className="flow-cards__btn"
@@ -150,27 +134,67 @@ export default function PortraitShowcase() {
                   opacity: { duration: 0.5 }
                 }}
               >
-                <video
-                  className="flow-card__bg"
-                  data-play="true"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
+                <BorderGlow
+                  className="flow-card__glow"
+                  backgroundColor="#120F17"
+                  borderRadius={22}
+                  glowRadius={36}
+                  glowIntensity={0.9}
+                  edgeSensitivity={24}
+                  glowColor="265 85 78"
+                  coneSpread={22}
+                  fillOpacity={0.35}
+                  animated
+                  colors={['#c084fc', '#f472b6', '#38bdf8']}
                 >
-                  <source src={asset(item.file)} type="video/mp4" />
-                </video>
-                <div className="flow-card__shade" aria-hidden="true" />
-                <div className="flow-card__content">
-                  <span className="flow-card__label">{item.name}</span>
-                  <p className="flow-card__text">{item.en}</p>
-                </div>
+                  <video
+                    className="flow-card__bg"
+                    data-play="true"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                  >
+                    <source src={asset(item.file)} type="video/mp4" />
+                  </video>
+                </BorderGlow>
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
       </motion.div>
+
+      <MaskedHeading
+        className="flow-cards__corner flow-cards__corner--tl"
+        text="PORTRAIT VIDEOS"
+        mediaType="video"
+        src={asset(VIDEOS[0].file)}
+        reveal="wipe"
+        trigger="view"
+        align="left"
+        textScale={0.08}
+        parallax={24}
+        drift={14}
+        weight={800}
+        tracking={-0.02}
+        lineHeight={1}
+      />
+      <MaskedHeading
+        className="flow-cards__corner flow-cards__corner--br"
+        text="竖屏视频"
+        mediaType="video"
+        src={asset(VIDEOS[5].file)}
+        reveal="rise"
+        trigger="view"
+        align="right"
+        textScale={0.18}
+        parallax={18}
+        drift={10}
+        weight={800}
+        tracking={0.08}
+        lineHeight={1}
+      />
 
       <div className="ember-ads__preload" aria-hidden="true">
         <video preload="auto" muted loop playsInline>
