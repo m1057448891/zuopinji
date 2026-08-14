@@ -5769,6 +5769,8 @@ a {
 /* ---------- 视频轮播（ORYZO 风格：滚动驱动主视觉 + 缩略图联动） ---------- */
 .reel-oryzo {
   position: relative;
+  z-index: 11;
+  margin-top: calc(clamp(72px, 8vh, 110px) * -1);
   height: 400vh;
   background: #0b0908;
 }
@@ -6020,6 +6022,8 @@ body.hide-site-nav .nav {
 }
 .gallery-showcase.ba {
   position: relative;
+  z-index: 12;
+  margin-top: calc(clamp(150px, 15vh, 200px) * -1);
   height: auto;
   min-height: 100vh;
   background: #ffffff;
@@ -6029,7 +6033,8 @@ body.hide-site-nav .nav {
 }
 
 .lazy-gallery {
-  min-height: 100vh;
+  min-height: calc(100vh + clamp(150px, 15vh, 200px));
+  padding-top: clamp(150px, 15vh, 200px);
 }
 
 .ba-axion {
@@ -7106,62 +7111,6 @@ body.hide-site-nav .ln-nav {
   }
 }
 
-/* ---------- Legion marquee transition strip ---------- */
-
-.legion-marquee {
-  position: relative;
-  z-index: 30;
-  overflow: hidden;
-  height: 40px;
-  background: #fff;
-  pointer-events: none;
-}
-
-.legion-marquee__track {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  height: 100%;
-  animation: legionMarquee 25s linear infinite;
-}
-
-.legion-marquee__track span {
-  flex: none;
-  font-family: "Imbue", var(--ln-font-sans);
-  font-weight: 300;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: #0f141b;
-  white-space: nowrap;
-  padding-right: 0.5em;
-}
-
-@media (min-width: 768px) {
-  .legion-marquee {
-    height: 52px;
-  }
-
-  .legion-marquee__track span {
-    font-size: 28px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .legion-marquee__track span {
-    font-size: 32px;
-  }
-}
-
-@keyframes legionMarquee {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
 
 /* ============================================================
    Skill Build / Projects sticky stacking cards

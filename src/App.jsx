@@ -9,7 +9,6 @@ import ShortsShowcase from './components/ShortsShowcase.jsx'
 import AdsShowcase from './components/AdsShowcase.jsx'
 import ToolsShowcase from './components/ToolsShowcase.jsx'
 import CarouselShowcase from './components/CarouselShowcase.jsx'
-import LegionMarquee from './components/LegionMarquee.jsx'
 import LazyGallery from './components/LazyGallery.jsx'
 import LazyContact from './components/LazyContact.jsx'
 import ShapeGrid from './components/ShapeGrid.jsx'
@@ -89,7 +88,6 @@ export default function App() {
         <SectorsShowcase />
         <ShortsShowcase />
         <AdsShowcase />
-        <LegionMarquee />
         <div className="grid-stage">
           <div className="grid-stage__bg" aria-hidden="true">
             <ShapeGrid
@@ -103,12 +101,9 @@ export default function App() {
             />
           </div>
           <ToolsShowcase />
-          <LegionMarquee />
           <CarouselShowcase />
         </div>
-        <LegionMarquee />
         <LazyGallery />
-        <LegionMarquee />
       </main>
       <LazyContact />
     </div>
