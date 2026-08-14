@@ -6020,7 +6020,7 @@ body.hide-site-nav .nav {
 }
 .gallery-showcase.ba {
   position: relative;
-  z-index: 5;
+  z-index: 12;
   margin-top: calc(clamp(150px, 15vh, 200px) * -1);
   height: auto;
   min-height: 100vh;
