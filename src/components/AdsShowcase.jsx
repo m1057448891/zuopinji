@@ -10,6 +10,7 @@ const ADS = ORDER.map((file, i) => {
   const no = String(i + 1).padStart(2, '0')
   return {
     file: `/works/ads/landscape/${file}.mp4`,
+    mirror: file === 'playback',
     no,
     en: `AI STYLE ${no}`,
     cn: `横屏作品 ${no}`
@@ -63,7 +64,7 @@ export default function AdsShowcase() {
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
             <video
-              className="ember-ads__video"
+              className={`ember-ads__video${cur.mirror ? ' ember-ads__video--flip' : ''}`}
               data-play="true"
               autoPlay
               muted

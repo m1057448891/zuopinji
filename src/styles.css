@@ -7481,6 +7481,10 @@ body.hide-site-nav .ln-nav {
   transform: scaleX(-1);
 }
 
+.ember-ads__video--flip {
+  transform: scaleX(-1);
+}
+
 .ember-ads__video--right {
   left: auto;
   width: 50%;
