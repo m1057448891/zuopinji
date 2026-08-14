@@ -8054,3 +8054,133 @@ body.hide-site-nav .ln-nav {
     width: min(calc(76vh * 0.7896), 92vw, 560px);
   }
 }
+
+/* ============ FLOW CARDS · 竖屏三卡轮播 ============ */
+
+.flow-cards {
+  position: relative;
+  background: #fff;
+  border-top: 1px solid #e8e8e8;
+  padding: 80px 24px;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.flow-cards__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.flow-cards__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+
+.flow-cards__title {
+  font-size: clamp(20px, 2.4vw, 24px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.flow-cards__nav {
+  display: flex;
+  gap: 12px;
+}
+
+.flow-cards__btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: transparent;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.flow-cards__btn:hover {
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+.flow-cards__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.flow-card {
+  position: relative;
+  height: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #1a1714;
+}
+
+.flow-card__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  transition: transform 0.5s ease;
+}
+
+.flow-card:hover .flow-card__bg {
+  transform: scale(1.05);
+}
+
+.flow-card__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.2) 50%,
+    transparent
+  );
+}
+
+.flow-card__content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+}
+
+.flow-card__label {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 4px 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.flow-card__text {
+  margin: 0;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+@media (min-width: 768px) {
+  .flow-cards__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
