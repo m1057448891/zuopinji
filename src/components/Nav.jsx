@@ -118,13 +118,6 @@ export default function Nav() {
       className={`ln-nav${open ? ' is-open' : ''}${scrolled ? ' ln-nav--scrolled' : ''}`}
     >
       <div className="ln-nav__row">
-        <a className="ln-brand" href="#top" aria-label="回到顶部">
-          <span className="ln-logo">
-            <img src="/assets/logo.webp" alt="" width="52" height="52" />
-          </span>
-          <span className="ln-brand__text">MOSATO</span>
-        </a>
-
         <nav className="ln-pill" aria-label="Main">
           {LINKS.map((l) => (
             <a
@@ -143,8 +136,6 @@ export default function Nav() {
             </a>
           ))}
         </nav>
-
-        <span className="ln-nav__spacer" aria-hidden="true" />
 
         <button
           className="ln-burger"

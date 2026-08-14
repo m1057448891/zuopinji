@@ -6416,9 +6416,9 @@ body.hide-site-nav .nav {
 }
 
 .ln-nav__row {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: clamp(14px, 2vw, 28px);
   width: 100%;
   max-width: 1800px;
@@ -6426,52 +6426,10 @@ body.hide-site-nav .nav {
   pointer-events: auto;
 }
 
-.ln-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: none;
-  justify-self: start;
-}
-
-.ln-logo {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: var(--ln-nav-shadow);
-  transition: transform 0.3s ease;
-  flex: none;
-}
-
-.ln-logo img {
-  width: 72%;
-  height: 72%;
-  object-fit: contain;
-}
-
-.ln-logo:hover {
-  transform: scale(1.04);
-}
-
-.ln-brand__text {
-  font-family: "Imbue", var(--ln-font-sans);
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #fff;
-  white-space: nowrap;
-}
-
 .ln-pill {
   display: flex;
   align-items: center;
   gap: 2px;
-  justify-self: center;
   height: 64px;
   padding: 8px 12px;
   border-radius: 999px;
@@ -6975,17 +6933,12 @@ body.hide-site-nav .ln-nav {
 
 @media (max-width: 900px) {
   .ln-nav__row {
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
   .ln-pill,
   .ln-actions {
     display: none;
-  }
-
-  .ln-logo {
-    width: 48px;
-    height: 48px;
   }
 
   .ln-burger {
