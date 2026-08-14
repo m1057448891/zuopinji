@@ -20,6 +20,14 @@ const HERO_BG = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH0
 export default function App() {
   const [heroVideo] = useState(HERO_BG)
 
+  // 提前预加载图片轮播页（含 shader），避免点击导航时现加载导致卡顿
+  useEffect(() => {
+    const t = setTimeout(() => {
+      import('./components/GalleryShowcase.jsx').catch(() => {})
+    }, 1200)
+    return () => clearTimeout(t)
+  }, [])
+
   useEffect(() => {
     const lenis = new Lenis({ lerp: 0.09, smoothWheel: true })
     window.__lenis = lenis
@@ -51,19 +59,24 @@ export default function App() {
         const offset =
           href === '#contact' ||
           href === '#tools-showcase' ||
+          href === '#gallery-showcase' ||
           href === '#carousel-showcase' ||
           href === '#ads-showcase'
             ? 0
-            : href === '#gallery-showcase'
-              ? -162
-              : -72
+            : -72
         const y = target.getBoundingClientRect().top + window.scrollY + offset
         lenis.scrollTo(y, {
           duration: 1.4,
           onComplete: () => {
             const top = target.getBoundingClientRect().top
-            if (Math.abs(top) > 2 && Math.abs(top) < 900) {
-              lenis.scrollTo(window.scrollY + top, { duration: 0.5 })
+            const expectedTop = -offset
+            if (
+              Math.abs(top - expectedTop) > 2 &&
+              Math.abs(top - expectedTop) < 900
+            ) {
+              lenis.scrollTo(window.scrollY + (top - expectedTop), {
+                duration: 0.5
+              })
             }
           }
         })
