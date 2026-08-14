@@ -3,7 +3,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
-import ParallaxDrift from './ParallaxDrift.jsx'
 
 const ADS = Array.from({ length: 10 }, (_, i) => {
   const no = String(i + 1).padStart(2, '0')
@@ -85,12 +84,7 @@ export default function AdsShowcase() {
         </video>
       </div>
 
-      <ParallaxDrift
-        className="ember-ads__panel"
-        trigger=".ember-ads"
-        amount={90}
-        toScale={0.98}
-      >
+      <div className="ember-ads__panel">
         <div className="ember-ads__left">
           <svg className="ember-ads__svg" aria-hidden="true">
             <defs>
@@ -148,7 +142,7 @@ export default function AdsShowcase() {
             <span>SHOWREEL — AI STYLE</span>
           </div>
         </div>
-      </ParallaxDrift>
+      </div>
 
       <button
         className="ember-ads__nav ember-ads__nav--prev"
