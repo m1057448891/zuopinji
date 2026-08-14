@@ -4,12 +4,27 @@ import AxionShaderBg from './AxionShaderBg.jsx'
 import FoldText from './FoldText.jsx'
 
 const IMAGES = [
-  { img: '/works/img/img-015.webp' },
-  { img: '/works/img/img-023.webp' },
-  { img: '/works/img/img-013.webp' },
-  { img: '/works/img/img-018.webp' },
-  { img: '/works/img/img-021.webp' },
-  { img: '/works/img/img-011.webp' }
+  { img: '/works/gallery/g-01.webp' },
+  { img: '/works/gallery/g-02.webp' },
+  { img: '/works/gallery/g-03.webp' },
+  { img: '/works/gallery/g-04.webp' },
+  { img: '/works/gallery/g-05.webp' },
+  { img: '/works/gallery/g-06.webp' },
+  { img: '/works/gallery/g-07.webp' },
+  { img: '/works/gallery/g-08.webp' },
+  { img: '/works/gallery/g-09.webp' },
+  { img: '/works/gallery/g-10.webp' },
+  { img: '/works/gallery/g-11.webp' },
+  { img: '/works/gallery/g-12.webp' },
+  { img: '/works/gallery/g-13.webp' },
+  { img: '/works/gallery/g-14.webp' },
+  { img: '/works/gallery/g-15.webp' },
+  { img: '/works/gallery/g-16.webp' },
+  { img: '/works/gallery/g-17.webp' },
+  { img: '/works/gallery/g-18.webp' },
+  { img: '/works/gallery/g-19.webp' },
+  { img: '/works/gallery/g-20.webp' },
+  { img: '/works/gallery/g-21.webp' }
 ]
 
 const SPEED = 0.8
