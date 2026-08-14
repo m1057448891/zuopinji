@@ -3,6 +3,8 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
 import FoldText from './FoldText.jsx'
+import ParallaxRise from './ParallaxRise.jsx'
+import ParallaxDrift from './ParallaxDrift.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -94,22 +96,6 @@ export default function ToolsShowcase() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.projects__head',
-        { autoAlpha: 0, y: 40 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.projects__head',
-            start: 'top 80%',
-            once: true
-          }
-        }
-      )
-
       const cards = gsap.utils.toArray('.projects-card__inner')
       cards.forEach((card, i) => {
         const next = cards[i + 1]
@@ -136,28 +122,45 @@ export default function ToolsShowcase() {
 
   return (
     <section className="projects" id="tools-showcase" ref={scope}>
-      <div className="container projects__head">
-        <span className="mono projects__kicker">SKILL BUILD / Skill搭建</span>
-        <h2 className="projects__heading projects__heading--fold">
-          <FoldText
-            text="SKILL BUILD"
-            splitBy="char"
-            hinge="top"
-            trigger="scroll"
-            duration={0.65}
-            stagger={0.045}
-            ease="power3.out"
-            perspective={700}
-            creaseShading={0.55}
-            fontSize="clamp(3rem, 12vw, 160px)"
-            fontWeight={900}
-            color="#d7e2ea"
-          />
-        </h2>
-        <p className="mono projects__sub">FIVE AI SKILLS · ONE WORKFLOW</p>
-      </div>
+      <ParallaxDrift
+        className="container projects__head"
+        trigger=".projects"
+        amount={70}
+        toScale={0.98}
+      >
+        <ParallaxRise
+          className="projects__head-rise"
+          amount={130}
+          scale={1.05}
+          fromOpacity={0.25}
+        >
+          <span className="mono projects__kicker">SKILL BUILD / Skill搭建</span>
+          <h2 className="projects__heading projects__heading--fold">
+            <FoldText
+              text="SKILL BUILD"
+              splitBy="char"
+              hinge="top"
+              trigger="scroll"
+              duration={0.65}
+              stagger={0.045}
+              ease="power3.out"
+              perspective={700}
+              creaseShading={0.55}
+              fontSize="clamp(3rem, 12vw, 160px)"
+              fontWeight={900}
+              color="#d7e2ea"
+            />
+          </h2>
+          <p className="mono projects__sub">FIVE AI SKILLS · ONE WORKFLOW</p>
+        </ParallaxRise>
+      </ParallaxDrift>
 
-      <div className="projects__stack">
+      <ParallaxDrift
+        className="projects__stack"
+        trigger=".projects"
+        amount={50}
+        toOpacity={0.96}
+      >
         {ITEMS.map((item, i) => (
           <article className="projects-card" key={item.no}>
             <div className="projects-card__inner" style={{ top: i * 28 }}>
@@ -222,7 +225,7 @@ export default function ToolsShowcase() {
             </div>
           </article>
         ))}
-      </div>
+      </ParallaxDrift>
     </section>
   )
 }

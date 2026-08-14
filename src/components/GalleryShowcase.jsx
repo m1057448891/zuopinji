@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react'
 import { asset } from '../lib/asset.js'
 import AxionShaderBg from './AxionShaderBg.jsx'
 import FoldText from './FoldText.jsx'
+import ParallaxRise from './ParallaxRise.jsx'
+import ParallaxDrift from './ParallaxDrift.jsx'
 
 const IMAGES = [
   { img: '/works/gallery/g-01.webp' },
@@ -96,7 +98,7 @@ export default function GalleryShowcase() {
       </div>
 
       {/* Hero */}
-        <div className="ba-hero">
+        <ParallaxRise className="ba-hero" amount={120} scale={1.04} fromOpacity={0.3}>
           <h1>
             <FoldText
               text={'MOSATO SAKAI\nVISUAL CREATOR'}
@@ -114,10 +116,15 @@ export default function GalleryShowcase() {
             />
           </h1>
           <p>内容运营 × AI 视觉创作 · 把想象力变成可交付的作品</p>
-        </div>
+        </ParallaxRise>
 
       {/* 无限图带 */}
-      <div className="ba-marquee">
+      <ParallaxDrift
+        className="ba-marquee"
+        trigger=".gallery-showcase"
+        amount={70}
+        toScale={0.98}
+      >
         <div
           className="ba-track"
           ref={trackRef}
@@ -132,16 +139,21 @@ export default function GalleryShowcase() {
             </div>
           ))}
         </div>
-      </div>
+      </ParallaxDrift>
 
       {/* 底部 */}
-      <footer className="ba-bottom">
+      <ParallaxDrift
+        className="ba-bottom"
+        trigger=".gallery-showcase"
+        amount={60}
+        toScale={0.98}
+      >
         <p>从内容策略到 AI 视觉生产，我用生成式 AI 完成文案、图片与动态影像，覆盖从创意到交付的全流程。</p>
         <div className="ba-links-row">
           <a href="#contact">联系我</a>
           <a href="#image-works">查看作品</a>
         </div>
-      </footer>
+      </ParallaxDrift>
     </section>
   )
 }

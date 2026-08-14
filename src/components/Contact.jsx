@@ -8,6 +8,7 @@ import Aurora from './Aurora.jsx'
 import TrueFocus from './TrueFocus.jsx'
 import { asset } from '../lib/asset.js'
 import { RESUME_URL } from '../data/site.js'
+import ParallaxRise from './ParallaxRise.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -99,7 +100,12 @@ export default function Contact() {
       </div>
       <span className="contact__coords mono">MOSATO SAKAI · 42.0°N 121.7°E</span>
 
-      <div className="container contact__inner">
+      <ParallaxRise
+        className="container contact__inner"
+        amount={100}
+        scale={1.02}
+        fromOpacity={0.3}
+      >
         <header className="contact__top">
           <div className="contact__weather">
             <span className="contact__sun" aria-hidden="true">
@@ -214,7 +220,7 @@ export default function Contact() {
             </span>
           </div>
         </footer>
-      </div>
+      </ParallaxRise>
 
       <div className="contact__brand" aria-hidden="true">
         MOSATO

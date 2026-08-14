@@ -3,6 +3,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
+import ParallaxRise from './ParallaxRise.jsx'
+import ParallaxDrift from './ParallaxDrift.jsx'
 
 const PORTRAITS = [1, 2, 3, 4, 5, 7, 8].map((n, i) => {
   const fileNo = String(n).padStart(2, '0')
@@ -100,7 +102,18 @@ export default function PortraitShowcase() {
         </video>
       </div>
 
-      <div className="ember-ads__panel">
+      <ParallaxDrift
+        className="ember-ads__panel"
+        trigger=".ember-ads--portrait"
+        amount={90}
+        toScale={0.98}
+      >
+        <ParallaxRise
+          className="ember-ads__panel"
+          amount={110}
+          scale={1.03}
+          fromOpacity={0.35}
+        >
         <div className="ember-ads__left">
           <svg className="ember-ads__svg" aria-hidden="true">
             <defs>
@@ -158,7 +171,8 @@ export default function PortraitShowcase() {
             <span>VERTICAL SHOWREEL — AI STYLE</span>
           </div>
         </div>
-      </div>
+        </ParallaxRise>
+      </ParallaxDrift>
 
       <button
         className="ember-ads__nav ember-ads__nav--prev"
