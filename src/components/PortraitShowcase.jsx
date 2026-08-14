@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Play } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
 
-const PORTRAITS = [1, 2, 3, 4, 5].map((n) => ({
-  file: `/works/ads/portrait/${String(n).padStart(2, '0')}.mp4`
+const FILES = ['01', '02', '03', '04', '05', 'anim-01', 'anim-03', 'anim-08']
+
+const PORTRAITS = FILES.map((file, i) => ({
+  file: `/works/ads/portrait/${file}.mp4`,
+  no: String(i + 1).padStart(2, '0')
 }))
 
 export default function PortraitShowcase() {
@@ -43,21 +46,25 @@ export default function PortraitShowcase() {
   }, [])
 
   return (
-    <section className="ember-ads vhs-page" id="portrait-showcase" ref={sectionRef}>
-      <div className="vhs-page__glow" aria-hidden="true" />
+    <section
+      className="ember-ads direct-page"
+      id="portrait-showcase"
+      ref={sectionRef}
+    >
+      <div className="direct-glow" aria-hidden="true" />
 
-      <div className="vhs-card">
+      <div className="direct-card">
         <AnimatePresence initial={false}>
           <motion.div
             key={active}
-            className="vhs-card__media"
+            className="direct-card__media"
             initial={{ opacity: 0, scale: 1.03 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
             transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
           >
             <video
-              className="vhs-card__video"
+              className="direct-card__video"
               data-play="true"
               autoPlay
               muted
@@ -70,10 +77,21 @@ export default function PortraitShowcase() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="vhs-scanlines" aria-hidden="true" />
-        <div className="vhs-noise" aria-hidden="true" />
-        <div className="vhs-glitch-bar" aria-hidden="true" />
-        <div className="vhs-card__vignette" aria-hidden="true" />
+        <div className="direct-grade" aria-hidden="true" />
+
+        <div className="direct-footer">
+          <div className="direct-footer__head">
+            <span className="direct-footer__icon" aria-hidden="true">
+              <Play size={18} strokeWidth={0} fill="currentColor" />
+            </span>
+            <span className="direct-footer__title">
+              AI MOTION {cur.no}
+            </span>
+          </div>
+          <p className="direct-footer__desc">
+            AI 生成竖屏动效 · MOSATO SAKAI
+          </p>
+        </div>
       </div>
 
       <div className="ember-ads__preload" aria-hidden="true">
