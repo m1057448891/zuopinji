@@ -145,6 +145,7 @@ export default function Contact() {
               <a href="#image-works">图片作品</a>
               <a href="#shorts-showcase">创意短片</a>
               <a href="#ads-showcase">风格效果</a>
+              <a href="#portrait-showcase">风格效果02</a>
               <a href="#tools-showcase">Skill搭建</a>
             </div>
           </Reveal>

@@ -60,7 +60,8 @@ export default function App() {
           href === '#contact' ||
           href === '#tools-showcase' ||
           href === '#gallery-showcase' ||
-          href === '#ads-showcase'
+          href === '#ads-showcase' ||
+          href === '#portrait-showcase'
             ? 0
             : -72
         const y = target.getBoundingClientRect().top + window.scrollY + offset

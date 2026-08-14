@@ -8061,7 +8061,11 @@ body.hide-site-nav .ln-nav {
   position: relative;
   background: #fff;
   border-top: 1px solid #e8e8e8;
-  padding: 80px 24px;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: clamp(96px, 10vh, 150px) 24px;
   color: #000;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -8070,6 +8074,7 @@ body.hide-site-nav .ln-nav {
 }
 
 .flow-cards__inner {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
 }
@@ -8081,10 +8086,24 @@ body.hide-site-nav .ln-nav {
   margin-bottom: 48px;
 }
 
+.flow-cards__head-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .flow-cards__title {
   font-size: clamp(20px, 2.4vw, 24px);
   font-weight: 500;
   letter-spacing: -0.02em;
+}
+
+.flow-cards__sub {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8a8a8a;
 }
 
 .flow-cards__nav {

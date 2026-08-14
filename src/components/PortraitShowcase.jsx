@@ -16,14 +16,26 @@ const FILES = [
   'anim-08'
 ]
 
+const NAMES = [
+  ['微光秘境', 'GLOW HAVEN'],
+  ['声波幻境', 'SONIC MIRAGE'],
+  ['微距奇境', 'MACRO WONDER'],
+  ['霓虹脉动', 'NEON PULSE'],
+  ['流体梦境', 'FLUID DREAM'],
+  ['星尘漫游', 'STARDUST DRIFT'],
+  ['赛博律动', 'CYBER RHYTHM'],
+  ['鎏金时光', 'GILDED HOUR'],
+  ['山海幻影', 'MOUNTAIN MIRAGE']
+]
+
 const VIDEOS = FILES.map((file, i) => {
   const no = String(i + 1).padStart(2, '0')
   return {
     id: i + 1,
     no,
     file: `/works/ads/portrait/${file}.mp4`,
-    label: `AI MOTION ${no}`,
-    text: 'AI 生成竖屏动效 · MOSATO SAKAI'
+    name: NAMES[i][0],
+    en: NAMES[i][1]
   }
 })
 
@@ -82,7 +94,10 @@ export default function PortraitShowcase() {
         }}
       >
         <motion.header className="flow-cards__head" variants={itemVar}>
-          <h2 className="flow-cards__title">AI MOTION</h2>
+          <div className="flow-cards__head-left">
+            <h2 className="flow-cards__title">风格效果02</h2>
+            <span className="flow-cards__sub">AI VERTICAL MOTION</span>
+          </div>
           <div className="flow-cards__nav">
             <button
               className="flow-cards__btn"
@@ -140,8 +155,8 @@ export default function PortraitShowcase() {
                 </video>
                 <div className="flow-card__shade" aria-hidden="true" />
                 <div className="flow-card__content">
-                  <span className="flow-card__label">{item.label}</span>
-                  <p className="flow-card__text">{item.text}</p>
+                  <span className="flow-card__label">{item.name}</span>
+                  <p className="flow-card__text">{item.en}</p>
                 </div>
               </motion.div>
             ))}
