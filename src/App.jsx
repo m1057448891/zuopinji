@@ -9,6 +9,7 @@ import ShortsShowcase from './components/ShortsShowcase.jsx'
 import AdsShowcase from './components/AdsShowcase.jsx'
 import ToolsShowcase from './components/ToolsShowcase.jsx'
 import CarouselShowcase from './components/CarouselShowcase.jsx'
+import LegionMarquee from './components/LegionMarquee.jsx'
 import LazyGallery from './components/LazyGallery.jsx'
 import LazyContact from './components/LazyContact.jsx'
 import ShapeGrid from './components/ShapeGrid.jsx'
@@ -56,10 +57,16 @@ export default function App() {
           href === '#ads-showcase'
             ? 0
             : -72
-        lenis.scrollTo(
-          target.getBoundingClientRect().top + window.scrollY + offset,
-          { duration: 1.4 }
-        )
+        const y = target.getBoundingClientRect().top + window.scrollY + offset
+        lenis.scrollTo(y, {
+          duration: 1.4,
+          onComplete: () => {
+            const top = target.getBoundingClientRect().top
+            if (Math.abs(top) > 2 && Math.abs(top) < 900) {
+              lenis.scrollTo(window.scrollY + top, { duration: 0.5 })
+            }
+          }
+        })
       }
     }
     document.addEventListener('click', onClick)
@@ -82,6 +89,7 @@ export default function App() {
         <SectorsShowcase />
         <ShortsShowcase />
         <AdsShowcase />
+        <LegionMarquee />
         <div className="grid-stage">
           <div className="grid-stage__bg" aria-hidden="true">
             <ShapeGrid
@@ -95,9 +103,12 @@ export default function App() {
             />
           </div>
           <ToolsShowcase />
+          <LegionMarquee />
           <CarouselShowcase />
         </div>
+        <LegionMarquee />
         <LazyGallery />
+        <LegionMarquee />
       </main>
       <LazyContact />
     </div>
