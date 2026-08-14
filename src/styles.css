@@ -8162,12 +8162,11 @@ body.hide-site-nav .ln-nav {
   border-radius: inherit;
 }
 
-/* Corner masked headings */
+/* Corner masked headings (matched to style-effects page typography) */
 .flow-cards__corner {
   position: absolute;
   z-index: 2;
   pointer-events: none;
-  font-family: "Geist", "Inter", "Microsoft YaHei", -apple-system, "Segoe UI", sans-serif;
 }
 
 .flow-cards__corner--tl {
@@ -8181,6 +8180,45 @@ body.hide-site-nav .ln-nav {
   bottom: clamp(28px, 6vh, 72px);
   width: min(50vw, 620px);
   text-align: right;
+}
+
+.flow-cards__eyebrow {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.46);
+}
+
+.flow-cards__heading--zh {
+  font-family: "Outfit", var(--font-sans);
+}
+
+.flow-cards__heading--en {
+  font-family: "Archivo Black", var(--font-sans);
+}
+
+.flow-cards__sub {
+  display: block;
+  margin-top: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.flow-cards__big-sub {
+  display: block;
+  margin-top: 12px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.48);
 }
 
 @media (max-width: 767px) {

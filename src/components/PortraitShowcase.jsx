@@ -47,6 +47,7 @@ export default function PortraitShowcase() {
 
   const visible = [0, 1, 2].map((i) => VIDEOS[(current + i) % VIDEOS.length])
   const upcoming = VIDEOS[(current + 3) % VIDEOS.length]
+  const titleVideo = asset('/works/title/1.mp4')
 
   const go = (dir) => {
     setDirection(dir)
@@ -165,36 +166,43 @@ export default function PortraitShowcase() {
         </motion.div>
       </motion.div>
 
-      <MaskedHeading
-        className="flow-cards__corner flow-cards__corner--tl"
-        text="PORTRAIT VIDEOS"
-        mediaType="video"
-        src={asset(VIDEOS[0].file)}
-        reveal="wipe"
-        trigger="view"
-        align="left"
-        textScale={0.08}
-        parallax={24}
-        drift={14}
-        weight={800}
-        tracking={-0.02}
-        lineHeight={1}
-      />
-      <MaskedHeading
-        className="flow-cards__corner flow-cards__corner--br"
-        text="竖屏视频"
-        mediaType="video"
-        src={asset(VIDEOS[5].file)}
-        reveal="rise"
-        trigger="view"
-        align="right"
-        textScale={0.18}
-        parallax={18}
-        drift={10}
-        weight={800}
-        tracking={0.08}
-        lineHeight={1}
-      />
+      <div className="flow-cards__corner flow-cards__corner--tl">
+        <span className="flow-cards__eyebrow">PORTRAIT SERIES — 竖屏系列</span>
+        <MaskedHeading
+          className="flow-cards__heading flow-cards__heading--zh"
+          text="竖屏视频"
+          mediaType="video"
+          src={titleVideo}
+          reveal="rise"
+          trigger="view"
+          align="left"
+          textScale={0.085}
+          parallax={20}
+          drift={10}
+          weight={600}
+          tracking={-0.015}
+          lineHeight={1.15}
+        />
+        <span className="flow-cards__sub">SELECTED PORTRAIT VIDEOS</span>
+      </div>
+      <div className="flow-cards__corner flow-cards__corner--br">
+        <MaskedHeading
+          className="flow-cards__heading flow-cards__heading--en"
+          text="PORTRAIT VIDEOS"
+          mediaType="video"
+          src={titleVideo}
+          reveal="wipe"
+          trigger="view"
+          align="right"
+          textScale={0.12}
+          parallax={22}
+          drift={12}
+          weight={900}
+          tracking={-0.02}
+          lineHeight={0.9}
+        />
+        <span className="flow-cards__big-sub">SHOWREEL — AI VERTICAL MOTION</span>
+      </div>
 
       <div className="ember-ads__preload" aria-hidden="true">
         <video preload="auto" muted loop playsInline>
