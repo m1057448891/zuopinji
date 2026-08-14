@@ -4590,10 +4590,6 @@ a {
   padding-top: 0;
   background: linear-gradient(105deg, #e8e5f1 0%, #e6e5eb 58%, #f1eff4 100%);
   color: #141414;
-  position: relative;
-  z-index: 13;
-  margin-top: calc(clamp(150px, 15vh, 200px) * -1);
-  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.35);
 }
 
 .contact__grain {
@@ -5766,8 +5762,7 @@ a {
 .reel-oryzo {
   position: relative;
   z-index: 11;
-  margin-top: calc(clamp(150px, 15vh, 200px) * -1);
-  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.35);
+  margin-top: calc(clamp(72px, 8vh, 110px) * -1);
   height: 400vh;
   background: #0b0908;
 }
@@ -6019,7 +6014,6 @@ body.hide-site-nav .nav {
 }
 .gallery-showcase.ba {
   position: relative;
-  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.35);
   height: auto;
   min-height: 100vh;
   background: #ffffff;
@@ -7118,9 +7112,7 @@ body.hide-site-nav .ln-nav {
 .projects {
   position: relative;
   z-index: 10;
-  /* 封面滑动转场：下一页从下往上盖住上一页 */
-  margin-top: calc(clamp(150px, 15vh, 200px) * -1);
-  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.35);
+  margin-top: 0;
   padding: clamp(64px, 9vh, 120px) 0 0;
   background: #0c0c0c;
   border-radius: clamp(40px, 5vw, 60px) clamp(40px, 5vw, 60px) 0 0;
