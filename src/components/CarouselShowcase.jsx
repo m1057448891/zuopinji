@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
 import { videoSources } from '../lib/videoSources.js'
+import FoldText from './FoldText.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -76,7 +77,22 @@ export default function CarouselShowcase() {
           <div className="reel-oryzo__inner">
             <header className="reel-oryzo__head" ref={headRef}>
               <span className="mono reel-oryzo__kicker">SELECTED WORKS / 精选动态影像</span>
-              <h2 className="reel-oryzo__title">MOVEMENT, MOOD &amp; STORY</h2>
+              <h2 className="reel-oryzo__title">
+                <FoldText
+                  text="MOVEMENT, MOOD & STORY"
+                  splitBy="word"
+                  hinge="top"
+                  trigger="scroll"
+                  duration={0.65}
+                  stagger={0.06}
+                  ease="power3.out"
+                  perspective={700}
+                  creaseShading={0.55}
+                  fontSize="clamp(30px, 3.4vw, 52px)"
+                  fontWeight={800}
+                  color="#f5ede4"
+                />
+              </h2>
               <em className="reel-oryzo__sub">光影 · 情绪 · 叙事实验</em>
             </header>
 

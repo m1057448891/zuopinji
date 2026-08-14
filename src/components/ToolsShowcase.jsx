@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
+import FoldText from './FoldText.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -137,7 +138,22 @@ export default function ToolsShowcase() {
     <section className="projects" id="tools-showcase" ref={scope}>
       <div className="container projects__head">
         <span className="mono projects__kicker">SKILL BUILD / Skill搭建</span>
-        <h2 className="projects__heading">Skill Build</h2>
+        <h2 className="projects__heading projects__heading--fold">
+          <FoldText
+            text="SKILL BUILD"
+            splitBy="char"
+            hinge="top"
+            trigger="scroll"
+            duration={0.65}
+            stagger={0.045}
+            ease="power3.out"
+            perspective={700}
+            creaseShading={0.55}
+            fontSize="clamp(3rem, 12vw, 160px)"
+            fontWeight={900}
+            color="#d7e2ea"
+          />
+        </h2>
         <p className="mono projects__sub">FIVE AI SKILLS · ONE WORKFLOW</p>
       </div>
 

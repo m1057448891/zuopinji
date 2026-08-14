@@ -7151,6 +7151,18 @@ body.hide-site-nav .ln-nav {
   color: transparent;
 }
 
+.projects__heading--fold {
+  background: none;
+  -webkit-text-fill-color: initial;
+  color: #d7e2ea;
+}
+
+.projects__heading--fold .fold-text-piece,
+.reel-oryzo__title .fold-text-piece,
+.ba-hero h1 .fold-text-piece {
+  -webkit-text-fill-color: currentColor;
+}
+
 .projects__sub {
   font-size: 10px;
   letter-spacing: 0.3em;

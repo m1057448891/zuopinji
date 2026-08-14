@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { asset } from '../lib/asset.js'
 import AxionShaderBg from './AxionShaderBg.jsx'
+import FoldText from './FoldText.jsx'
 
 const IMAGES = [
   { img: '/works/img/img-015.webp' },
@@ -82,9 +83,20 @@ export default function GalleryShowcase() {
       {/* Hero */}
         <div className="ba-hero">
           <h1>
-            MOSATO SAKAI
-            <br />
-            VISUAL CREATOR
+            <FoldText
+              text={'MOSATO SAKAI\nVISUAL CREATOR'}
+              splitBy="line"
+              hinge="top"
+              trigger="scroll"
+              duration={0.65}
+              stagger={0.1}
+              ease="power3.out"
+              perspective={700}
+              creaseShading={0.55}
+              fontSize="clamp(30px, 3.6vw, 52px)"
+              fontWeight={600}
+              color="#171717"
+            />
           </h1>
           <p>内容运营 × AI 视觉创作 · 把想象力变成可交付的作品</p>
         </div>
