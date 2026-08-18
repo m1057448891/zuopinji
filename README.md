@@ -1,42 +1,36 @@
-# MOSATO · 个人作品集
+# MOSATO SAKAI · 个人作品集
 
-暗色系、克制的高级科技感个人作品集网站，React + Vite 实现，PC 端版心约 1700px。
+AI 视觉创作者 · 内容运营 · AIGC 工作流
 
-## 运行
+暗色系、克制的高级科技感个人作品集网站，展示 AIGC 图片、动态影像、风格效果与 AI 工具化工作流。使用 React + Vite 构建。
+
+## 在线预览
+
+<https://m1057448891.github.io/zuopinji/>
+
+## 技术栈
+
+- React 18 / Vite
+- GSAP / Motion / Lenis（动效与滚动）
+- 原生 CSS 设计系统
+- 部署：GitHub Pages / EdgeOne
+
+## 本地运行
 
 ```bash
 pnpm install
-pnpm dev        # http://localhost:5173
-pnpm build      # 产物在 dist/
+pnpm dev       # http://localhost:5173
+pnpm build     # 产物在 dist/
 pnpm preview
 ```
 
-## 素材说明
+## 项目结构
 
-- 网站引用的图片、视频由 `scripts/copy-assets.ps1` 从 `G:\AI\作品集网站` 复制到 `public/works/`，并生成 `src/data/works.json` 清单。
-- 建筑学作品集 PDF 复制到 `public/docs/`。
-- `public/works/` 与 `public/docs/` 已在 `.gitignore` 中忽略，仓库不携带大文件。
+- `src/components` —— 各页面区块组件
+- `src/data` —— 作品与内容数据
+- `public` —— 站点静态资源
+- `scripts` —— 素材同步与视觉检查脚本
 
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/copy-assets.ps1
-```
+## 说明
 
-如果本机 Node 不在 PATH 中（例如使用 Codex 内置运行时），先执行：
-
-```powershell
-$env:Path = "C:\Users\A\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin;" + $env:Path
-```
-
-## 视觉检查
-
-`scripts/screenshot.cjs` 会用系统 Edge 对本地站点逐屏截图并输出控制台错误、资源 404、横向溢出等指标，截图存放在 `qa/`。
-
-```powershell
-node scripts/screenshot.cjs
-```
-
-## 待你确认的占位信息
-
-- 联系电话：OCR 识别为 `158 4182 9472`，请核对（站点暂写作 +86 158 4182 9472）。
-- 头像：暂用“MZ”文字肖像占位，可替换 `src/components/About.jsx` 中的头像卡片。
-- 工作经历时间：简历图片未识别出明确时间段，时间线只写了“2023 — 至今”的教育阶段，其余条目未编造日期。
+- 图片、视频等大媒体文件不进入 Git，由 `scripts/copy-assets.ps1` 同步并生成清单（`src/data/works.json`），部署时由 CDN 提供。
