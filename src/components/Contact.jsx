@@ -144,7 +144,7 @@ export default function Contact() {
               <span className="contact__col-rule" aria-hidden="true" />
               <a href="#image-works">图片作品</a>
               <a href="#shorts-showcase">创意短片</a>
-              <a href="#ads-showcase">风格效果</a>
+              <a href="#ads-showcase">创意短片</a>
               <a href="#portrait-showcase">竖屏视频</a>
               <a href="#tools-showcase">Skill搭建</a>
             </div>

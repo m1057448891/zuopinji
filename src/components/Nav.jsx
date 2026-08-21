@@ -5,7 +5,7 @@ const LINKS = [
   { label: '首页', href: '#top', id: 'top' },
   { label: '图片作品', href: '#image-works', id: 'image-works' },
   { label: '商业广告', href: '#shorts-showcase', id: 'shorts-showcase' },
-  { label: '风格效果', href: '#ads-showcase', id: 'ads-showcase' },
+  { label: '创意短片', href: '#ads-showcase', id: 'ads-showcase' },
   { label: '竖屏视频', href: '#portrait-showcase', id: 'portrait-showcase' },
   { label: '图片轮播', href: '#gallery-showcase', id: 'gallery-showcase' },
   { label: 'Skill搭建', href: '#tools-showcase', id: 'tools-showcase' },
