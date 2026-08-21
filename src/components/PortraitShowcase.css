@@ -1,13 +1,12 @@
 /* ============================================================
-   IGLOO 概念 —— 竖屏视频页（PortraitShowcase）
-   大字展示字：Dimensions W03 300R → Anton 兜底
-   正文：Inter
-   说明文字：Courier New
+   IGLOO 概念 —— 竖屏视频页（严格按设计文档实现）
+   展示大字：Dimensions W03 300R → Anton 兜底
+   正文：Inter（继承站点）；说明文字：Courier New
    ============================================================ */
 
 .portrait-igloo {
   position: relative;
-  z-index: 1;
+  background: #d6d7dd; /* 设计文档指定的页面底色，正常被背景图盖住 */
   color: #fff;
   font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -20,6 +19,61 @@
   box-sizing: border-box;
 }
 
+/* 共享背景 + 冰山剪影（横跨两屏） */
+.portrait-igloo__stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.portrait-igloo__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 0%;
+  transform-origin: top center;
+  will-change: transform, object-position;
+  user-select: none;
+}
+
+/* 冰山塔：独立定位，塔顶落在字标中下部，两侧让字母露出 */
+.portrait-igloo__iceberg-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -2vh;
+  height: 110vh;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.portrait-igloo__iceberg {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  transform-origin: top center;
+  will-change: transform;
+  user-select: none;
+  filter: saturate(0.88) contrast(1.06) brightness(1.03) hue-rotate(-8deg);
+}
+
+/* 错峰出现动画容器 */
+.pio-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pio-reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* 逐字母容器 */
 .portrait-igloo .plu {
   display: flex;
   flex-wrap: wrap;
@@ -33,84 +87,33 @@
 /* ---------------- Section 1 · Hero ---------------- */
 .portrait-igloo__hero {
   position: relative;
+  width: 100%;
   height: 100vh;
   height: 100svh;
-  min-height: 640px;
   overflow: hidden;
-  background: #0b0d12;
 }
 
-.portrait-igloo__bg {
-  position: absolute;
-  top: -6%;
-  left: 0;
-  right: 0;
-  bottom: -6%;
-  z-index: 0;
-  transform-origin: top center;
-  will-change: transform;
-}
-
-.portrait-igloo__bg video,
-.portrait-igloo__bg img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 0%;
-  will-change: transform;
-}
-
-.portrait-igloo__scrim {
+/* 顶部冷色渐变暗角：保证白色字标在明亮天幕上的可读性（布局不变） */
+.portrait-igloo__hero::before {
+  content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(8, 10, 16, 0.25) 0%, rgba(8, 10, 16, 0.55) 100%),
-    linear-gradient(180deg, rgba(8, 10, 16, 0.5) 0%, rgba(8, 10, 16, 0.18) 42%, rgba(8, 10, 16, 0.66) 100%);
+    linear-gradient(180deg, rgba(10, 20, 36, 0.78) 0%, rgba(10, 20, 36, 0.54) 26%, rgba(10, 20, 36, 0.3) 48%, transparent 68%),
+    linear-gradient(180deg, transparent 60%, rgba(10, 20, 36, 0.52) 100%);
 }
 
-.portrait-igloo__grain {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
-}
-
-/* 冰山剪影：盖在字标之上、所有 UI 之下，与背景同步缩放 */
-.portrait-igloo__iceberg {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -5%;
-  margin: 0 auto;
-  height: 78vh;
-  width: auto;
-  max-width: none;
-  z-index: 2;
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
-  transform-origin: center bottom;
-  will-change: transform;
-  opacity: 0.9;
-  filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.45));
-}
-
-/* 巨型字标 */
+/* 巨型字标：在冰山之后（z2 < z10），冰山从字标中穿过 */
 .portrait-igloo__wordmark {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 12vh;
-  z-index: 2;
+  inset: 0;
   display: flex;
+  align-items: flex-start;
   justify-content: center;
-  padding: 0 24px;
+  padding-top: 13vh;
+  z-index: 2;
   pointer-events: none;
   user-select: none;
 }
@@ -118,55 +121,42 @@
 .portrait-igloo__wordmark .plu {
   font-family: 'Dimensions W03 300R', 'Anton', sans-serif;
   font-weight: 400;
-  font-size: clamp(72px, 27vw, 520px);
-  line-height: 0.88;
+  font-size: clamp(76px, 30vw, 600px);
+  line-height: 0.85;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.82);
-  text-shadow: 0 4px 60px rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 3px 34px rgba(8, 18, 34, 0.9);
 }
 
-.portrait-igloo__eyebrow {
+/* 左侧方形缩略图 */
+.portrait-igloo__rail-wrap {
   position: absolute;
-  left: 50%;
-  top: clamp(96px, 9.5vh, 120px);
-  transform: translateX(-50%);
-  z-index: 3;
-  font-size: 11px;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.85);
-  white-space: nowrap;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
 }
 
-/* 左侧竖排缩略图 */
 .portrait-igloo__rail {
-  position: absolute;
-  left: clamp(16px, 2.2vw, 34px);
-  top: 0;
-  bottom: 0;
-  z-index: 3;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 12px;
 }
 
 .portrait-igloo__thumb {
-  position: relative;
-  width: 46px;
-  height: 82px;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 9px;
+  display: block;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
-  background: #000;
-  transition:
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.3s,
-    box-shadow 0.3s;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portrait-igloo__thumb:hover {
+  transform: scale(1.05);
 }
 
 .portrait-igloo__thumb img {
@@ -174,42 +164,46 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  filter: grayscale(0.45) contrast(1.05);
+  transition: filter 0.4s;
 }
 
-.portrait-igloo__thumb:hover {
-  transform: scale(1.06);
-  border-color: rgba(255, 255, 255, 0.65);
+.portrait-igloo__thumb:hover img {
+  filter: grayscale(0);
 }
 
-.portrait-igloo__thumb.is-active {
-  border-color: #fff;
-  box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.28),
-    0 6px 24px rgba(0, 0, 0, 0.55);
+@media (min-width: 768px) {
+  .portrait-igloo__thumb {
+    width: 64px;
+    height: 64px;
+  }
 }
 
 /* 右侧滚动线 */
-.portrait-igloo__line {
+.portrait-igloo__line-wrap {
   position: absolute;
-  right: clamp(16px, 2.2vw, 34px);
+  right: 28px;
   top: 50%;
-  margin-top: -64px;
+  transform: translateY(-50%);
+  z-index: 30;
+}
+
+.portrait-igloo__line {
   width: 1px;
   height: 128px;
-  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.65), transparent);
-  z-index: 3;
+  background: rgba(100, 116, 139, 0.6);
 }
 
 /* 底部说明 */
-.portrait-igloo__caption {
+.portrait-igloo__caption-wrap {
   position: absolute;
-  bottom: clamp(22px, 3.2vh, 40px);
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: max-content;
-  max-width: 92%;
-  z-index: 3;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+}
+
+.portrait-igloo__caption {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -220,18 +214,18 @@
 
 .portrait-igloo__caption p {
   font-family: 'Courier New', monospace;
-  font-size: 12px;
-  letter-spacing: 0.18em;
+  font-size: 11px;
+  letter-spacing: 0.13em;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+  color: #fff;
+  max-width: 26rem;
   margin: 0;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.65);
 }
 
 .portrait-igloo__chev {
   display: block;
   color: #fff;
-  opacity: 0.9;
   animation: portrait-bounce 2s ease-in-out infinite;
 }
 
@@ -243,89 +237,98 @@
 /* ---------------- Section 2 · Selected Works ---------------- */
 .portrait-igloo__view {
   position: relative;
-  z-index: 2;
-  min-height: 100vh;
-  min-height: 100svh;
-  margin-top: -20px;
+  z-index: 20;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 50% 0%, rgba(30, 34, 48, 0.35) 0%, transparent 60%),
-    linear-gradient(180deg, #0b0d12 0%, #06070c 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(72px, 10vh, 110px) clamp(18px, 4vw, 56px) clamp(40px, 7vh, 72px);
+  margin-top: -20px;
 }
 
 .portrait-igloo__view-inner {
   position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 1240px;
+  z-index: 10;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: clamp(28px, 5vh, 48px);
-}
-
-.portrait-igloo__view-head {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  padding: 24px clamp(18px, 4vw, 64px) clamp(24px, 4vh, 48px);
+  max-width: 1240px;
+  margin: 0 auto;
 }
 
 .portrait-igloo__view-top {
   display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 64px;
+}
+
+.portrait-igloo__view-head {
+  display: flex;
   align-items: flex-start;
-  gap: 18px;
 }
 
 .portrait-igloo__view-title {
   font-family: 'Dimensions W03 300R', 'Anton', sans-serif;
   font-weight: 400;
-  font-size: clamp(40px, 7.4vw, 110px);
+  font-size: clamp(44px, 22vw, 400px);
   line-height: 0.85;
   letter-spacing: 0.01em;
   text-transform: uppercase;
   color: #fff;
-  margin: 0;
 }
 
 .portrait-igloo__view-rule {
   flex: 1;
-  align-self: center;
   height: 1px;
   margin-top: 0.42em;
-  margin-left: 4px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.12));
+  margin-left: 16px;
+  background: rgba(255, 255, 255, 0.7);
 }
 
 .portrait-igloo__view-sub {
-  align-self: flex-end;
-  font-size: clamp(13px, 1.1vw, 15px);
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.72);
-  max-width: 340px;
-  text-align: right;
-  margin: 0;
+  display: flex;
+  justify-content: flex-end;
 }
 
-/* 卡片 */
+.portrait-igloo__view-sub p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #fff;
+  max-width: 20rem;
+  text-align: right;
+  margin: 0;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* 底部卡片网格 */
 .portrait-igloo__cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(12px, 1.6vw, 20px);
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding-bottom: 16px;
+  max-width: 56rem;
+  margin: 32px auto 0;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .portrait-igloo__cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 0;
+  }
 }
 
 .portrait-igloo__card {
   position: relative;
-  aspect-ratio: 3 / 4;
-  border-radius: 14px;
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  background: #05060a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  aspect-ratio: 3 / 4;
+  max-height: 28vh;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
 }
 
 .portrait-igloo__card video,
@@ -334,117 +337,54 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.portrait-igloo__card:hover video {
-  transform: scale(1.08);
+.portrait-igloo__card:hover video,
+.portrait-igloo__card:hover img {
+  transform: scale(1.1);
 }
 
-.portrait-igloo__card-shade {
+.portrait-igloo__card-title {
   position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.62) 100%);
-}
-
-.portrait-igloo__card-info {
-  position: absolute;
-  left: 14px;
-  right: 14px;
-  bottom: 14px;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.portrait-igloo__card-tag {
-  font-size: 9px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.78);
-}
-
-.portrait-igloo__card-cn {
-  font-size: clamp(15px, 1.3vw, 18px);
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: #fff;
-  line-height: 1.2;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
 }
 
-.portrait-igloo__card-en {
-  font-family: 'Courier New', monospace;
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.66);
+/* 第 3 张卡片：移动端占两列但半宽居中，桌面恢复 */
+.portrait-igloo__card--last {
+  grid-column: span 2 / span 2;
+  max-width: 50%;
+  margin: 0 auto;
 }
 
-/* 轮播控制 */
-.portrait-igloo__nav {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 10px;
+@media (min-width: 768px) {
+  .portrait-igloo__card--last {
+    grid-column: auto;
+    max-width: none;
+    margin: 0;
+  }
 }
 
-.portrait-igloo__btn {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.04);
-  color: #fff;
-  cursor: pointer;
-  transition:
-    background 0.3s,
-    border-color 0.3s,
-    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.portrait-igloo__btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.6);
-  transform: translateY(-2px);
-}
-
-.portrait-igloo__counter {
-  font-family: 'Courier New', monospace;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0 4px;
-}
-
-/* ---------------- 窄屏适配 ---------------- */
+/* 窄屏微调 */
 @media (max-width: 900px) {
-  .portrait-igloo__rail {
+  .portrait-igloo__rail-wrap {
     left: 10px;
-    gap: 8px;
   }
-  .portrait-igloo__thumb {
-    width: 34px;
-    height: 60px;
-  }
-  .portrait-igloo__line {
+  .portrait-igloo__line-wrap {
     display: none;
   }
-  .portrait-igloo__wordmark {
-    top: 14vh;
+  .portrait-igloo__caption-wrap {
+    bottom: 20px;
   }
-  .portrait-igloo__eyebrow {
-    top: 6vh;
-    font-size: 8px;
-  }
-  .portrait-igloo__cards {
-    grid-template-columns: 1fr;
-  }
-  .portrait-igloo__card {
-    max-width: 320px;
-    margin: 0 auto;
+  .portrait-igloo__view-title {
+    font-size: clamp(36px, 18vw, 200px);
   }
 }
