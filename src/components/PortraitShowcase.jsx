@@ -43,15 +43,19 @@ function Letters({ text, className = '', justify = 'center' }) {
   )
 }
 
-// 滚动驱动背景缩放/位移
-function useScrollZoom(ref, maxScale = 0.12) {
+// 滚动驱动背景/冰山缩放
+function useScrollZoom(refs, maxScale = 0.12) {
+  const list = Array.isArray(refs) ? refs : [refs]
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
+    const els = list.map((r) => r.current).filter(Boolean)
+    if (!els.length) return
     let raf = 0
     const update = () => {
       const progress = Math.min(window.scrollY / window.innerHeight, 1)
-      el.style.transform = `scale(${1 + progress * maxScale})`
+      const t = `scale(${1 + progress * maxScale})`
+      els.forEach((el) => {
+        el.style.transform = t
+      })
     }
     const onScroll = () => {
       cancelAnimationFrame(raf)
@@ -65,12 +69,14 @@ function useScrollZoom(ref, maxScale = 0.12) {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
     }
-  }, [ref, maxScale])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 }
 
 export default function PortraitShowcase() {
   const sectionRef = useRef(null)
   const bgRef = useRef(null)
+  const iceRef = useRef(null)
   const [sectionRefNear, isNear] = useInViewNear('0px 0px 500px 0px')
   const setSectionRef = useCallback(
     (el) => {
@@ -83,7 +89,7 @@ export default function PortraitShowcase() {
   const [start, setStart] = useState(0)
   const [direction, setDirection] = useState(1)
 
-  useScrollZoom(bgRef)
+  useScrollZoom([bgRef, iceRef])
 
   const bg = byId(bgId)
   const visible = [0, 1, 2].map((i) => VIDEOS[(start + i) % VIDEOS.length])
@@ -156,6 +162,16 @@ export default function PortraitShowcase() {
         <div className="portrait-igloo__wordmark" aria-hidden="true">
           <Letters text="PORTRAIT" />
         </div>
+
+        {/* 冰山剪影：盖在字标之上、所有 UI 之下，与背景同步缩放 */}
+        <img
+          className="portrait-igloo__iceberg"
+          ref={iceRef}
+          src={asset('/assets/igloo/iceberg.webp')}
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+        />
 
         {/* 左侧缩略图 */}
         <motion.div
