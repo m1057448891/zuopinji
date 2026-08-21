@@ -6046,6 +6046,7 @@ body.hide-site-nav .nav {
 }
 
 .ba-seamless > .flow-cards,
+.ba-seamless > .portrait-igloo,
 .ba-seamless > .lazy-gallery {
   position: relative;
   z-index: 1;

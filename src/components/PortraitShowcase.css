@@ -1,0 +1,430 @@
+/* ============================================================
+   IGLOO 概念 —— 竖屏视频页（PortraitShowcase）
+   大字展示字：Dimensions W03 300R → Anton 兜底
+   正文：Inter
+   说明文字：Courier New
+   ============================================================ */
+
+.portrait-igloo {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.portrait-igloo *,
+.portrait-igloo *::before,
+.portrait-igloo *::after {
+  box-sizing: border-box;
+}
+
+.portrait-igloo .plu {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.portrait-igloo .plu__char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* ---------------- Section 1 · Hero ---------------- */
+.portrait-igloo__hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 640px;
+  overflow: hidden;
+  background: #0b0d12;
+}
+
+.portrait-igloo__bg {
+  position: absolute;
+  top: -6%;
+  left: 0;
+  right: 0;
+  bottom: -6%;
+  z-index: 0;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.portrait-igloo__bg video,
+.portrait-igloo__bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 0%;
+  will-change: transform;
+}
+
+.portrait-igloo__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(8, 10, 16, 0.25) 0%, rgba(8, 10, 16, 0.55) 100%),
+    linear-gradient(180deg, rgba(8, 10, 16, 0.5) 0%, rgba(8, 10, 16, 0.18) 42%, rgba(8, 10, 16, 0.66) 100%);
+}
+
+.portrait-igloo__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
+}
+
+/* 巨型字标 */
+.portrait-igloo__wordmark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 12vh;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 0 24px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.portrait-igloo__wordmark .plu {
+  font-family: 'Dimensions W03 300R', 'Anton', sans-serif;
+  font-weight: 400;
+  font-size: clamp(64px, 20vw, 250px);
+  line-height: 0.88;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 4px 60px rgba(0, 0, 0, 0.45);
+}
+
+.portrait-igloo__eyebrow {
+  position: absolute;
+  left: 50%;
+  top: clamp(96px, 9.5vh, 120px);
+  transform: translateX(-50%);
+  z-index: 2;
+  font-size: 11px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+}
+
+/* 左侧竖排缩略图 */
+.portrait-igloo__rail {
+  position: absolute;
+  left: clamp(16px, 2.2vw, 34px);
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+}
+
+.portrait-igloo__thumb {
+  position: relative;
+  width: 46px;
+  height: 82px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 9px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #000;
+  transition:
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s,
+    box-shadow 0.3s;
+}
+
+.portrait-igloo__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.portrait-igloo__thumb:hover {
+  transform: scale(1.06);
+  border-color: rgba(255, 255, 255, 0.65);
+}
+
+.portrait-igloo__thumb.is-active {
+  border-color: #fff;
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.28),
+    0 6px 24px rgba(0, 0, 0, 0.55);
+}
+
+/* 右侧滚动线 */
+.portrait-igloo__line {
+  position: absolute;
+  right: clamp(16px, 2.2vw, 34px);
+  top: 50%;
+  margin-top: -64px;
+  width: 1px;
+  height: 128px;
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.65), transparent);
+  z-index: 3;
+}
+
+/* 底部说明 */
+.portrait-igloo__caption {
+  position: absolute;
+  bottom: clamp(22px, 3.2vh, 40px);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: max-content;
+  max-width: 92%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.portrait-igloo__caption p {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+  margin: 0;
+}
+
+.portrait-igloo__chev {
+  display: block;
+  color: #fff;
+  opacity: 0.9;
+  animation: portrait-bounce 2s ease-in-out infinite;
+}
+
+@keyframes portrait-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ---------------- Section 2 · Selected Works ---------------- */
+.portrait-igloo__view {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin-top: -20px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(30, 34, 48, 0.35) 0%, transparent 60%),
+    linear-gradient(180deg, #0b0d12 0%, #06070c 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(72px, 10vh, 110px) clamp(18px, 4vw, 56px) clamp(40px, 7vh, 72px);
+}
+
+.portrait-igloo__view-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(28px, 5vh, 48px);
+}
+
+.portrait-igloo__view-head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.portrait-igloo__view-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.portrait-igloo__view-title {
+  font-family: 'Dimensions W03 300R', 'Anton', sans-serif;
+  font-weight: 400;
+  font-size: clamp(40px, 7.4vw, 110px);
+  line-height: 0.85;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0;
+}
+
+.portrait-igloo__view-rule {
+  flex: 1;
+  align-self: center;
+  height: 1px;
+  margin-top: 0.42em;
+  margin-left: 4px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.12));
+}
+
+.portrait-igloo__view-sub {
+  align-self: flex-end;
+  font-size: clamp(13px, 1.1vw, 15px);
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 340px;
+  text-align: right;
+  margin: 0;
+}
+
+/* 卡片 */
+.portrait-igloo__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(12px, 1.6vw, 20px);
+}
+
+.portrait-igloo__card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #05060a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+.portrait-igloo__card video,
+.portrait-igloo__card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portrait-igloo__card:hover video {
+  transform: scale(1.08);
+}
+
+.portrait-igloo__card-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.62) 100%);
+}
+
+.portrait-igloo__card-info {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.portrait-igloo__card-tag {
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.portrait-igloo__card-cn {
+  font-size: clamp(15px, 1.3vw, 18px);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.portrait-igloo__card-en {
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+/* 轮播控制 */
+.portrait-igloo__nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.portrait-igloo__btn {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    border-color 0.3s,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portrait-igloo__btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.portrait-igloo__counter {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 4px;
+}
+
+/* ---------------- 窄屏适配 ---------------- */
+@media (max-width: 900px) {
+  .portrait-igloo__rail {
+    left: 10px;
+    gap: 8px;
+  }
+  .portrait-igloo__thumb {
+    width: 34px;
+    height: 60px;
+  }
+  .portrait-igloo__line {
+    display: none;
+  }
+  .portrait-igloo__wordmark {
+    top: 14vh;
+  }
+  .portrait-igloo__eyebrow {
+    top: 6vh;
+    font-size: 8px;
+  }
+  .portrait-igloo__cards {
+    grid-template-columns: 1fr;
+  }
+  .portrait-igloo__card {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
