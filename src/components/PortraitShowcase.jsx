@@ -10,19 +10,19 @@ const GOLD_EASE = [0.76, 0, 0.24, 1]
 
 // 9 条竖屏视频作品（视频走 CDN，封面帧由站点自身提供）
 const VIDEOS = [
-  { id: '01', file: '/works/ads/portrait/01.mp4', poster: '/videos/portrait/01-poster.jpg', cn: '曜黑充电舱', en: 'DARK CHARGE CASE', tag: 'PRODUCT FILM', desc: '无线耳机充电舱的暗调特写，冷光与倒影勾勒极简科技质感。' },
-  { id: '02', file: '/works/ads/portrait/02.mp4', poster: '/videos/portrait/02-poster.jpg', cn: '灯影青舞', en: 'TEAL DANCE IN LANTERN LIGHT', tag: 'AI SHORT FILM', desc: '夜色古巷中的青纱舞者，暖黄灯笼光晕与民族风头饰交织成电影感画面。' },
-  { id: '03', file: '/works/ads/portrait/03.mp4', poster: '/videos/portrait/03-poster.jpg', cn: '方糖的温柔坠落', en: 'SWEET LANDING', tag: 'MACRO FILM', desc: '方糖立于绵密奶泡之上的微距特写，crema 与热气营造治愈氛围。' },
-  { id: '04', file: '/works/ads/portrait/04.mp4', poster: '/videos/portrait/04-poster.jpg', cn: '傲娇小鸡摸摸头', en: 'PET THE GRUMPY CHICK', tag: 'GAME ANIMATION', desc: '牛皮纸涂鸦风的休闲游戏动画，爱心血条与进度条充满治愈趣味。' },
-  { id: '05', file: '/works/ads/portrait/05.mp4', poster: '/videos/portrait/05-poster.jpg', cn: '翠滴入掌', en: 'EMERALD DROP INTO THE PALM', tag: 'NATURE LOOP', desc: '荧光绿露珠自叶尖垂落掌心，雨后微光里安静的生命力。' },
+  { id: '01', file: '/works/ads/portrait/01.mp4', poster: '/videos/portrait/01-poster.jpg', cn: '蓝牙耳机', en: 'DARK CHARGE CASE', tag: 'PRODUCT FILM', desc: '无线耳机充电舱的暗调特写，冷光与倒影勾勒极简科技质感。' },
+  { id: '02', file: '/works/ads/portrait/02.mp4', poster: '/videos/portrait/02-poster.jpg', cn: '灯影傩舞', en: 'TEAL DANCE IN LANTERN LIGHT', tag: 'AI SHORT FILM', desc: '夜色古巷中的青纱舞者，暖黄灯笼光晕与民族风头饰交织成电影感画面。' },
+  { id: '03', file: '/works/ads/portrait/03.mp4', poster: '/videos/portrait/03-poster.jpg', cn: '落日咖啡', en: 'SWEET LANDING', tag: 'MACRO FILM', desc: '方糖立于绵密奶泡之上的微距特写，crema 与热气营造治愈氛围。' },
+  { id: '04', file: '/works/ads/portrait/04.mp4', poster: '/videos/portrait/04-poster.jpg', cn: '傲娇小鸡', en: 'PET THE GRUMPY CHICK', tag: 'GAME ANIMATION', desc: '牛皮纸涂鸦风的休闲游戏动画，爱心血条与进度条充满治愈趣味。' },
+  { id: '05', file: '/works/ads/portrait/05.mp4', poster: '/videos/portrait/05-poster.jpg', cn: '二维雨林', en: 'EMERALD DROP INTO THE PALM', tag: 'NATURE LOOP', desc: '荧光绿露珠自叶尖垂落掌心，雨后微光里安静的生命力。' },
   { id: 'anim-01', file: '/works/ads/portrait/anim-01.mp4', poster: '/videos/portrait/anim-01-poster.jpg', cn: '花海灯塔', en: 'LIGHTHOUSE IN BLOOM', tag: 'AI SHORT FILM', desc: '红白灯塔被花海簇拥，蝴蝶翩跹、暖光如翼，梦幻而治愈。' },
-  { id: 'anim-03', file: '/works/ads/portrait/anim-03.mp4', poster: '/videos/portrait/anim-03-poster.jpg', cn: '电子圣殇', en: 'DIGITAL PIETÀ', tag: 'NEON · GLITCH', desc: '大理石圣像与霓虹数据流同框，古典静谧与赛博崩坏强烈对冲。' },
-  { id: 'anim-05', file: '/works/ads/portrait/anim-05.mp4', poster: '/videos/portrait/anim-05-poster.jpg', cn: '车窗玫瑰纪行', en: 'ROSES ALONG THE RAILS', tag: 'RETRO FILM', desc: '复古红列车窗边的长发女孩，玫瑰沿轨道盛放，胶片感的浪漫旅途。' },
+  { id: 'anim-03', file: '/works/ads/portrait/anim-03.mp4', poster: '/videos/portrait/anim-03-poster.jpg', cn: '电子圣母', en: 'DIGITAL PIETÀ', tag: 'NEON · GLITCH', desc: '大理石圣像与霓虹数据流同框，古典静谧与赛博崩坏强烈对冲。' },
+  { id: 'anim-05', file: '/works/ads/portrait/anim-05.mp4', poster: '/videos/portrait/anim-05-poster.jpg', cn: '玫瑰纪行', en: 'ROSES ALONG THE RAILS', tag: 'RETRO FILM', desc: '复古红列车窗边的长发女孩，玫瑰沿轨道盛放，胶片感的浪漫旅途。' },
   { id: 'anim-08', file: '/works/ads/portrait/anim-08.mp4', poster: '/videos/portrait/anim-08-poster.jpg', cn: '花雨秋千', en: 'SWING BENEATH THE BLOSSOMS', tag: 'AI SHORT FILM', desc: '樱花纷飞如雨，秋千悬于树荫之间，一帧春色。' }
 ]
 
-const HERO_BG = VIDEOS[1] // hero 背景视频：灯影青舞（暗调电影感，适合白字）
-const GEM = VIDEOS[0]     // gem 卡片视频：曜黑充电舱
+const HERO_BG = VIDEOS[1] // hero 背景视频：灯影傩舞（暗调电影感，适合白字）
+const GEM = VIDEOS[0]     // gem 卡片视频：蓝牙耳机
 
 // 分屏 hero 的标题内容（左黑右白，同一份渲染两次）
 function HeroContent() {
@@ -317,6 +317,7 @@ export default function PortraitShowcase() {
     </section>
   )
 }
+
 
 
 
