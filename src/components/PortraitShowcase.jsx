@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion } from 'motion/react'
 import { ArrowRight, ArrowLeft } from 'lucide-react'
 import { asset } from '../lib/asset.js'
+import LineSidebar from './LineSidebar.jsx'
 import './PortraitShowcase.css'
 
 const GOLD_EASE = [0.76, 0, 0.24, 1]
@@ -32,7 +33,7 @@ function HeroContent() {
           animate={{ y: 0 }}
           transition={{ duration: 1.1, ease: GOLD_EASE }}
         >
-          AI 竖屏视频
+          AI PORTRAIT
         </motion.h1>
       </div>
       <div className="pt-hero__line pt-hero__line--mb">
@@ -41,7 +42,7 @@ function HeroContent() {
           animate={{ y: 0 }}
           transition={{ duration: 1.1, delay: 0.08, ease: GOLD_EASE }}
         >
-          精选作品
+          VIDEOS
         </motion.h1>
       </div>
       <motion.p
@@ -80,6 +81,23 @@ export default function PortraitShowcase() {
 
   const goCards = () => {
     document.getElementById('portrait-works')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const goToCard = (index) => {
+    const works = document.getElementById('portrait-works')
+    if (!works) return
+    works.scrollIntoView({ behavior: 'smooth' })
+    const track = works.querySelector('.pt-cards__track')
+    const card = works.querySelectorAll('.pt-card')[index]
+    if (track && card) {
+      window.setTimeout(() => {
+        const trackRect = track.getBoundingClientRect()
+        const cardRect = card.getBoundingClientRect()
+        const offset =
+          cardRect.left - trackRect.left - (trackRect.width - cardRect.width) / 2
+        track.scrollTo({ left: track.scrollLeft + offset, behavior: 'smooth' })
+      }, 550)
+    }
   }
 
   const closeDetail = () => {
@@ -169,6 +187,7 @@ export default function PortraitShowcase() {
               />
             </motion.div>
             <div className="pt-hero__shade" aria-hidden="true" />
+            <div className="pt-hero__scrim-top" aria-hidden="true" />
           </div>
 
           <motion.div
@@ -199,6 +218,27 @@ export default function PortraitShowcase() {
               </button>
             </div>
           </motion.div>
+        </div>
+
+        <div className="pt-hero__sidebar">
+          <LineSidebar
+            items={VIDEOS.map((v) => v.cn)}
+            accentColor="#8b5cf6"
+            textColor="#55575d"
+            markerColor="#9b9ba1"
+            showIndex
+            showMarker
+            proximityRadius={90}
+            maxShift={24}
+            falloff="smooth"
+            markerLength={44}
+            tickScale={0.5}
+            scaleTick
+            itemGap={13}
+            fontSize={0.82}
+            smoothing={90}
+            onItemClick={goToCard}
+          />
         </div>
 
         <div className="pt-hero__text pt-hero__text--black">
