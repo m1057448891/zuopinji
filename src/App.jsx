@@ -15,7 +15,7 @@ import ShapeGrid from './components/ShapeGrid.jsx'
 import IntroLoader from './components/IntroLoader.jsx'
 gsap.registerPlugin(ScrollTrigger)
 
-const HERO_BG = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260723_145606_ab143199-b593-4941-bb1b-9afca215416b.mp4'
+const HERO_BG = '/videos/home-bg.mp4'
 const AxionShaderBg = lazy(() => import('./components/AxionShaderBg.jsx'))
 
 export default function App() {

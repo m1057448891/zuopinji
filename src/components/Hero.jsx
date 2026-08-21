@@ -107,8 +107,7 @@ export default function Hero({ video }) {
           loop
           playsInline
           preload="none"
-          src={video}
-          poster={asset('/works/hero/hero-01-poster.jpg')}
+          src={asset(video)}
           aria-hidden="true"
         />
         <div className="hero__grid" aria-hidden="true" />
