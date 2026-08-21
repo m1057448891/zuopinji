@@ -24,6 +24,26 @@ const SHORTS = [
   },
   {
     no: '02',
+    file: '/works/hero/hero-02.mp4',
+    badge: 'AERIAL FILM',
+    en: 'SEAGULLS — COASTAL FLIGHT',
+    cn: '海鸥掠岸',
+    desc: '航拍海岸线，白色海鸥掠过绿色草坡与海面，阳光洒落水面，静谧的自然电影镜头。',
+    date: '2026',
+    tags: ['SEAGULLS', 'COAST', 'AERIAL']
+  },
+  {
+    no: '03',
+    file: '/works/hero/hero-03.mp4',
+    badge: 'CG EXPERIMENT',
+    en: 'GRID TUNNEL',
+    cn: '网格隧道',
+    desc: '黄绿色线框网格向中心收缩成隧道，强烈的纵深与速度感，纯粹的 CG 视觉实验。',
+    date: '2026',
+    tags: ['WIREFRAME', 'TUNNEL', 'CG']
+  },
+  {
+    no: '04',
     file: '/works/hero/hero-04.mp4',
     badge: 'FISHEYE FILM',
     en: 'BEE — LOW FLIGHT',
@@ -33,7 +53,7 @@ const SHORTS = [
     tags: ['BEE', 'PLAYGROUND', 'FISHEYE']
   },
   {
-    no: '03',
+    no: '05',
     file: '/works/hero/hero-05.mp4',
     badge: 'DARK FILM',
     en: 'EMBERS & SMOKE',
@@ -142,6 +162,21 @@ export default function ShortsShowcase() {
       setSwitching(false)
     }, 520)
   }
+
+  // 首页缩略图点击后跳转到这里播放对应视频
+  useEffect(() => {
+    const onPlay = (e) => {
+      const file = e.detail?.file
+      const idx = SHORTS.findIndex((s) => s.file === file)
+      if (idx < 0) return
+      switchingRef.current = false
+      setSwitching(false)
+      setPrevFile(null)
+      setIndex(idx)
+    }
+    window.addEventListener('shorts:play', onPlay)
+    return () => window.removeEventListener('shorts:play', onPlay)
+  }, [])
 
   const cur = SHORTS[index]
   const prev = () => switchTo((index - 1 + SHORTS.length) % SHORTS.length)

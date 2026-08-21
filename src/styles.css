@@ -594,13 +594,16 @@ a {
   border: 1px solid rgba(255, 255, 255, 0.18);
   background: #000;
   overflow: hidden;
+  display: block;
+  text-decoration: none;
   cursor: pointer;
   transition:
     border-color 0.35s,
     transform 0.35s var(--ease);
 }
 
-.hero__car-thumb video {
+.hero__car-thumb video,
+.hero__car-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -623,7 +626,8 @@ a {
   transform: translateY(-3px);
 }
 
-.hero__car-thumb:hover video {
+.hero__car-thumb:hover video,
+.hero__car-thumb:hover img {
   filter: brightness(0.8) saturate(0.95);
 }
 

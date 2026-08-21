@@ -1,41 +1,9 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
-import { videoSources } from '../lib/videoSources.js'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const EXT_BG = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260723_145606_ab143199-b593-4941-bb1b-9afca215416b.mp4'
-const isRemote = (p) => /^https?:/.test(p || '')
-
-const slides = [
-  {
-    no: '01',
-    cn: '视觉方向',
-    video: '/works/hero/hero-01.mp4'
-  },
-  {
-    no: '02',
-    cn: '图片作品',
-    video: '/works/hero/hero-02.mp4'
-  },
-  {
-    no: '03',
-    cn: '海报',
-    video: '/works/hero/hero-03.mp4'
-  },
-  {
-    no: '04',
-    cn: '风格效果',
-    video: '/works/hero/hero-04.mp4'
-  },
-  {
-    no: '05',
-    cn: '创意短片',
-    video: '/works/hero/hero-05.mp4'
-  }
-]
 
 const listItems = [
   { no: '01', cn: '图片作品', en: 'IMAGE WORKS', href: '#image-works' },
@@ -47,54 +15,17 @@ const listItems = [
 
 const WAVE = Array.from({ length: 24 }, (_, i) => 24 + ((i * 29) % 60))
 
-function ThumbVideo({ slide }) {
-  const videoRef = useRef(null)
-
-  const handleEnter = () => {
-    const v = videoRef.current
-    if (!v) return
-    v.src = isRemote(slide.video) ? slide.video : asset(slide.video)
-    v.load()
-    v.play().catch(() => {})
-  }
-
-  const handleLeave = () => {
-    const v = videoRef.current
-    if (!v) return
-    v.pause()
-    v.removeAttribute('src')
-    v.load()
-  }
-
-  return (
-    <video
-      ref={videoRef}
-      poster={asset(slide.video.replace(/\.mp4$/, '-poster.jpg'))}
-      muted
-      loop
-      playsInline
-      preload="none"
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-    />
-  )
-}
+// 这四个视频已移入创意短片页：首页只展示静态海报，点击跳转到创意短片页播放
+const SHORTS = [
+  { no: '02', file: '/works/hero/hero-02.mp4', cn: '海鸥掠岸', en: 'SEAGULLS' },
+  { no: '03', file: '/works/hero/hero-03.mp4', cn: '网格隧道', en: 'GRID TUNNEL' },
+  { no: '04', file: '/works/hero/hero-04.mp4', cn: '蜜蜂低飞', en: 'BEE LOW FLIGHT' },
+  { no: '05', file: '/works/hero/hero-05.mp4', cn: '余烬与浓烟', en: 'EMBERS & SMOKE' }
+]
 
 export default function Hero({ video }) {
   const scope = useRef(null)
-  const [active, setActive] = useState(0)
-  const [hovered, setHovered] = useState(null)
-  const [activeVideo, setActiveVideo] = useState(video)
   const mainVideoRef = useRef(null)
-
-  const selectSlide = (i) => {
-    setActive(i)
-    setActiveVideo(slides[i].video)
-  }
-
-  useEffect(() => {
-    if (video) setActiveVideo(video)
-  }, [video])
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -105,15 +36,10 @@ export default function Hero({ video }) {
       }
     }, 1200)
     return () => clearTimeout(timer)
-  }, [activeVideo])
+  }, [])
 
-  const prev = () => {
-    const i = (active + slides.length - 1) % slides.length
-    selectSlide(i)
-  }
-  const next = () => {
-    const i = (active + 1) % slides.length
-    selectSlide(i)
+  const goShorts = (file) => {
+    window.dispatchEvent(new CustomEvent('shorts:play', { detail: { file } }))
   }
 
   useLayoutEffect(() => {
@@ -175,27 +101,16 @@ export default function Hero({ video }) {
     <section className="hero" id="top" ref={scope}>
       <div className="hero__bg">
         <video
-          key={activeVideo}
           className="hero__video"
           ref={mainVideoRef}
           muted
           loop
           playsInline
           preload="none"
-          src={isRemote(activeVideo) ? activeVideo : undefined}
-          poster={
-            activeVideo
-              ? isRemote(activeVideo)
-                ? asset('/works/hero/hero-01-poster.jpg')
-                : asset(activeVideo.replace(/\.mp4$/, '-poster.jpg'))
-              : undefined
-          }
+          src={video}
+          poster={asset('/works/hero/hero-01-poster.jpg')}
           aria-hidden="true"
-        >
-          {!isRemote(activeVideo) && videoSources(activeVideo).map((s) => (
-            <source key={s.src} src={s.src} type={s.type} />
-          ))}
-        </video>
+        />
         <div className="hero__grid" aria-hidden="true" />
         <div className="hero__shade" aria-hidden="true" />
       </div>
@@ -231,39 +146,26 @@ export default function Hero({ video }) {
 
       <div className="container hero__carousel">
         <div className="hero__car-head">
-          <div className="hero__car-controls hero__car-controls--center">
-            <button className="hero__car-arrow" onClick={prev} aria-label="上一个">
-              《
-            </button>
-            <span className="hero__car-index mono">{slides[active].no} // 05</span>
-            <button className="hero__car-arrow" onClick={next} aria-label="下一个">
-              》
-            </button>
-          </div>
+          <span className="hero__car-index mono">CREATIVE SHORTS // 04</span>
         </div>
 
         <div className="hero__strips">
-          {slides.map((s, i) => (
-            <div
-              className={`hero__strip ${i === active ? 'is-active' : ''} ${
-                hovered === i ? 'is-waving' : ''
-              }`}
-              key={s.no}
-            >
+          {SHORTS.map((s) => (
+            <div className="hero__strip" key={s.no}>
               <div className="hero__wave" aria-hidden="true">
                 {WAVE.map((h, k) => (
                   <span key={k} style={{ height: `${h}%`, animationDelay: `${(k % 6) * 0.08}s` }} />
                 ))}
               </div>
-              <button
-                className={`hero__car-thumb ${i === active ? 'is-active' : ''}`}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
-                onClick={() => selectSlide(i)}
+              <a
+                className="hero__car-thumb"
+                href="#shorts-showcase"
+                onClick={() => goShorts(s.file)}
+                aria-label={s.cn}
               >
-                <ThumbVideo slide={s} />
+                <img src={asset(s.file.replace(/\.mp4$/, '-poster.jpg'))} alt={s.cn} loading="lazy" decoding="async" />
                 <span className="mono">{s.no}</span>
-              </button>
+              </a>
             </div>
           ))}
         </div>
