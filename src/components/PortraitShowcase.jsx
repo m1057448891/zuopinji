@@ -3,6 +3,7 @@ import { motion } from 'motion/react'
 import { ArrowRight, ArrowLeft } from 'lucide-react'
 import { asset } from '../lib/asset.js'
 import LineSidebar from './LineSidebar.jsx'
+import LenticularCarousel from './LenticularCarousel.jsx'
 import './PortraitShowcase.css'
 
 const GOLD_EASE = [0.76, 0, 0.24, 1]
@@ -58,6 +59,7 @@ function HeroContent() {
 
 export default function PortraitShowcase() {
   const heroVideoRef = useRef(null)
+  const carouselRef = useRef(null)
   const [query, setQuery] = useState('')
   const [detail, setDetail] = useState(null)
 
@@ -79,6 +81,18 @@ export default function PortraitShowcase() {
     [query]
   )
 
+  const carouselItems = useMemo(
+    () =>
+      filtered.map((v) => ({
+        ...v,
+        front: asset(v.poster),
+        video: asset(v.file),
+        title: v.en,
+        subtitle: `${v.tag} · 2026`
+      })),
+    [filtered]
+  )
+
   const goCards = () => {
     document.getElementById('portrait-works')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -87,17 +101,9 @@ export default function PortraitShowcase() {
     const works = document.getElementById('portrait-works')
     if (!works) return
     works.scrollIntoView({ behavior: 'smooth' })
-    const track = works.querySelector('.pt-cards__track')
-    const card = works.querySelectorAll('.pt-card')[index]
-    if (track && card) {
-      window.setTimeout(() => {
-        const trackRect = track.getBoundingClientRect()
-        const cardRect = card.getBoundingClientRect()
-        const offset =
-          cardRect.left - trackRect.left - (trackRect.width - cardRect.width) / 2
-        track.scrollTo({ left: track.scrollLeft + offset, behavior: 'smooth' })
-      }, 550)
-    }
+    window.setTimeout(() => {
+      carouselRef.current?.goTo(index)
+    }, 550)
   }
 
   const closeDetail = () => {
@@ -269,35 +275,40 @@ export default function PortraitShowcase() {
           >
             POPULAR
           </motion.p>
-          <div className="pt-cards__track">
+          <div className="pt-cards__carousel">
             {filtered.length === 0 && (
               <p className="pt-cards__empty">没有找到 "{query}" 相关的作品</p>
             )}
-            {filtered.map((v, i) => (
-              <motion.div
-                key={v.id}
-                className="pt-card"
-                style={{ width: 235, flexShrink: 0 }}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + i * 0.07, duration: 0.55, ease: GOLD_EASE }}
-              >
-                <button type="button" className="pt-card__link" onClick={() => openDetail(v)}>
-                  <div className="pt-card__media">
-                    <video
-                      src={`${asset(v.file)}#t=0.1`}
-                      poster={asset(v.poster)}
-                      muted
-                      playsInline
-                      preload="metadata"
-                      className="pt-card__thumb"
-                    />
-                  </div>
-                  <h3 className="pt-card__name">{v.cn}</h3>
-                  <p className="pt-card__sub">{v.tag} · 2026</p>
-                </button>
-              </motion.div>
-            ))}
+            {filtered.length > 0 && (
+              <LenticularCarousel
+                ref={carouselRef}
+                items={carouselItems}
+                initialIndex={4}
+                cardWidth={250}
+                aspectRatio="9 / 16"
+                gap={34}
+                borderRadius={18}
+                strips={56}
+                sweep={0.6}
+                refraction={0.32}
+                ridge={0.5}
+                foil={0.5}
+                foilScale={8}
+                scrim={0.85}
+                tilt={6}
+                travel={0.64}
+                lift={46}
+                perspective={1600}
+                inactiveScale={0.9}
+                inactiveDim={0.55}
+                showLabels
+                showControls
+                showDots
+                loop
+                autoplay={false}
+                onCardClick={(v) => openDetail(v)}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -306,3 +317,6 @@ export default function PortraitShowcase() {
     </section>
   )
 }
+
+
+
