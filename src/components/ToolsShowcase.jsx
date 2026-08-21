@@ -1,10 +1,13 @@
-import { useLayoutEffect, useRef } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { asset } from '../lib/asset.js'
 import FoldText from './FoldText.jsx'
+import './ToolsShowcase.css'
 
 gsap.registerPlugin(ScrollTrigger)
+
+// 代码卡片的语法高亮 token：[类型, 文本]  type: k=键名 s=字符串 p=标点/符号 c=注释/暗色
+const C = (k, s) => [k, s]
 
 const ITEMS = [
   {
@@ -12,130 +15,158 @@ const ITEMS = [
     category: 'COVER DESIGN',
     name: '短视频封面生成工具',
     en: 'THUMBNAIL GENERATOR',
-    tag: 'TOOL 01 / 封面生成',
-    image: '/works/tools/poster-01.webp',
-    process: [
-      { step: '01', text: '输入视频标题与风格关键词，AI 提炼 3 个候选标题' },
-      { step: '02', text: '自动生成蓝版赛博科技风与橙版高对比风两版封面' },
-      { step: '03', text: '排版大字号 3D 标题、卖点横幅与信息条' },
-      { step: '04', text: '输出成品封面图，可直接用于短视频发布' }
-    ],
-    result: '单次 3 分钟产出两版成品封面，视觉统一、点击率明显提升。',
-    metrics: ['2 VERSIONS', '3 MIN', 'CTR +40%']
+    desc: '输入视频标题与风格关键词，AI 提炼候选标题，生成蓝橙双版 3D 封面，直接用于发布。',
+    metrics: ['2 VERSIONS', '3 MIN', 'CTR +40%'],
+    codeLabel: 'cover_job.config',
+    code: [
+      [C('p', 'cover_job'), C('p', ' = {')],
+      [C('k', '  title'), C('p', ' = '), C('s', '"我的视频标题"')],
+      [C('k', '  style'), C('p', ' = '), C('s', '"cyber-blue | orange"')],
+      [C('k', '  drafts'), C('p', ' = '), C('s', '"3 candidate titles"')],
+      [C('k', '  output'), C('p', ' = '), C('s', '"2 versions · 3D title"')],
+      [C('p', '}')]
+    ]
   },
   {
     no: '02',
     category: 'CONTENT WRITING',
     name: 'AI 文案生成工具',
     en: 'AI COPYWRITER',
-    tag: 'TOOL 02 / 文案生成',
-    image: '/works/tools/poster-02.webp',
-    process: [
-      { step: '01', text: '输入主题与发布平台，AI 按爆款结构提炼标题候选' },
-      { step: '02', text: '自动完成开头钩子、分层正文与结尾引导' },
-      { step: '03', text: '对个人信息自动脱敏，确保内容可公开使用' },
-      { step: '04', text: '输出可直接发布的完整 Markdown 文案' }
-    ],
-    result: '从选题到成文一次完成，结构完整、无需二次大改即可发布。',
-    metrics: ['5 TITLES', '1 DRAFT', 'READY 2 PUBLISH']
+    desc: '按爆款结构一次完成标题候选、开头钩子、分层正文与结尾引导，自动脱敏后可直接发布。',
+    metrics: ['5 TITLES', '1 DRAFT', 'READY 2 PUBLISH'],
+    codeLabel: 'copy_job.config',
+    code: [
+      [C('p', 'copy_job'), C('p', ' = {')],
+      [C('k', '  topic'), C('p', ' = '), C('s', '"主题 / 平台"')],
+      [C('k', '  hook'), C('p', ' = '), C('s', '"爆款开头钩子"')],
+      [C('k', '  body'), C('p', ' = '), C('s', '"分层正文"')],
+      [C('k', '  safe'), C('p', ' = '), C('s', '"auto 脱敏"')],
+      [C('k', '  output'), C('p', ' = '), C('s', '"markdown 可直接发布"')],
+      [C('p', '}')]
+    ]
   },
   {
     no: '03',
     category: 'MUSIC CURATION',
     name: '免费音乐合集生成工具',
     en: 'MUSIC COLLECTION',
-    tag: 'TOOL 03 / 音乐合集',
-    image: '/works/tools/poster-03.webp',
-    process: [
-      { step: '01', text: '指定音乐风格，AI 规划合集主题与曲目结构' },
-      { step: '02', text: '逐曲搜索并筛选免费可试听的版本' },
-      { step: '03', text: '每首曲目附试听与收听链接' },
-      { step: '04', text: '交付分类清晰、可直接使用的音乐清单' }
-    ],
-    result: '每个风格快速获得带免费试听链接的曲库，省去逐个寻找的时间。',
-    metrics: ['10+ TRACKS', 'FREE', '1 CLICK']
+    desc: '指定音乐风格，AI 规划合集并逐曲筛选免费可试听版本，附收听链接一键使用。',
+    metrics: ['10+ TRACKS', 'FREE', '1 CLICK'],
+    codeLabel: 'music_job.config',
+    code: [
+      [C('p', 'music_job'), C('p', ' = {')],
+      [C('k', '  style'), C('p', ' = '), C('s', '"chill / lofi / ..."')],
+      [C('k', '  tracks'), C('p', ' = '), C('s', '"10+ curated"')],
+      [C('k', '  free'), C('p', ' = '), C('s', '"true · 可试听"')],
+      [C('k', '  links'), C('p', ' = '), C('s', '"listen + download"')],
+      [C('p', '}')]
+    ]
   },
   {
     no: '04',
     category: 'FACT CHECKING',
     name: '热点真伪辨别工具',
     en: 'FACT CHECK',
-    tag: 'TOOL 04 / 热点辟谣',
-    image: '/works/tools/poster-04.webp',
-    process: [
-      { step: '01', text: '提取热点消息的核心论断' },
-      { step: '02', text: '多源交叉查证，比对可信信息' },
-      { step: '03', text: '判定真伪等级并给出依据' },
-      { step: '04', text: '输出脱敏后的辟谣结论，可直接公开引用' }
-    ],
-    result: '几分钟内完成核实，给出可公开传播的真伪判定与辟谣内容。',
-    metrics: ['3+ SOURCES', '5 MIN', 'VERIFIED']
+    desc: '提取热点消息核心论断，多源交叉查证并判定真伪等级，输出可公开引用的辟谣内容。',
+    metrics: ['3+ SOURCES', '5 MIN', 'VERIFIED'],
+    codeLabel: 'fact_job.config',
+    code: [
+      [C('p', 'fact_job'), C('p', ' = {')],
+      [C('k', '  claim'), C('p', ' = '), C('s', '"热点消息"')],
+      [C('k', '  sources'), C('p', ' = '), C('s', '"3+ 交叉查证"')],
+      [C('k', '  verdict'), C('p', ' = '), C('s', '"TRUE / FALSE / MIXED"')],
+      [C('k', '  output'), C('p', ' = '), C('s', '"脱敏辟谣稿"')],
+      [C('p', '}')]
+    ]
   },
   {
     no: '05',
     category: 'TRANSCRIPTION',
     name: '视频字幕提取工具',
     en: 'SUBTITLE EXTRACTOR',
-    tag: 'TOOL 05 / 字幕提取',
-    image: '/works/tools/poster-05.webp',
-    process: [
-      { step: '01', text: '粘贴视频链接，自动检测视频自带字幕' },
-      { step: '02', text: '无字幕时自动转写完整音频' },
-      { step: '03', text: '生成 SRT / VTT / 逐字稿多种格式' },
-      { step: '04', text: '输出带时间戳的文案，可直接使用' }
-    ],
-    result: '从视频到完整字幕文案一次完成，无需手动逐句记录。',
-    metrics: ['SRT / VTT', 'WHISPER', '1 CLICK']
+    desc: '自动提取或转写视频字幕，输出 SRT / VTT / 逐字稿多种格式，带时间戳直接使用。',
+    metrics: ['SRT / VTT', 'WHISPER', '1 CLICK'],
+    codeLabel: 'subtitle_job.config',
+    code: [
+      [C('p', 'subtitle_job'), C('p', ' = {')],
+      [C('k', '  url'), C('p', ' = '), C('s', '"视频链接"')],
+      [C('k', '  mode'), C('p', ' = '), C('s', '"auto | whisper"')],
+      [C('k', '  formats'), C('p', ' = '), C('s', '"srt / vtt / txt"')],
+      [C('k', '  timecode'), C('p', ' = '), C('s', '"true"')],
+      [C('p', '}')]
+    ]
   }
 ]
 
+const N = ITEMS.length
+
+function CodeCard({ code, label }) {
+  return (
+    <div className="tg-code">
+      <div className="tg-code__bar">
+        <span className="tg-code__dots" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </span>
+        <span className="tg-code__label">{label}</span>
+      </div>
+      <pre className="tg-code__body">
+        {code.map((line, i) => (
+          <div className="tg-code__line" key={i}>
+            <span className="tg-code__no">{String(i + 1).padStart(2, '0')}</span>
+            <span className="tg-code__text">
+              {line.map((tok, j) => (
+                <span key={j} className={`tg-tok tg-tok--${tok[0]}`}>
+                  {tok[1]}
+                </span>
+              ))}
+            </span>
+          </div>
+        ))}
+      </pre>
+    </div>
+  )
+}
+
 export default function ToolsShowcase() {
-  const scope = useRef(null)
+  const scopeRef = useRef(null)
+  const runwayRef = useRef(null)
+  const triggerRef = useRef(null)
+  const [active, setActive] = useState(0)
 
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        '.projects__head',
-        { autoAlpha: 0, y: 40 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.projects__head',
-            start: 'top 80%',
-            once: true
-          }
-        }
-      )
+    const runway = runwayRef.current
+    if (!runway) return
 
-      const cards = gsap.utils.toArray('.projects-card__inner')
-      cards.forEach((card, i) => {
-        const next = cards[i + 1]
-        if (!next) return
-        const target = 1 - (cards.length - 1 - i) * 0.03
-        gsap.fromTo(
-          card,
-          { scale: 1 },
-          {
-            scale: target,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: next.closest('.projects-card'),
-              start: 'top bottom',
-              end: 'top top',
-              scrub: true
-            }
-          }
-        )
-      })
-    }, scope)
-    return () => ctx.revert()
+    const st = ScrollTrigger.create({
+      trigger: runway,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: true,
+      onUpdate: (self) => {
+        const p = self.progress
+        runway.style.setProperty('--accord-p', p.toFixed(4))
+        setActive(Math.max(0, Math.min(N - 1, Math.round(p * (N - 1)))))
+      }
+    })
+    triggerRef.current = st
+    runway.style.setProperty('--accord-p', '0')
+
+    return () => st.kill()
   }, [])
 
+  const goTo = (i) => {
+    const st = triggerRef.current
+    const lenis = window.__lenis
+    if (!st) return
+    const y = st.start + ((i + 0.5) / N) * (st.end - st.start)
+    if (lenis) lenis.scrollTo(y, { duration: 1.2 })
+    else window.scrollTo({ top: y, behavior: 'smooth' })
+  }
+
   return (
-    <section className="projects" id="tools-showcase" ref={scope}>
+    <section className="projects tools-grid" id="tools-showcase" ref={scopeRef}>
       <div className="container projects__head">
         <span className="mono projects__kicker">SKILL BUILD / Skill搭建</span>
         <h2 className="projects__heading projects__heading--fold">
@@ -149,7 +180,7 @@ export default function ToolsShowcase() {
             ease="power3.out"
             perspective={700}
             creaseShading={0.55}
-            fontSize="clamp(3rem, 12vw, 160px)"
+            fontSize="clamp(2.6rem, 9vw, 120px)"
             fontWeight={900}
             color="#d7e2ea"
           />
@@ -157,72 +188,58 @@ export default function ToolsShowcase() {
         <p className="mono projects__sub">FIVE AI SKILLS · ONE WORKFLOW</p>
       </div>
 
-      <div className="projects__stack">
-        {ITEMS.map((item, i) => (
-          <article className="projects-card" key={item.no}>
-            <div className="projects-card__inner" style={{ top: i * 28 }}>
-              <header className="projects-card__head">
-                <div className="projects-card__head-left">
-                  <span className="projects-card__num">{item.no}</span>
-                  <div className="projects-card__title">
-                    <span className="projects-card__cat">{item.category}</span>
-                    <h3 className="projects-card__name">{item.name}</h3>
-                    <span className="projects-card__en">{item.en}</span>
-                  </div>
-                </div>
-                <a className="projects-card__live" href="#contact">
-                  Live Project
-                </a>
-              </header>
+      <div className="tools-accordion" ref={runwayRef}>
+        <div className="tools-accordion__sticky">
+          <div className="tools-accordion__inner">
+            {/* 左侧特性导航 */}
+            <nav className="tg-nav" aria-label="技能导航">
+              {ITEMS.map((item, i) => (
+                <button
+                  key={item.no}
+                  type="button"
+                  className={`tg-nav__item mono ${i === active ? 'tg-nav__item--active' : ''}`}
+                  onClick={() => goTo(i)}
+                >
+                  <span className="tg-nav__dot" aria-hidden="true" />
+                  <span className="tg-nav__label">{item.category}</span>
+                </button>
+              ))}
+            </nav>
 
-              <div className="projects-card__body">
-                <div className="projects-card__media">
-                  <img
-                    src={asset(item.image)}
-                    alt={item.name}
-                    loading="lazy"
-                  />
-                  <span className="projects-card__tag mono">{item.tag}</span>
-                </div>
-
-                <div className="projects-card__info">
-                  <section className="projects-card__section">
-                    <h4 className="projects-card__section-title">
-                      <span>PROCESS</span>
-                      使用过程
-                    </h4>
-                    <ol className="projects-card__steps">
-                      {item.process.map((p) => (
-                        <li key={p.step}>
-                          <span className="mono">{p.step}</span>
-                          <p>{p.text}</p>
-                        </li>
+            {/* 右侧堆叠面板 */}
+            <div className="tg-stage">
+              {ITEMS.map((item, i) => (
+                <article
+                  key={item.no}
+                  className="tg-card"
+                  style={{ '--i': i, zIndex: N - i }}
+                >
+                  <div className="tg-card__copy">
+                    <span className="tg-card__eyebrow mono">{item.category}</span>
+                    <h3 className="tg-card__title">{item.en}</h3>
+                    <p className="tg-card__cn">{item.name}</p>
+                    <p className="tg-card__desc">{item.desc}</p>
+                    <div className="tg-card__metrics">
+                      {item.metrics.map((m) => (
+                        <span className="mono" key={m}>
+                          {m}
+                        </span>
                       ))}
-                    </ol>
-                  </section>
-
-                  <section className="projects-card__section projects-card__section--result">
-                    <h4 className="projects-card__section-title">
-                      <span>RESULT</span>
-                      效果
-                    </h4>
-                    <div className="projects-card__result-row">
-                      <p className="projects-card__result">{item.result}</p>
-                      <div className="projects-card__metrics">
-                        {item.metrics.map((m) => (
-                          <span className="mono" key={m}>
-                            {m}
-                          </span>
-                        ))}
-                      </div>
                     </div>
-                  </section>
-                </div>
-              </div>
+                  </div>
+
+                  <div className="tg-card__visual">
+                    <div className="tg-visual__panel" aria-hidden="true" />
+                    <div className="tg-visual__halo" aria-hidden="true" />
+                    <CodeCard code={item.code} label={item.codeLabel} />
+                  </div>
+                </article>
+              ))}
             </div>
-          </article>
-        ))}
+          </div>
+        </div>
       </div>
     </section>
   )
 }
+

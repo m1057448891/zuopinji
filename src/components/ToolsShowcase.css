@@ -1,0 +1,360 @@
+/* ============================================================
+   Skill Build —— Nimbus Grid Platform Accordion
+   黑金终端风 · 滚动驱动手风琴（sticky + clip-path 逐卡翻页）
+   ============================================================ */
+
+.tools-grid {
+  --tg-bg: #0a0a08;
+  --tg-ink: #fff4d5;
+  --tg-muted: #dacaa1;
+  --tg-line: rgba(255, 240, 199, 0.22);
+  --tg-accent: #ffd879;
+  --tg-accent-2: #ead09a;
+  --tg-deep: #4d3f24;
+  background: var(--tg-bg);
+  color: var(--tg-ink);
+  color-scheme: dark;
+}
+
+/* —— 滚动跑道：sticky 面板在这里走完全程 —— */
+.tools-accordion {
+  position: relative;
+  height: 540svh;
+}
+
+.tools-accordion__sticky {
+  position: sticky;
+  top: 76px;
+  height: calc(100svh - 76px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.tools-accordion__inner {
+  position: relative;
+  width: 100%;
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3.6vw, 56px);
+  display: grid;
+  grid-template-columns: clamp(160px, 15vw, 220px) minmax(0, 1fr);
+  gap: clamp(20px, 2.8vw, 48px);
+  align-items: center;
+}
+
+/* —— 左侧特性导航 —— */
+.tg-nav {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.9vh, 20px);
+  padding-left: 4px;
+}
+
+.tg-nav__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 244, 213, 0.5);
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.tg-nav__item:hover {
+  color: rgba(255, 244, 213, 0.85);
+}
+
+.tg-nav__dot {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  background: rgba(255, 244, 213, 0.35);
+  transition: background 0.18s ease;
+}
+
+.tg-nav__item--active {
+  color: var(--tg-accent);
+  transform: translateX(2px);
+}
+
+.tg-nav__item--active .tg-nav__dot {
+  background: var(--tg-accent);
+  box-shadow: 0 0 10px rgba(255, 216, 121, 0.7);
+}
+
+/* —— 右侧堆叠面板 —— */
+.tg-stage {
+  position: relative;
+  height: min(78svh, 820px);
+}
+
+.tg-card {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  gap: clamp(22px, 3vw, 52px);
+  align-items: center;
+  padding: 0 clamp(4px, 1.2vw, 20px);
+  background: var(--tg-bg);
+  --local: clamp(0, calc(var(--accord-p, 0) * 4 - var(--i, 0)), 1);
+  transform: translateY(calc(var(--local) * -72px));
+  clip-path: inset(0 0 calc(var(--local) * 100%) 0);
+  will-change: transform, clip-path;
+}
+
+.tg-card__copy {
+  padding-left: clamp(8px, 1.6vw, 28px);
+}
+
+/* —— 左侧文案 —— */
+.tg-card__eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--tg-accent);
+  opacity: 0.85;
+}
+
+.tg-card__title {
+  margin: clamp(10px, 1.8vh, 18px) 0 0;
+  font-size: clamp(30px, 3.6vw, 62px);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  color: var(--tg-ink);
+  max-width: 12ch;
+}
+
+.tg-card__cn {
+  margin: 10px 0 0;
+  font-size: clamp(14px, 1.15vw, 18px);
+  color: var(--tg-accent-2);
+  opacity: 0.9;
+}
+
+.tg-card__desc {
+  margin: clamp(12px, 1.8vh, 18px) 0 0;
+  max-width: 46ch;
+  font-size: clamp(13px, 1.02vw, 16px);
+  line-height: 1.55;
+  color: var(--tg-muted);
+}
+
+.tg-card__metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: clamp(16px, 2.4vh, 24px);
+}
+
+.tg-card__metrics span {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--tg-ink);
+  border: 1px solid var(--tg-line);
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: rgba(255, 239, 199, 0.06);
+}
+
+/* —— 右侧金色渐变 + 悬浮代码卡片 —— */
+.tg-card__visual {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+}
+
+.tg-visual__halo {
+  position: absolute;
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 216, 121, 0.35), transparent 62%);
+  filter: blur(46px);
+  pointer-events: none;
+}
+
+.tg-visual__panel {
+  position: relative;
+  width: min(500px, 90%);
+  aspect-ratio: 1 / 1;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 52% 38%, rgba(255, 225, 150, 0.95) 0%, rgba(240, 210, 124, 0.9) 22%, rgba(177, 141, 79, 0.85) 52%, rgba(78, 63, 36, 0.95) 100%);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 244, 213, 0.35);
+  overflow: hidden;
+}
+
+.tg-visual__panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(10, 10, 8, 0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 8, 0.10) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.5;
+}
+
+.tg-visual__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.28), transparent 42%);
+}
+
+/* —— 代码卡片 —— */
+.tg-code {
+  position: absolute;
+  width: min(400px, 80%);
+  border-radius: 14px;
+  background: rgba(13, 16, 19, 0.94);
+  border: 1px solid rgba(255, 240, 199, 0.18);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  transform: translateY(-8px) rotateX(2deg) rotateY(-1deg);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.tg-code__bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border-bottom: 1px solid rgba(255, 240, 199, 0.1);
+}
+
+.tg-code__dots {
+  display: flex;
+  gap: 6px;
+}
+
+.tg-code__dots i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: block;
+  background: rgba(255, 244, 213, 0.28);
+}
+
+.tg-code__dots i:nth-child(1) { background: #e28b7a; }
+.tg-code__dots i:nth-child(2) { background: #e0bd7d; }
+.tg-code__dots i:nth-child(3) { background: #8fb98f; }
+
+.tg-code__label {
+  margin-left: 4px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 244, 213, 0.5);
+}
+
+.tg-code__body {
+  margin: 0;
+  padding: 14px 16px 16px;
+  font-family: var(--font-mono, monospace);
+  font-size: 12.5px;
+  line-height: 1.85;
+  color: var(--tg-ink);
+  overflow: hidden;
+}
+
+.tg-code__line {
+  display: flex;
+  gap: 14px;
+  white-space: pre;
+}
+
+.tg-code__no {
+  color: rgba(255, 244, 213, 0.28);
+  user-select: none;
+}
+
+.tg-tok--p { color: #efe4c6; }
+.tg-tok--k { color: #f2d489; }
+.tg-tok--s { color: #f2a7b8; }
+
+/* —— 响应式 —— */
+@media (max-width: 980px) {
+  .tools-accordion {
+    height: 560svh;
+  }
+  .tools-accordion__inner {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-content: center;
+  }
+  .tg-nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 20px;
+  }
+  .tg-nav__item {
+    width: auto;
+  }
+  .tg-nav__item--active {
+    transform: none;
+  }
+  .tg-stage {
+    height: 62svh;
+  }
+  .tg-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: 16px;
+    align-content: center;
+  }
+  .tg-card__title {
+    font-size: clamp(26px, 6vw, 42px);
+    max-width: none;
+  }
+  .tg-card__copy {
+    text-align: center;
+  }
+  .tg-card__desc {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .tg-card__metrics {
+    justify-content: center;
+  }
+  .tg-card__visual {
+    min-height: 0;
+  }
+  .tg-visual__panel {
+    width: min(320px, 72vw);
+  }
+  .tg-code {
+    width: min(280px, 62vw);
+    font-size: 11px;
+  }
+  .tg-code__body {
+    padding: 10px 12px 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  .tools-accordion {
+    height: 600svh;
+  }
+  .tg-stage {
+    height: 60svh;
+  }
+  .tg-code__body {
+    font-size: 10.5px;
+    line-height: 1.7;
+  }
+}
+
+
