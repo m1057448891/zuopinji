@@ -1,66 +1,56 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import worksData from '../data/works.json'
 import { asset } from '../lib/asset.js'
 import useInView from '../lib/useInView.js'
 import { videoSources } from '../lib/videoSources.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const works = worksData.works
-const dragon = works.find((w) => w.original.includes('2026-03-23-5027'))
-
 const SHORTS = [
   {
     no: '01',
-    file: dragon?.file || '/works/vid/vid-019.mp4',
-    badge: 'DARK FANTASY',
-    en: 'DRAGON KNIGHT — EPIC BATTLE',
-    cn: '龙骑士史诗之战',
-    desc: '身披铠甲的骑士乘黑色巨龙立于岩石峭壁，乌云翻涌、火星飞散，史诗级暗黑奇幻电影镜头。',
-    date: '2026 03.23',
-    tags: ['DRAGON RIDER', 'DARK FANTASY', 'CINEMATIC']
+    file: '/works/adsreel/01.mp4',
+    poster: '/videos/ads/01-poster.jpg',
+    badge: 'PRODUCT FILM',
+    en: 'SNEAKER — FIBER CONSTRUCTION',
+    cn: '耐克运动鞋构造展示',
+    desc: '微距镜头下的纤维生成与构造过程，鞋面材质如植物纤维般层层生长、交织成型，展现运动鞋的结构美学。',
+    date: '2026',
+    tags: ['SNEAKER', 'MACRO', 'CONSTRUCTION']
   },
   {
     no: '02',
-    file: '/works/hero/hero-02.mp4',
-    badge: 'AERIAL FILM',
-    en: 'SEAGULLS — COASTAL FLIGHT',
-    cn: '海鸥掠岸',
-    desc: '航拍海岸线，白色海鸥掠过绿色草坡与海面，阳光洒落水面，静谧的自然电影镜头。',
+    file: '/works/adsreel/02.mp4',
+    poster: '/videos/ads/02-poster.jpg',
+    badge: 'JEWELRY FILM',
+    en: 'NECKLACE — GOLDEN HOUR',
+    cn: '项链',
+    desc: '黄昏卧室窗边的柔光逆光下，项链在暖色光线中闪烁，金属与钻石的质感被细致呈现。',
     date: '2026',
-    tags: ['SEAGULLS', 'COAST', 'AERIAL']
+    tags: ['NECKLACE', 'JEWELRY', 'GOLDEN HOUR']
   },
   {
     no: '03',
-    file: '/works/hero/hero-03.mp4',
-    badge: 'CG EXPERIMENT',
-    en: 'GRID TUNNEL',
-    cn: '网格隧道',
-    desc: '黄绿色线框网格向中心收缩成隧道，强烈的纵深与速度感，纯粹的 CG 视觉实验。',
+    file: '/works/adsreel/03.mp4',
+    poster: '/videos/ads/03-poster.jpg',
+    badge: 'PRODUCT FILM',
+    en: 'WIRELESS EARBUDS',
+    cn: '蓝牙耳机',
+    desc: '黑色耳机与充电仓在镜面展台上旋转呈现，顶部光束勾勒出圆润轮廓与指示灯细节。',
     date: '2026',
-    tags: ['WIREFRAME', 'TUNNEL', 'CG']
+    tags: ['EARBUDS', 'PRODUCT', 'MACRO']
   },
   {
     no: '04',
-    file: '/works/hero/hero-04.mp4',
-    badge: 'FISHEYE FILM',
-    en: 'BEE — LOW FLIGHT',
-    cn: '蜜蜂的低空飞行',
-    desc: '蜜蜂在阳光灿烂的公园草地上空低飞，彩色游乐设施作背景，鱼眼近距离跟拍，动感十足。',
+    file: '/works/adsreel/04.mp4',
+    poster: '/videos/ads/04-poster.jpg',
+    badge: 'MACRO FILM',
+    en: 'COFFEE — MACRO',
+    cn: '咖啡',
+    desc: '绵密奶泡与咖啡液的分层特写，方糖立于泡沫之上，微距镜头下的治愈系咖啡时刻。',
     date: '2026',
-    tags: ['BEE', 'PLAYGROUND', 'FISHEYE']
-  },
-  {
-    no: '05',
-    file: '/works/hero/hero-05.mp4',
-    badge: 'DARK FILM',
-    en: 'EMBERS & SMOKE',
-    cn: '余烬与浓烟',
-    desc: '浓烟中橙色火星四溅，木质残骸倾斜坍塌、地面碎石遍地，爆炸后的暗黑电影现场。',
-    date: '2026',
-    tags: ['SMOKE', 'EXPLOSION', 'EMBERS']
+    tags: ['COFFEE', 'MACRO', 'FOOD FILM']
   }
 ]
 
@@ -212,6 +202,7 @@ export default function ShortsShowcase() {
               muted
               playsInline
               preload={inView ? 'auto' : 'none'}
+              poster={inView ? asset(cur.poster) : undefined}
             >
               {inView &&
                 videoSources(cur.file).map((s) => (

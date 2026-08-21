@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const listItems = [
   { no: '01', cn: '图片作品', en: 'IMAGE WORKS', href: '#image-works' },
-  { no: '02', cn: '创意短片', en: 'SHORTS', href: '#shorts-showcase' },
+  { no: '02', cn: '商业广告', en: 'COMMERCIAL ADS', href: '#shorts-showcase' },
   { no: '03', cn: '风格效果', en: 'STYLE EFFECTS', href: '#ads-showcase' },
   { no: '04', cn: 'Skill搭建', en: 'SKILL BUILD', href: '#tools-showcase' },
   { no: '05', cn: '图片轮播', en: 'IMAGE GALLERY', href: '#gallery-showcase' }
@@ -15,12 +15,12 @@ const listItems = [
 
 const WAVE = Array.from({ length: 24 }, (_, i) => 24 + ((i * 29) % 60))
 
-// 这四个视频已移入创意短片页：首页只展示静态海报，点击跳转到创意短片页播放
+// 这四个广告视频在“商业广告”页：首页只展示静态海报，点击跳转到商业广告页播放
 const SHORTS = [
-  { no: '02', file: '/works/hero/hero-02.mp4', cn: '海鸥掠岸', en: 'SEAGULLS' },
-  { no: '03', file: '/works/hero/hero-03.mp4', cn: '网格隧道', en: 'GRID TUNNEL' },
-  { no: '04', file: '/works/hero/hero-04.mp4', cn: '蜜蜂低飞', en: 'BEE LOW FLIGHT' },
-  { no: '05', file: '/works/hero/hero-05.mp4', cn: '余烬与浓烟', en: 'EMBERS & SMOKE' }
+  { no: '01', file: '/works/adsreel/01.mp4', poster: '/videos/ads/01-poster.jpg', cn: '运动鞋构造', en: 'SNEAKER FIBER' },
+  { no: '02', file: '/works/adsreel/02.mp4', poster: '/videos/ads/02-poster.jpg', cn: '项链', en: 'NECKLACE' },
+  { no: '03', file: '/works/adsreel/03.mp4', poster: '/videos/ads/03-poster.jpg', cn: '蓝牙耳机', en: 'EARBUDS' },
+  { no: '04', file: '/works/adsreel/04.mp4', poster: '/videos/ads/04-poster.jpg', cn: '咖啡', en: 'COFFEE' }
 ]
 
 export default function Hero({ video }) {
@@ -145,7 +145,7 @@ export default function Hero({ video }) {
 
       <div className="container hero__carousel">
         <div className="hero__car-head">
-          <span className="hero__car-index mono">CREATIVE SHORTS // 04</span>
+          <span className="hero__car-index mono">COMMERCIAL ADS // 04</span>
         </div>
 
         <div className="hero__strips">
@@ -162,7 +162,7 @@ export default function Hero({ video }) {
                 onClick={() => goShorts(s.file)}
                 aria-label={s.cn}
               >
-                <img src={asset(s.file.replace(/\.mp4$/, '-poster.jpg'))} alt={s.cn} loading="lazy" decoding="async" />
+                <img src={asset(s.poster)} alt={s.cn} loading="lazy" decoding="async" />
                 <span className="mono">{s.no}</span>
               </a>
             </div>
