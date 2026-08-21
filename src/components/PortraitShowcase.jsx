@@ -21,7 +21,7 @@ const VIDEOS = [
   { id: 'anim-08', file: '/works/ads/portrait/anim-08.mp4', poster: '/videos/portrait/anim-08-poster.jpg', cn: '花雨秋千', en: 'SWING BENEATH THE BLOSSOMS', tag: 'AI SHORT FILM', desc: '樱花纷飞如雨，秋千悬于树荫之间，一帧春色。' }
 ]
 
-const HERO_BG = VIDEOS[1] // hero 背景视频：灯影傩舞（暗调电影感，适合白字）
+const HERO_BG = VIDEOS[0] // hero 背景视频：蓝牙耳机
 const GEM = VIDEOS[0]     // gem 卡片视频：蓝牙耳机
 
 // 分屏 hero 的标题内容（左黑右白，同一份渲染两次）
@@ -51,7 +51,7 @@ function HeroContent() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, delay: 0.55, ease: GOLD_EASE }}
       >
-        从产品特写、氛围短片到治愈动画，用 AI 把想象力变成可交付的 9:16 竖屏影像。
+        从产品特写、氛围短片到治愈动画，用AI把想象力变成可交付的影像。
       </motion.p>
     </div>
   )
@@ -230,9 +230,10 @@ export default function PortraitShowcase() {
           <LineSidebar
             items={VIDEOS.map((v) => v.cn)}
             accentColor="#8b5cf6"
-            textColor="#55575d"
-            markerColor="#9b9ba1"
+            textColor="#d6d6de"
+            markerColor="#8a8a94"
             showIndex
+            defaultActive={0}
             showMarker
             proximityRadius={90}
             maxShift={24}
@@ -317,6 +318,9 @@ export default function PortraitShowcase() {
     </section>
   )
 }
+
+
+
 
 
 

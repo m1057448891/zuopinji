@@ -298,20 +298,20 @@
   height: 40px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 999px;
-  background: rgba(28, 28, 28, 0.72);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  color: #fff;
+  color: #111;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   transition: transform 0.3s ease, background 0.3s ease;
   pointer-events: auto;
 }
 
 .lc-control:hover {
-  background: #000;
+  background: #ffffff;
   transform: scale(1.08);
 }
 
@@ -334,18 +334,18 @@
   padding: 0;
   border: none;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(255, 255, 255, 0.22);
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .lc-dot:hover {
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(255, 255, 255, 0.42);
 }
 
 .lc-dot--active {
   width: 26px;
-  background: #1c1c1c;
+  background: #ffffff;
 }
 
 @media (hover: none) {
@@ -357,5 +357,6 @@
     font-size: 16px;
   }
 }
+
 
 

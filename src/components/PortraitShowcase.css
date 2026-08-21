@@ -6,8 +6,8 @@
 .portrait-travel {
   position: relative;
   z-index: 1;
-  background: #f3ebe4;
-  color: #1c1c1c;
+  background: #050505;
+  color: #f2f2f2;
   font-family: 'Inter', system-ui, sans-serif;
   min-height: 100vh;
   overflow: hidden;
@@ -37,7 +37,7 @@
 .pt-hero__left {
   width: 50vw;
   height: 100%;
-  background: #f3ebe4;
+  background: #050505;
 }
 
 .pt-hero__right {
@@ -84,19 +84,19 @@
   }
 }
 
-/* 右上暗色渐变：只压暗标题所在的亮斑区域，不改变文字样式 */
+/* 顶部暗化：保证固定导航在亮视频区上仍可读 */
 .pt-hero__scrim-top {
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
-  width: 50%;
-  height: 62%;
+  height: 34%;
   z-index: 5;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(12, 16, 24, 0.3) 0%, rgba(12, 16, 24, 0.12) 45%, transparent 72%);
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.72) 0%, rgba(5, 5, 5, 0.18) 62%, transparent 100%);
 }
 
-/* 分屏标题：同一份内容，黑/白各半 */
+/* 分屏标题：同一份内容，左半白 / 右半磨砂玻璃 */
 .pt-hero__text {
   position: absolute;
   inset: 0;
@@ -110,13 +110,31 @@
 }
 
 .pt-hero__text--black {
-  color: #1c1c1c;
+  color: #ffffff;
   clip-path: inset(0 50% 0 0);
 }
 
+/* 右半：磨砂玻璃——半透明毛玻璃面板 + 玻璃质感文字 */
 .pt-hero__text--white {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.9);
   clip-path: inset(0 0 0 50%);
+}
+
+.pt-hero__text--white::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 62%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(22px) saturate(1.4);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 30px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  z-index: -1;
 }
 
 .pt-hero__content {
@@ -144,11 +162,22 @@
 }
 
 .pt-hero__line h1 {
-  font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-  font-size: clamp(42px, 6vw, 80px);
+  font-family: "Archivo Black", var(--font-sans);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-size: clamp(38px, 5.4vw, 92px);
   margin: 0;
+}
+
+.pt-hero__text--white h1 {
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.35), 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+.pt-hero__text--black h1 {
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
 }
 
 .pt-hero__content p {
@@ -156,9 +185,10 @@
   line-height: 1.7;
   max-width: 550px;
   margin: 0 auto;
-  opacity: 0.8;
+  opacity: 0.92;
   font-weight: 300;
   letter-spacing: 0.02em;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6);
 }
 
 /* LineSidebar —— hero 左下角 */
@@ -258,7 +288,7 @@
 .pt-cards {
   position: relative;
   z-index: 5;
-  background: #f3ebe4;
+  background: #050505;
   min-height: 100vh;
   font-family: 'Inter', system-ui, sans-serif;
 }
@@ -282,14 +312,14 @@
   font-weight: 300;
   letter-spacing: -0.02em;
   outline: none;
-  color: #1c1c1c;
-  caret-color: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  caret-color: rgba(255, 255, 255, 0.55);
   text-align: center;
   font-family: inherit;
 }
 
 #pt-search::placeholder {
-  color: rgba(0, 0, 0, 0.42);
+  color: rgba(255, 255, 255, 0.38);
 }
 
 #pt-search {
@@ -298,7 +328,7 @@
 }
 
 #pt-search:focus {
-  border-color: rgba(0, 0, 0, 0.18);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .pt-cards__popular {
@@ -307,7 +337,7 @@
   letter-spacing: 0.2em;
   margin: 28px 0 4px;
   text-transform: uppercase;
-  color: #1c1c1c;
+  color: #ffffff;
   text-align: center;
 }
 
@@ -333,7 +363,7 @@
 }
 
 .pt-cards__empty {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.5);
   font-size: 14px;
   padding-top: 16px;
 }
@@ -579,4 +609,6 @@
     max-width: none;
   }
 }
+
+
 
