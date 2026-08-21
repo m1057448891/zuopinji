@@ -79,10 +79,10 @@ export default function AdsShowcase() {
       </div>
 
       <div className="ember-ads__preload" aria-hidden="true">
-        <video preload="auto" muted loop playsInline>
+        <video preload={inView ? 'auto' : 'none'} muted loop playsInline>
           <source src={asset(next.file)} type="video/mp4" />
         </video>
-        <video preload="auto" muted loop playsInline>
+        <video preload={inView ? 'auto' : 'none'} muted loop playsInline>
           <source src={asset(prev.file)} type="video/mp4" />
         </video>
       </div>

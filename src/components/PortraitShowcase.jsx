@@ -197,7 +197,7 @@ export default function PortraitShowcase() {
       </div>
 
       <div className="ember-ads__preload" aria-hidden="true">
-        <video preload="auto" muted loop playsInline>
+        <video preload={isNear ? 'auto' : 'none'} muted loop playsInline>
           <source src={asset(upcoming.file)} type="video/mp4" />
         </video>
       </div>

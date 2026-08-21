@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -20,6 +20,25 @@ const AxionShaderBg = lazy(() => import('./components/AxionShaderBg.jsx'))
 
 export default function App() {
   const [heroVideo] = useState(HERO_BG)
+  const [bgNear, setBgNear] = useState(false)
+  const seamlessRef = useRef(null)
+
+  // 背景 shader 只在这两页快滚动到时才加载，避免首屏多下 600KB
+  useEffect(() => {
+    const el = seamlessRef.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setBgNear(true)
+          io.disconnect()
+        }
+      },
+      { rootMargin: '1600px 0px' }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
 
   // 提前预加载图片轮播页（含 shader），避免点击导航时现加载导致卡顿
   useEffect(() => {
@@ -103,11 +122,13 @@ export default function App() {
         <SectorsShowcase />
         <ShortsShowcase />
         <AdsShowcase />
-        <div className="ba-seamless">
+        <div className="ba-seamless" ref={seamlessRef}>
           <div className="ba-seamless__bg" aria-hidden="true">
-            <Suspense fallback={null}>
-              <AxionShaderBg />
-            </Suspense>
+            {bgNear && (
+              <Suspense fallback={null}>
+                <AxionShaderBg />
+              </Suspense>
+            )}
           </div>
           <PortraitShowcase />
           <LazyGallery />

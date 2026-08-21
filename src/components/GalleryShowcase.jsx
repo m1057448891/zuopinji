@@ -123,7 +123,7 @@ export default function GalleryShowcase() {
         >
           {[...IMAGES, ...IMAGES].map((img, i) => (
             <div className="ba-slide" key={i}>
-              <img src={asset(img.img)} loading="lazy" draggable={false} alt="" />
+              <img src={asset(img.img)} loading="lazy" decoding="async" draggable={false} alt="" />
             </div>
           ))}
         </div>
