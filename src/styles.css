@@ -6413,6 +6413,7 @@ body.hide-site-nav .nav {
   font-size: 16px;
   line-height: 1.6;
   color: #171717;
+  text-wrap: pretty;
 }
 @media (min-width: 640px) {
   .ba-bottom p { font-size: 18px; }

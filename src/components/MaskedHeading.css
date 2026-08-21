@@ -38,6 +38,8 @@
   inset: 0;
   display: block;
   pointer-events: none;
+  /* 媒体填充层会被 scale 放大，必须裁剪，否则产生页面横向溢出 */
+  overflow: hidden;
 }
 
 .masked-heading__clip {
