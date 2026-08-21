@@ -4773,6 +4773,24 @@ a {
   white-space: nowrap;
 }
 
+.contact__icp {
+  flex: 0 0 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 6px;
+}
+
+.contact__icp a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.contact__icp a:hover {
+  text-decoration: underline;
+}
+
 .contact__brand {
   position: absolute;
   left: -0.02em;

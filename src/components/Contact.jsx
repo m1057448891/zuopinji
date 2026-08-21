@@ -208,6 +208,11 @@ export default function Contact() {
             <span>LIAONING · FU XIN</span>
             <span>{clock}</span>
           </div>
+          <div className="mono contact__icp">
+            <a href="https://beian.miit.gov.cn" target="_blank" rel="noreferrer">
+              辽ICP备2026018875号-1
+            </a>
+          </div>
           <div className="mono contact__slogan">
             <span>LET'S MAKE GOOD CONTENT CONNECT</span>
             <span className="contact__slashes" aria-hidden="true">
