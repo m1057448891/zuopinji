@@ -105,7 +105,7 @@ export default function GalleryShowcase() {
               creaseShading={0.55}
               fontSize="clamp(30px, 3.6vw, 52px)"
               fontWeight={600}
-              color="#ffffff"
+              color="#171717"
             />
           </h1>
           <p>内容运营 × AI 视觉创作 · 把想象力变成可交付的作品</p>
