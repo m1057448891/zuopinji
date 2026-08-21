@@ -6047,6 +6047,55 @@ body.hide-site-nav .nav {
   height: 100% !important;
   display: block;
 }
+
+/* WebGPU 不可用时的 CSS 兜底背景：柔和玻璃光感 + 缓慢漂移 */
+.axion-fallback {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(110% 90% at 12% 8%, rgba(255, 255, 255, 0.96) 0%, rgba(250, 250, 252, 0.72) 42%, rgba(255, 95, 3, 0.14) 78%, rgba(255, 95, 3, 0) 100%),
+    radial-gradient(80% 70% at 88% 82%, rgba(255, 95, 3, 0.18) 0%, rgba(255, 95, 3, 0) 62%),
+    linear-gradient(135deg, #fafafc 0%, #f2f1f4 48%, #e9e7ea 100%);
+}
+
+.axion-fallback::before,
+.axion-fallback::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  will-change: transform;
+}
+
+.axion-fallback::before {
+  width: 42vmax;
+  height: 42vmax;
+  left: -8vmax;
+  top: -12vmax;
+  background: rgba(255, 255, 255, 0.85);
+  animation: axion-drift-a 16s ease-in-out infinite alternate;
+}
+
+.axion-fallback::after {
+  width: 34vmax;
+  height: 34vmax;
+  right: -6vmax;
+  bottom: -10vmax;
+  background: rgba(255, 95, 3, 0.28);
+  animation: axion-drift-b 20s ease-in-out infinite alternate;
+}
+
+@keyframes axion-drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(6vmax, 4vmax, 0) scale(1.12); }
+}
+
+@keyframes axion-drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-5vmax, -4vmax, 0) scale(1.08); }
+}
+
 .ba-nav {
   position: sticky;
   top: 0;
