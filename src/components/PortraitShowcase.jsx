@@ -1,257 +1,268 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'motion/react'
-import { ChevronDown } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { motion } from 'motion/react'
+import { ArrowRight, ArrowLeft } from 'lucide-react'
 import { asset } from '../lib/asset.js'
-import useInViewNear from '../lib/useInView.js'
 import './PortraitShowcase.css'
 
-// 背景与冰山剪影（IGLOO 概念素材，本地化保证稳定加载）
-const BG = asset('/assets/igloo/bg.webp')
-const ICEBERG = asset('/assets/igloo/iceberg.webp')
+const GOLD_EASE = [0.76, 0, 0.24, 1]
 
-// 9 条竖屏视频作品（视频文件走 CDN，封面帧由站点自身提供）
+// 9 条竖屏视频作品（视频走 CDN，封面帧由站点自身提供）
 const VIDEOS = [
-  { id: '01', file: '/works/ads/portrait/01.mp4', poster: '/videos/portrait/01-poster.jpg', cn: '曜黑充电舱', en: 'DARK CHARGE CASE', tag: 'PRODUCT FILM' },
-  { id: '02', file: '/works/ads/portrait/02.mp4', poster: '/videos/portrait/02-poster.jpg', cn: '灯影青舞', en: 'TEAL DANCE IN LANTERN LIGHT', tag: 'AI SHORT FILM' },
-  { id: '03', file: '/works/ads/portrait/03.mp4', poster: '/videos/portrait/03-poster.jpg', cn: '方糖的温柔坠落', en: 'SWEET LANDING', tag: 'MACRO FILM' },
-  { id: '04', file: '/works/ads/portrait/04.mp4', poster: '/videos/portrait/04-poster.jpg', cn: '傲娇小鸡摸摸头', en: 'PET THE GRUMPY CHICK', tag: 'GAME ANIMATION' },
-  { id: '05', file: '/works/ads/portrait/05.mp4', poster: '/videos/portrait/05-poster.jpg', cn: '翠滴入掌', en: 'EMERALD DROP INTO THE PALM', tag: 'NATURE LOOP' },
-  { id: 'anim-01', file: '/works/ads/portrait/anim-01.mp4', poster: '/videos/portrait/anim-01-poster.jpg', cn: '花海灯塔', en: 'LIGHTHOUSE IN BLOOM', tag: 'AI SHORT FILM' },
-  { id: 'anim-03', file: '/works/ads/portrait/anim-03.mp4', poster: '/videos/portrait/anim-03-poster.jpg', cn: '电子圣殇', en: 'DIGITAL PIETÀ', tag: 'NEON · GLITCH' },
-  { id: 'anim-05', file: '/works/ads/portrait/anim-05.mp4', poster: '/videos/portrait/anim-05-poster.jpg', cn: '车窗玫瑰纪行', en: 'ROSES ALONG THE RAILS', tag: 'RETRO FILM' },
-  { id: 'anim-08', file: '/works/ads/portrait/anim-08.mp4', poster: '/videos/portrait/anim-08-poster.jpg', cn: '花雨秋千', en: 'SWING BENEATH THE BLOSSOMS', tag: 'AI SHORT FILM' }
+  { id: '01', file: '/works/ads/portrait/01.mp4', poster: '/videos/portrait/01-poster.jpg', cn: '曜黑充电舱', en: 'DARK CHARGE CASE', tag: 'PRODUCT FILM', desc: '无线耳机充电舱的暗调特写，冷光与倒影勾勒极简科技质感。' },
+  { id: '02', file: '/works/ads/portrait/02.mp4', poster: '/videos/portrait/02-poster.jpg', cn: '灯影青舞', en: 'TEAL DANCE IN LANTERN LIGHT', tag: 'AI SHORT FILM', desc: '夜色古巷中的青纱舞者，暖黄灯笼光晕与民族风头饰交织成电影感画面。' },
+  { id: '03', file: '/works/ads/portrait/03.mp4', poster: '/videos/portrait/03-poster.jpg', cn: '方糖的温柔坠落', en: 'SWEET LANDING', tag: 'MACRO FILM', desc: '方糖立于绵密奶泡之上的微距特写，crema 与热气营造治愈氛围。' },
+  { id: '04', file: '/works/ads/portrait/04.mp4', poster: '/videos/portrait/04-poster.jpg', cn: '傲娇小鸡摸摸头', en: 'PET THE GRUMPY CHICK', tag: 'GAME ANIMATION', desc: '牛皮纸涂鸦风的休闲游戏动画，爱心血条与进度条充满治愈趣味。' },
+  { id: '05', file: '/works/ads/portrait/05.mp4', poster: '/videos/portrait/05-poster.jpg', cn: '翠滴入掌', en: 'EMERALD DROP INTO THE PALM', tag: 'NATURE LOOP', desc: '荧光绿露珠自叶尖垂落掌心，雨后微光里安静的生命力。' },
+  { id: 'anim-01', file: '/works/ads/portrait/anim-01.mp4', poster: '/videos/portrait/anim-01-poster.jpg', cn: '花海灯塔', en: 'LIGHTHOUSE IN BLOOM', tag: 'AI SHORT FILM', desc: '红白灯塔被花海簇拥，蝴蝶翩跹、暖光如翼，梦幻而治愈。' },
+  { id: 'anim-03', file: '/works/ads/portrait/anim-03.mp4', poster: '/videos/portrait/anim-03-poster.jpg', cn: '电子圣殇', en: 'DIGITAL PIETÀ', tag: 'NEON · GLITCH', desc: '大理石圣像与霓虹数据流同框，古典静谧与赛博崩坏强烈对冲。' },
+  { id: 'anim-05', file: '/works/ads/portrait/anim-05.mp4', poster: '/videos/portrait/anim-05-poster.jpg', cn: '车窗玫瑰纪行', en: 'ROSES ALONG THE RAILS', tag: 'RETRO FILM', desc: '复古红列车窗边的长发女孩，玫瑰沿轨道盛放，胶片感的浪漫旅途。' },
+  { id: 'anim-08', file: '/works/ads/portrait/anim-08.mp4', poster: '/videos/portrait/anim-08-poster.jpg', cn: '花雨秋千', en: 'SWING BENEATH THE BLOSSOMS', tag: 'AI SHORT FILM', desc: '樱花纷飞如雨，秋千悬于树荫之间，一帧春色。' }
 ]
 
-// 左侧方形缩略图（4 个）与下方精选卡片（3 个）
-const THUMBS = ['01', '03', '04', 'anim-08']
-const CARDS = ['02', '05', 'anim-03']
-const byId = (id) => VIDEOS.find((v) => v.id === id)
+const HERO_BG = VIDEOS[1] // hero 背景视频：灯影青舞（暗调电影感，适合白字）
+const GEM = VIDEOS[0]     // gem 卡片视频：曜黑充电舱
 
-// 逐字母上拉动效（LettersPullUp）
-function Letters({ text, className = '', justify = 'center' }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-60px' })
+// 分屏 hero 的标题内容（左黑右白，同一份渲染两次）
+function HeroContent() {
   return (
-    <span ref={ref} className={`plu ${className}`} style={{ justifyContent: justify }}>
-      {text.split('').map((ch, i) => (
-        <motion.span
-          key={`${i}-${ch}`}
-          className="plu__char"
-          initial={{ y: 20, opacity: 0 }}
-          animate={inView ? { y: 0, opacity: 1 } : {}}
-          transition={{ delay: i * 0.05, duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+    <div className="pt-hero__content">
+      <div className="pt-hero__line">
+        <motion.h1
+          initial={{ y: '110%' }}
+          animate={{ y: 0 }}
+          transition={{ duration: 1.1, ease: GOLD_EASE }}
         >
-          {ch === ' ' ? '\u00A0' : ch}
-        </motion.span>
-      ))}
-    </span>
-  )
-}
-
-// 错峰出现容器（IntersectionObserver 触发一次，按索引延迟）
-function Reveal({ shown, index = 0, step = 150, className = '', children }) {
-  return (
-    <div
-      className={`pio-reveal${shown ? ' is-in' : ''} ${className}`.trim()}
-      style={{ transitionDelay: shown ? `${index * step}ms` : '0ms' }}
-    >
-      {children}
+          AI 竖屏视频
+        </motion.h1>
+      </div>
+      <div className="pt-hero__line pt-hero__line--mb">
+        <motion.h1
+          initial={{ y: '110%' }}
+          animate={{ y: 0 }}
+          transition={{ duration: 1.1, delay: 0.08, ease: GOLD_EASE }}
+        >
+          精选作品
+        </motion.h1>
+      </div>
+      <motion.p
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: 0.55, ease: GOLD_EASE }}
+      >
+        从产品特写、氛围短片到治愈动画，用 AI 把想象力变成可交付的 9:16 竖屏影像。
+      </motion.p>
     </div>
   )
 }
 
 export default function PortraitShowcase() {
-  const sectionRef = useRef(null)
-  const [sectionRefNear, isNear] = useInViewNear('0px 0px 400px 0px')
-  const setSectionRef = useCallback(
-    (el) => {
-      sectionRef.current = el
-      sectionRefNear.current = el
-    },
-    [sectionRefNear]
+  const heroVideoRef = useRef(null)
+  const [query, setQuery] = useState('')
+  const [detail, setDetail] = useState(null)
+
+  // 防御性自动播放：强制 muted 并在 loadeddata 后重播
+  useEffect(() => {
+    const v = heroVideoRef.current
+    if (!v) return
+    const play = () => {
+      v.muted = true
+      v.play().catch(() => {})
+    }
+    play()
+    v.addEventListener('loadeddata', play)
+    return () => v.removeEventListener('loadeddata', play)
+  }, [])
+
+  const filtered = useMemo(
+    () => VIDEOS.filter((v) => (v.cn + v.en + v.tag).toLowerCase().includes(query.toLowerCase())),
+    [query]
   )
 
-  const bgRef = useRef(null)
-  const iceRef = useRef(null)
-  const heroRef = useRef(null)
-  const [heroShown, setHeroShown] = useState(false)
-  const [viewShown, setViewShown] = useState(false)
+  const goCards = () => {
+    document.getElementById('portrait-works')?.scrollIntoView({ behavior: 'smooth' })
+  }
 
-  // 滚动驱动背景/冰山缩放与位移（按 hero 在视口中的位置计算）
-  useEffect(() => {
-    const els = [bgRef.current, iceRef.current].filter(Boolean)
-    if (!els.length) return
-    let raf = 0
-    const update = () => {
-      const hero = heroRef.current
-      if (!hero) return
-      const r = hero.getBoundingClientRect()
-      const vh = window.innerHeight
-      const progress = Math.max(0, Math.min((vh - r.top) / vh, 1))
-      const t = `scale(${1 + progress * 0.12})`
-      const op = `center ${progress * 100}%`
-      els.forEach((el) => {
-        el.style.transform = t
-        el.style.objectPosition = op
-      })
-    }
-    const onScroll = () => {
-      cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(update)
-    }
-    update()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', onScroll)
-    return () => {
-      cancelAnimationFrame(raf)
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', onScroll)
-    }
-  }, [])
+  const closeDetail = () => {
+    document.body.classList.remove('hide-site-nav')
+    setDetail(null)
+  }
 
-  // hero 错峰触发
-  useEffect(() => {
-    const el = heroRef.current
-    if (!el) return
-    const io = new IntersectionObserver(
-      (es) => {
-        if (es.some((e) => e.isIntersecting)) {
-          setHeroShown(true)
-          io.disconnect()
-        }
-      },
-      { threshold: 0.1 }
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
+  const openDetail = (v) => {
+    document.body.classList.add('hide-site-nav')
+    setDetail(v)
+  }
 
-  // view 错峰触发
-  useEffect(() => {
-    const el = sectionRef.current?.querySelector('.portrait-igloo__view')
-    if (!el) return
-    const io = new IntersectionObserver(
-      (es) => {
-        if (es.some((e) => e.isIntersecting)) {
-          setViewShown(true)
-          io.disconnect()
-        }
-      },
-      { threshold: 0.15 }
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-
-  // 卡片视频：进入视口自动播放，离开暂停
-  useEffect(() => {
-    const el = sectionRef.current
-    el?.querySelectorAll('video[data-play="true"]').forEach((v) => {
-      if (isNear) {
-        v.muted = true
-        v.play().catch(() => {})
-      } else {
-        v.pause()
-      }
-    })
-  }, [isNear, sectionRef])
+  // 详情覆盖层（对应 TourDetailSection）
+  const DetailOverlay = detail && (
+    <div
+      className="pt-detail"
+      role="dialog"
+      aria-modal="true"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) closeDetail()
+      }}
+    >
+      <div className="pt-detail__stage">
+        <motion.div
+          className="pt-detail__video-box"
+          initial={{ scale: 1.02, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.1, ease: GOLD_EASE }}
+        >
+          <video
+            src={asset(detail.file)}
+            poster={asset(detail.poster)}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            className="pt-detail__video"
+          />
+        </motion.div>
+        <motion.div
+          className="pt-detail__card"
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: GOLD_EASE }}
+        >
+          <button className="pt-detail__back" type="button" onClick={closeDetail}>
+            <ArrowLeft size={15} />
+            返回
+          </button>
+          <h1>{detail.cn}</h1>
+          <p className="pt-detail__en">{detail.en}</p>
+          <p className="pt-detail__desc">{detail.desc}</p>
+          <div className="pt-detail__meta">
+            <span>{detail.tag}</span>
+            <span>2026 · 竖屏 9:16</span>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  )
 
   return (
-    <section className="portrait-igloo" id="portrait-showcase" ref={setSectionRef}>
-      {/* 共享背景 + 冰山剪影（横跨两屏，冰山在字标之上、UI 之下） */}
-      <div className="portrait-igloo__stage" aria-hidden="true">
-        <img className="portrait-igloo__bg" ref={bgRef} src={BG} alt="" draggable={false} />
-      </div>
+    <section className="portrait-travel" id="portrait-showcase">
+      {/* ===== Hero 分屏 ===== */}
+      <div className="pt-hero">
+        <div className="pt-hero__left" aria-hidden="true" />
 
-      {/* Section 1 · Hero */}
-      <div className="portrait-igloo__hero" ref={heroRef}>
-        <div className="portrait-igloo__wordmark">
-          <Letters text="PORTRAIT" />
-        </div>
+        <div className="pt-hero__right">
+          <div className="pt-hero__bg">
+            <motion.div
+              className="pt-hero__bg-inner"
+              initial={{ scale: 1.06 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 2.2, ease: GOLD_EASE }}
+            >
+              <video
+                ref={heroVideoRef}
+                src={asset(HERO_BG.file)}
+                poster={asset(HERO_BG.poster)}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                className="pt-hero__video"
+              />
+            </motion.div>
+            <div className="pt-hero__shade" aria-hidden="true" />
+          </div>
 
-        <div className="portrait-igloo__iceberg-wrap">
-          <img className="portrait-igloo__iceberg" ref={iceRef} src={ICEBERG} alt="" draggable={false} />
-        </div>
-
-        <div className="portrait-igloo__rail-wrap">
-          <Reveal shown={heroShown} index={3} className="portrait-igloo__rail">
-            {THUMBS.map((id) => {
-              const v = byId(id)
-              return (
-                <a
-                  key={id}
-                  className="portrait-igloo__thumb"
-                  href="#portrait-works"
-                  aria-label={v.cn}
-                  title={v.cn}
-                >
-                  <img src={asset(v.poster)} alt={v.cn} loading="lazy" decoding="async" />
-                </a>
-              )
-            })}
-          </Reveal>
-        </div>
-
-        <div className="portrait-igloo__line-wrap">
-          <Reveal shown={heroShown} index={7} className="portrait-igloo__line" />
-        </div>
-
-        <div className="portrait-igloo__caption-wrap">
-          <Reveal shown={heroShown} index={8} className="portrait-igloo__caption">
-            <p>
-              AI 生成的竖屏短视频精选，探索 9:16 画幅里动态影像的更多可能。
-            </p>
-            <ChevronDown className="portrait-igloo__chev" size={16} strokeWidth={1.6} />
-          </Reveal>
-        </div>
-      </div>
-
-      {/* Section 2 · Selected Works */}
-      <div className="portrait-igloo__view" id="portrait-works">
-        <div className="portrait-igloo__view-inner">
-          <div className="portrait-igloo__view-top">
-            <div className="portrait-igloo__view-head">
-              <Reveal shown={viewShown} index={0} className="portrait-igloo__view-title">
-                <Letters text="SELECTED WORKS" justify="flex-start" />
-              </Reveal>
-              <Reveal shown={viewShown} index={0} className="portrait-igloo__view-rule" />
+          <motion.div
+            className="pt-gem"
+            initial={{ y: 60, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1.1, delay: 0.5, ease: GOLD_EASE }}
+          >
+            <div className="pt-gem__media">
+              <video
+                src={asset(GEM.file)}
+                poster={asset(GEM.poster)}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                className="pt-gem__video"
+              />
             </div>
-            <Reveal shown={viewShown} index={1} className="portrait-igloo__view-sub">
-              <p>
-                竖屏视频 · 精选作品 —— 用 AI 完成创意、生成与后期，
-                把想象力变成可交付的 9:16 影像。
-              </p>
-            </Reveal>
-          </div>
+            <div className="pt-gem__content">
+              <div>
+                <h3>精选作品</h3>
+                <p>{GEM.cn} —— {GEM.desc}</p>
+              </div>
+              <button id="pt-explorebtn" type="button" className="pt-gem__btn" onClick={goCards}>
+                查看全部 <ArrowRight size={14} />
+              </button>
+            </div>
+          </motion.div>
+        </div>
 
-          <div className="portrait-igloo__cards">
-            {CARDS.map((id, i) => {
-              const v = byId(id)
-              return (
-                <Reveal
-                  key={id}
-                  shown={viewShown}
-                  index={2 + i}
-                  className={`portrait-igloo__card${i === 2 ? ' portrait-igloo__card--last' : ''}`}
-                >
-                  <video
-                    data-play="true"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    poster={asset(v.poster)}
-                  >
-                    <source src={asset(v.file)} type="video/mp4" />
-                  </video>
-                  <span className="portrait-igloo__card-title">{v.cn}</span>
-                </Reveal>
-              )
-            })}
+        <div className="pt-hero__text pt-hero__text--black">
+          <HeroContent />
+        </div>
+        <div className="pt-hero__text pt-hero__text--white">
+          <HeroContent />
+        </div>
+      </div>
+
+      {/* ===== 作品列表（对应 DestinationsSection） ===== */}
+      <div className="pt-cards" id="portrait-works">
+        <div className="pt-cards__inner">
+          <motion.input
+            id="pt-search"
+            placeholder="搜索你的作品"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: GOLD_EASE }}
+          />
+          <motion.p
+            className="pt-cards__popular"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            POPULAR
+          </motion.p>
+          <div className="pt-cards__track">
+            {filtered.length === 0 && (
+              <p className="pt-cards__empty">没有找到 "{query}" 相关的作品</p>
+            )}
+            {filtered.map((v, i) => (
+              <motion.div
+                key={v.id}
+                className="pt-card"
+                style={{ width: 235, flexShrink: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + i * 0.07, duration: 0.55, ease: GOLD_EASE }}
+              >
+                <button type="button" className="pt-card__link" onClick={() => openDetail(v)}>
+                  <div className="pt-card__media">
+                    <video
+                      src={`${asset(v.file)}#t=0.1`}
+                      poster={asset(v.poster)}
+                      muted
+                      playsInline
+                      preload="metadata"
+                      className="pt-card__thumb"
+                    />
+                  </div>
+                  <h3 className="pt-card__name">{v.cn}</h3>
+                  <p className="pt-card__sub">{v.tag} · 2026</p>
+                </button>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
+
+      {DetailOverlay}
     </section>
   )
 }

@@ -1,390 +1,555 @@
 /* ============================================================
-   IGLOO 概念 —— 竖屏视频页（严格按设计文档实现）
-   展示大字：Dimensions W03 300R → Anton 兜底
-   正文：Inter（继承站点）；说明文字：Courier New
+   竖屏视频页 —— 奢华旅行概念（分屏 hero + 精选卡片 + 详情）
+   设计文档：米色底 #f3ebe4，Inter 字体，黑/白分屏标题
    ============================================================ */
 
-.portrait-igloo {
+.portrait-travel {
   position: relative;
-  background: #d6d7dd; /* 设计文档指定的页面底色，正常被背景图盖住 */
-  color: #fff;
+  z-index: 1;
+  background: #f3ebe4;
+  color: #1c1c1c;
   font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-.portrait-igloo *,
-.portrait-igloo *::before,
-.portrait-igloo *::after {
+.portrait-travel *,
+.portrait-travel *::before,
+.portrait-travel *::after {
   box-sizing: border-box;
 }
 
-/* 共享背景 + 冰山剪影（横跨两屏） */
-.portrait-igloo__stage {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
+.portrait-travel ::selection {
+  background: #000;
+  color: #fff;
 }
 
-.portrait-igloo__bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 0%;
-  transform-origin: top center;
-  will-change: transform, object-position;
-  user-select: none;
-}
-
-/* 冰山塔：独立定位，塔顶落在字标中下部，两侧让字母露出 */
-.portrait-igloo__iceberg-wrap {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -2vh;
-  height: 110vh;
-  z-index: 10;
-  pointer-events: none;
-}
-
-.portrait-igloo__iceberg {
-  height: 100%;
-  width: auto;
-  object-fit: contain;
-  transform-origin: top center;
-  will-change: transform;
-  user-select: none;
-  filter: saturate(0.88) contrast(1.06) brightness(1.03) hue-rotate(-8deg);
-}
-
-/* 错峰出现动画容器 */
-.pio-reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.pio-reveal.is-in {
-  opacity: 1;
-  transform: none;
-}
-
-/* 逐字母容器 */
-.portrait-igloo .plu {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.portrait-igloo .plu__char {
-  display: inline-block;
-  will-change: transform, opacity;
-}
-
-/* ---------------- Section 1 · Hero ---------------- */
-.portrait-igloo__hero {
+/* ---------------- Hero 分屏 ---------------- */
+.pt-hero {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   height: 100svh;
-  overflow: hidden;
+  display: flex;
 }
 
-/* 顶部冷色渐变暗角：保证白色字标在明亮天幕上的可读性（布局不变） */
-.portrait-igloo__hero::before {
-  content: "";
+.pt-hero__left {
+  width: 50vw;
+  height: 100%;
+  background: #f3ebe4;
+}
+
+.pt-hero__right {
+  width: 50vw;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 30px;
+}
+
+.pt-hero__bg {
   position: absolute;
   inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(10, 20, 36, 0.78) 0%, rgba(10, 20, 36, 0.54) 26%, rgba(10, 20, 36, 0.3) 48%, transparent 68%),
-    linear-gradient(180deg, transparent 60%, rgba(10, 20, 36, 0.52) 100%);
+  z-index: 0;
 }
 
-/* 巨型字标：在冰山之后（z2 < z10），冰山从字标中穿过 */
-.portrait-igloo__wordmark {
+.pt-hero__bg-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.pt-hero__video {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 13vh;
-  z-index: 2;
-  pointer-events: none;
-  user-select: none;
-}
-
-.portrait-igloo__wordmark .plu {
-  font-family: 'Dimensions W03 300R', 'Anton', sans-serif;
-  font-weight: 400;
-  font-size: clamp(76px, 30vw, 600px);
-  line-height: 0.85;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.88);
-  text-shadow: 0 3px 34px rgba(8, 18, 34, 0.9);
-}
-
-/* 左侧方形缩略图 */
-.portrait-igloo__rail-wrap {
-  position: absolute;
-  left: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 30;
-}
-
-.portrait-igloo__rail {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.portrait-igloo__thumb {
-  display: block;
-  width: 48px;
-  height: 48px;
-  border-radius: 8px;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.portrait-igloo__thumb:hover {
-  transform: scale(1.05);
-}
-
-.portrait-igloo__thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: left center;
   display: block;
-  filter: grayscale(0.45) contrast(1.05);
-  transition: filter 0.4s;
 }
 
-.portrait-igloo__thumb:hover img {
-  filter: grayscale(0);
+.pt-hero__shade {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
 }
 
-@media (min-width: 768px) {
-  .portrait-igloo__thumb {
-    width: 64px;
-    height: 64px;
+@media (min-width: 851px) {
+  .pt-hero__shade {
+    background: transparent;
   }
 }
 
-/* 右侧滚动线 */
-.portrait-igloo__line-wrap {
+/* 分屏标题：同一份内容，黑/白各半 */
+.pt-hero__text {
   position: absolute;
-  right: 28px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 30;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  pointer-events: none;
+  z-index: 20;
 }
 
-.portrait-igloo__line {
-  width: 1px;
-  height: 128px;
-  background: rgba(100, 116, 139, 0.6);
+.pt-hero__text--black {
+  color: #1c1c1c;
+  clip-path: inset(0 50% 0 0);
 }
 
-/* 底部说明 */
-.portrait-igloo__caption-wrap {
-  position: absolute;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 30;
+.pt-hero__text--white {
+  color: #fff;
+  clip-path: inset(0 0 0 50%);
+  text-shadow: 0 2px 24px rgba(10, 14, 24, 0.45);
 }
 
-.portrait-igloo__caption {
+.pt-hero__content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  text-align: center;
+  justify-content: center;
+  transform: translateY(-40px);
   padding: 0 24px;
-}
-
-.portrait-igloo__caption p {
-  font-family: 'Courier New', monospace;
-  font-size: 11px;
-  letter-spacing: 0.13em;
-  line-height: 1.8;
-  color: #fff;
-  max-width: 26rem;
-  margin: 0;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.65);
-}
-
-.portrait-igloo__chev {
-  display: block;
-  color: #fff;
-  animation: portrait-bounce 2s ease-in-out infinite;
-}
-
-@keyframes portrait-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
-}
-
-/* ---------------- Section 2 · Selected Works ---------------- */
-.portrait-igloo__view {
-  position: relative;
-  z-index: 20;
-  width: 100%;
-  height: 100vh;
-  height: 100svh;
-  overflow: hidden;
-  margin-top: -20px;
-}
-
-.portrait-igloo__view-inner {
-  position: relative;
-  z-index: 10;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 24px clamp(18px, 4vw, 64px) clamp(24px, 4vh, 48px);
-  max-width: 1240px;
-  margin: 0 auto;
-}
-
-.portrait-igloo__view-top {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding-top: 64px;
-}
-
-.portrait-igloo__view-head {
-  display: flex;
-  align-items: flex-start;
-}
-
-.portrait-igloo__view-title {
-  font-family: 'Dimensions W03 300R', 'Anton', sans-serif;
-  font-weight: 400;
-  font-size: clamp(44px, 22vw, 400px);
-  line-height: 0.85;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  color: #fff;
-}
-
-.portrait-igloo__view-rule {
-  flex: 1;
-  height: 1px;
-  margin-top: 0.42em;
-  margin-left: 16px;
-  background: rgba(255, 255, 255, 0.7);
-}
-
-.portrait-igloo__view-sub {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.portrait-igloo__view-sub p {
-  font-size: 14px;
-  line-height: 1.7;
-  color: #fff;
-  max-width: 20rem;
-  text-align: right;
-  margin: 0;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.35);
-}
-
-/* 底部卡片网格 */
-.portrait-igloo__cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  padding-bottom: 16px;
-  max-width: 56rem;
-  margin: 32px auto 0;
   width: 100%;
 }
 
 @media (min-width: 768px) {
-  .portrait-igloo__cards {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-top: 0;
+  .pt-hero__content {
+    transform: translateY(-20px);
   }
 }
 
-.portrait-igloo__card {
-  position: relative;
-  border-radius: 12px;
+.pt-hero__line {
   overflow: hidden;
-  cursor: pointer;
-  aspect-ratio: 3 / 4;
-  max-height: 28vh;
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
 }
 
-.portrait-igloo__card video,
-.portrait-igloo__card img {
+.pt-hero__line--mb {
+  margin-bottom: 32px;
+}
+
+.pt-hero__line h1 {
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  font-size: clamp(42px, 6vw, 80px);
+  margin: 0;
+}
+
+.pt-hero__content p {
+  font-size: clamp(14px, 1vw, 16px);
+  line-height: 1.7;
+  max-width: 550px;
+  margin: 0 auto;
+  opacity: 0.8;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+/* Gem 卡片 */
+.pt-gem {
+  position: relative;
+  z-index: 30;
+  background: #fff;
+  border-radius: 32px;
+  padding: 16px;
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  max-width: 560px;
+  height: 200px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.15);
+}
+
+.pt-gem__media {
+  width: 200px;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pt-gem__video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.portrait-igloo__card:hover video,
-.portrait-igloo__card:hover img {
-  transform: scale(1.1);
+.pt-gem__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px 0;
+  gap: 20px;
+  min-width: 0;
 }
 
-.portrait-igloo__card-title {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
-  right: 12px;
-  z-index: 2;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
+.pt-gem__content h3 {
+  font-weight: 600;
+  color: #1c1c1c;
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.pt-gem__content p {
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.pt-gem__btn {
+  align-self: flex-start;
+  background: #000;
   color: #fff;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
 }
 
-/* 第 3 张卡片：移动端占两列但半宽居中，桌面恢复 */
-.portrait-igloo__card--last {
-  grid-column: span 2 / span 2;
-  max-width: 50%;
+.pt-gem__btn:hover {
+  background: #27272a;
+}
+
+.pt-gem__btn:active {
+  transform: scale(0.95);
+}
+
+/* ---------------- 作品列表 ---------------- */
+.pt-cards {
+  position: relative;
+  z-index: 5;
+  background: #f3ebe4;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.pt-cards__inner {
+  padding: 100px 30px 30px;
+  transition: all 0.5s;
+  position: relative;
+}
+
+.pt-cards__inner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 90px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, #f3ebe4 85%);
+}
+
+#pt-search {
+  display: block;
+  width: 100%;
+  max-width: 720px;
   margin: 0 auto;
+  background: transparent;
+  border: none;
+  font-size: clamp(24px, 4vw, 42px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  outline: none;
+  color: #1c1c1c;
+  caret-color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  font-family: inherit;
 }
 
-@media (min-width: 768px) {
-  .portrait-igloo__card--last {
-    grid-column: auto;
-    max-width: none;
-    margin: 0;
-  }
+#pt-search::placeholder {
+  color: rgba(0, 0, 0, 0.2);
 }
 
-/* 窄屏微调 */
-@media (max-width: 900px) {
-  .portrait-igloo__rail-wrap {
-    left: 10px;
-  }
-  .portrait-igloo__line-wrap {
+#pt-search {
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+
+#pt-search:focus {
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+.pt-cards__popular {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  margin: 0 0 15px;
+  text-transform: uppercase;
+  color: #1c1c1c;
+}
+
+.pt-cards__track {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 24px;
+  scrollbar-width: none;
+}
+
+.pt-cards__track::-webkit-scrollbar {
+  display: none;
+}
+
+.pt-cards__empty {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  padding-top: 16px;
+}
+
+.pt-card {
+  width: 235px;
+  flex-shrink: 0;
+}
+
+.pt-card__link {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+}
+
+.pt-card__media {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 9 / 16;
+}
+
+.pt-card__thumb {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease-out;
+}
+
+.pt-card__link:hover .pt-card__thumb {
+  transform: scale(1.05);
+}
+
+.pt-card__name {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0;
+  color: #1c1c1c;
+}
+
+.pt-card__sub {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.45);
+  margin: 4px 0 0;
+}
+
+/* ---------------- 详情覆盖层（TourDetail） ---------------- */
+.pt-detail {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: rgba(12, 14, 20, 0.68);
+  backdrop-filter: blur(8px);
+  cursor: zoom-out;
+}
+
+.pt-detail__stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.pt-detail__video-box {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 9 / 16;
+  max-width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+}
+
+.pt-detail__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pt-detail__card {
+  position: absolute;
+  right: 32px;
+  bottom: 32px;
+  z-index: 10;
+  width: 100%;
+  max-width: 380px;
+  background: #f3ebe4;
+  border-radius: 20px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.pt-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #000;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 999px;
+  transition: background 0.3s;
+  align-self: flex-start;
+}
+
+.pt-detail__back:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.pt-detail__card h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1c1c1c;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.pt-detail__en {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
+.pt-detail__desc {
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.7);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.pt-detail__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pt-detail__meta span {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+
+
+
+/* ---------------- 响应式 ---------------- */
+@media (max-width: 1000px) {
+  .pt-gem__media {
     display: none;
   }
-  .portrait-igloo__caption-wrap {
-    bottom: 20px;
+  .pt-gem__content p {
+    font-size: 15px;
   }
-  .portrait-igloo__view-title {
-    font-size: clamp(36px, 18vw, 200px);
+  .pt-cards__inner {
+    padding: 80px 20px 20px;
+  }
+}
+
+@media (max-width: 850px) {
+  .pt-hero__left,
+  .pt-hero__text--black {
+    display: none;
+  }
+  .pt-hero__right {
+    width: 100vw;
+    padding: 0;
+  }
+  .pt-hero__text--white {
+    clip-path: none;
+    width: 100vw;
+  }
+  .pt-hero__shade {
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .pt-gem {
+    max-width: 100%;
+    flex-direction: column;
+    border-radius: 40px 40px 0 0;
+    padding: 24px;
+    gap: 15px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.15);
+    height: auto;
+  }
+  .pt-gem__media {
+    display: none;
+  }
+  .pt-gem__content {
+    width: 100%;
+    text-align: left;
+  }
+  .pt-gem__content p {
+    font-size: 12px;
+  }
+  .pt-cards__inner {
+    padding: 120px 10px 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .pt-cards__inner {
+    padding-top: 100px;
+    justify-content: center;
+  }
+  #pt-search {
+    margin-bottom: 48px;
+  }
+  .pt-detail__card {
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    max-width: none;
   }
 }
