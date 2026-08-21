@@ -6039,12 +6039,86 @@ body.hide-site-nav .nav {
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  background: #070612;
 }
 
 .ba-seamless > .flow-cards,
 .ba-seamless > .lazy-gallery {
   position: relative;
   z-index: 1;
+}
+
+/* Mux HLS 视频背景：整体铺满、右移 200px、左侧 1.2 倍放大（与参考一致） */
+.video-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.video-bg video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin-left: 200px;
+  object-fit: cover;
+  transform: scale(1.2);
+  transform-origin: left center;
+}
+
+.video-bg__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 10rem;
+  background: linear-gradient(to top, #070612, transparent);
+  z-index: 1;
+}
+
+/* 深色视频背景上的浅色文字 */
+.ba-seamless .gallery-showcase.ba,
+.ba-seamless .flow-cards {
+  color: #f6f6f9;
+}
+
+.ba-seamless .ba-hero h1 {
+  color: #ffffff;
+}
+
+.ba-seamless .ba-hero p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.ba-seamless .ba-bottom p {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.ba-seamless .ba-bottom a {
+  color: #ffffff;
+}
+
+.ba-seamless .ba-bottom a:hover {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ba-seamless .flow-cards__eyebrow,
+.ba-seamless .flow-cards__sub {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.ba-seamless .flow-cards__big-sub {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.ba-seamless .flow-cards__btn {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+}
+
+.ba-seamless .flow-cards__btn:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .ba-axion {
