@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
 import { asset } from '../lib/asset.js'
-import AxionShaderBg from './AxionShaderBg.jsx'
 import FoldText from './FoldText.jsx'
 
 const IMAGES = [
@@ -91,10 +90,6 @@ export default function GalleryShowcase() {
 
   return (
     <section className="gallery-showcase ba" id="gallery-showcase">
-      <div className="ba-axion" aria-hidden="true">
-        <AxionShaderBg />
-      </div>
-
       {/* Hero */}
         <div className="ba-hero">
           <h1>

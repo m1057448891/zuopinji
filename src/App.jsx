@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -16,6 +16,7 @@ import IntroLoader from './components/IntroLoader.jsx'
 gsap.registerPlugin(ScrollTrigger)
 
 const HERO_BG = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260723_145606_ab143199-b593-4941-bb1b-9afca215416b.mp4'
+const AxionShaderBg = lazy(() => import('./components/AxionShaderBg.jsx'))
 
 export default function App() {
   const [heroVideo] = useState(HERO_BG)
@@ -102,8 +103,15 @@ export default function App() {
         <SectorsShowcase />
         <ShortsShowcase />
         <AdsShowcase />
-        <PortraitShowcase />
-        <LazyGallery />
+        <div className="ba-seamless">
+          <div className="ba-seamless__bg" aria-hidden="true">
+            <Suspense fallback={null}>
+              <AxionShaderBg />
+            </Suspense>
+          </div>
+          <PortraitShowcase />
+          <LazyGallery />
+        </div>
         <div className="grid-stage">
           <div className="grid-stage__bg" aria-hidden="true">
             <ShapeGrid

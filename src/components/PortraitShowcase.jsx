@@ -1,12 +1,10 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { AnimatePresence, motion, useInView } from 'motion/react'
 import { asset } from '../lib/asset.js'
 import useInViewNear from '../lib/useInView.js'
 import BorderGlow from './BorderGlow.jsx'
 import MaskedHeading from './MaskedHeading.jsx'
-
-const AxionShaderBg = lazy(() => import('./AxionShaderBg.jsx'))
 
 const FILES = [
   '01',
@@ -74,12 +72,6 @@ export default function PortraitShowcase() {
 
   return (
     <section className="flow-cards" id="portrait-showcase" ref={sectionRef}>
-      <div className="ba-axion" aria-hidden="true">
-        <Suspense fallback={null}>
-          <AxionShaderBg />
-        </Suspense>
-      </div>
-
       <motion.div
         className="flow-cards__inner"
         ref={revealRef}
