@@ -129,6 +129,7 @@ export default function Contact() {
               avatarUrl={asset('/assets/profile-photo.jpg')}
               miniAvatarUrl={asset('/assets/profile-photo.jpg')}
               name="MOSATO SAKAI"
+              iconUrl={asset('/assets/iconpattern.png')}
               title="马中帅"
               handle="mosatosakai"
               status="AVAILABLE · 可接项目"
