@@ -6,6 +6,7 @@ import { profile } from '../data/content.js'
 import Reveal from './Reveal.jsx'
 import Aurora from './Aurora.jsx'
 import TrueFocus from './TrueFocus.jsx'
+import ProfileCard from './ProfileCard.jsx'
 import { asset } from '../lib/asset.js'
 import { RESUME_URL } from '../data/site.js'
 
@@ -121,22 +122,41 @@ export default function Contact() {
           </nav>
         </header>
 
-        <Reveal>
-          <div className="contact__focus">
-            <TrueFocus
-              sentence="马中帅 MOSATO SAKAI"
-              separator=" "
-              blurAmount={3}
-              borderColor="#6d28d9"
-              glowColor="rgba(109, 40, 217, 0.55)"
-              animationDuration={0.6}
-              pauseBetweenAnimations={1.2}
+        <div className="contact__hero">
+          <div className="contact__profile">
+            <ProfileCard
+              className="contact__profile-card"
+              avatarUrl={asset('/assets/profile-photo.jpg')}
+              miniAvatarUrl={asset('/assets/profile-photo.jpg')}
+              name="MOSATO SAKAI"
+              title="马中帅 · 内容运营"
+              handle="mosatosakai"
+              status="AVAILABLE · 可接项目"
+              contactText="联系我"
+              behindGlowEnabled
+              behindGlowColor="rgba(109, 40, 217, 0.5)"
+              onContactClick={() => window.open("mailto:" + profile.contact.email)}
             />
           </div>
-          <p className="contact__sub mono">
-            {profile.nameEn} · 内容运营 × AI 视觉创作 × 建筑学背景
-          </p>
-        </Reveal>
+          <div className="contact__title-wrap">
+            <Reveal>
+              <div className="contact__focus">
+                <TrueFocus
+                  sentence="马中帅 MOSATO SAKAI"
+                  separator=" "
+                  blurAmount={3}
+                  borderColor="#6d28d9"
+                  glowColor="rgba(109, 40, 217, 0.55)"
+                  animationDuration={0.6}
+                  pauseBetweenAnimations={1.2}
+                />
+              </div>
+              <p className="contact__sub mono">
+                {profile.nameEn} · 内容运营 × AI 视觉创作 × 建筑学背景
+              </p>
+            </Reveal>
+          </div>
+        </div>
 
         <div className="contact__cols">
           <Reveal delay={80}>
