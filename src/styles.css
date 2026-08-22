@@ -2627,10 +2627,10 @@ a {
 
 .desk__panel {
   position: absolute;
-  right: clamp(80px, 12vw, 210px);
+  right: clamp(60px, 8vw, 140px);
   top: 50%;
   transform: translateY(-50%);
-  width: min(400px, 34vw);
+  width: min(400px, 28vw);
   z-index: 5;
   padding: 22px 24px;
   background: rgba(12, 9, 4, 0.78);
@@ -8363,4 +8363,5 @@ body.hide-site-nav .ln-nav {
     width: min(64vw, 400px);
   }
 }
+
 
