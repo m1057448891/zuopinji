@@ -210,7 +210,20 @@ export default function Contact() {
           </div>
           <div className="mono contact__icp">
             <a href="https://beian.miit.gov.cn" target="_blank" rel="noreferrer">
-              辽ICP备2026018875号-1
+              辽ICP备2026018875号
+            </a>
+            <a
+              className="contact__beian"
+              href="https://beian.mps.gov.cn/#/query/webSearch?code=21092102000135"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src={asset('/assets/beian-icon.png')}
+                alt=""
+                className="contact__beian-icon"
+              />
+              辽公网安备21092102000135号
             </a>
           </div>
           <div className="mono contact__slogan">
@@ -236,3 +249,5 @@ export default function Contact() {
     </section>
   )
 }
+
+

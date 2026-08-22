@@ -53,6 +53,13 @@ export default function App() {
     window.__lenis = lenis
     lenis.on('scroll', ScrollTrigger.update)
     const raf = (time) => lenis.raf(time * 1000)
+    // 懒加载区块挂载后页面变长，重新测量滚动上限
+    let lenisTimer
+    const lenisObserver = new MutationObserver(() => {
+      clearTimeout(lenisTimer)
+      lenisTimer = setTimeout(() => lenis.resize(), 120)
+    })
+    lenisObserver.observe(document.body, { childList: true, subtree: true })
     gsap.ticker.add(raf)
     gsap.ticker.lagSmoothing(0)
 
@@ -106,6 +113,7 @@ export default function App() {
 
     return () => {
       delete window.__lenis
+      lenisObserver.disconnect()
       document.removeEventListener('click', onClick)
       gsap.ticker.remove(raf)
       lenis.destroy()
