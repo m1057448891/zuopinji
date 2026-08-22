@@ -387,3 +387,49 @@
 
 
 
+
+/* —— 矮屏（笔记本 768/720 高）紧凑适配：条带更薄、内容更小，避免卡片内容溢出 —— */
+@media (max-height: 820px) {
+  .tg-stack {
+    --stack-h: min(78svh, 660px);
+    --collapsed: 60px;
+  }
+  .tg-card__body {
+    padding: 12px clamp(18px, 2.4vw, 36px) 0;
+    gap: 16px;
+  }
+  .tg-card__title {
+    font-size: clamp(20px, 2.4vw, 32px);
+  }
+  .tg-card__cn {
+    font-size: clamp(12px, 0.9vw, 14px);
+    margin-top: 6px;
+  }
+  .tg-card__desc {
+    font-size: clamp(11px, 0.82vw, 13px);
+    margin-top: 8px;
+  }
+  .tg-card__metrics {
+    margin-top: 10px;
+  }
+  .tg-card__metrics span {
+    padding: 5px 9px;
+    font-size: 9px;
+  }
+  .tg-card__poster {
+    height: min(260px, 100%);
+  }
+  .tg-nav {
+    gap: clamp(10px, 1.4vh, 16px);
+  }
+}
+
+@media (max-height: 640px) {
+  .tg-stack {
+    --stack-h: min(76svh, 560px);
+    --collapsed: 52px;
+  }
+  .tg-card__poster {
+    height: min(220px, 100%);
+  }
+}

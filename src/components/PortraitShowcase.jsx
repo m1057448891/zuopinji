@@ -22,10 +22,11 @@ const VIDEOS = [
 ]
 
 const N = VIDEOS.length
-const THUMB_H = 160
 const THUMB_GAP = 10
-const STEP = THUMB_H + THUMB_GAP // 132
 const VISIBLE = 5
+
+// 缩略图高度随屏幕高度自适应：矮屏（笔记本）自动缩小，避免溢出
+const calcThumbH = () => Math.max(100, Math.min(160, Math.round(window.innerHeight * 0.15)))
 
 // 分屏 hero 的标题内容（左磨砂右纯白，同一份渲染两次）
 function HeroContent() {
@@ -62,7 +63,17 @@ function HeroContent() {
 
 export default function PortraitShowcase() {
   const [active, setActive] = useState(0)
+  const [thumbH, setThumbH] = useState(() => calcThumbH())
   const videoRef = useRef(null)
+
+  const STEP = thumbH + THUMB_GAP
+
+  // 窗口尺寸变化时重算缩略图高度
+  useEffect(() => {
+    const onResize = () => setThumbH(calcThumbH())
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   const select = (i) => setActive(Math.max(0, Math.min(N - 1, i)))
   const prev = () => select(active - 1)
@@ -89,52 +100,52 @@ export default function PortraitShowcase() {
         <div className="pt-hero__left">
           <div className="pt-left-cluster">
             <div className="pt-thumbs">
-            <button className="pt-thumbs__arrow" type="button" aria-label="上一个视频" onClick={prev}>
-              <ChevronUp size={15} />
-            </button>
-            <div className="pt-thumbs__viewport">
-              <div className="pt-thumbs__list" style={{ transform: `translateY(-${thumbOffset}px)` }}>
-                {VIDEOS.map((v, i) => (
-                  <PixelCard
-                    key={v.id}
-                    variant="default"
-                    colors="#c4b5fd,#a78bfa,#8b5cf6"
-                    gap={6}
-                    speed={45}
-                    noFocus
-                    className={`pt-thumb ${i === active ? 'is-active' : ''}`}
-                    onClick={() => select(i)}
-                  >
-                    <img src={asset(v.poster)} alt={v.cn} loading="lazy" />
-                    <span className="pt-thumb__label">{v.cn}</span>
-                  </PixelCard>
-                ))}
+              <button className="pt-thumbs__arrow" type="button" aria-label="上一个视频" onClick={prev}>
+                <ChevronUp size={15} />
+              </button>
+              <div className="pt-thumbs__viewport" style={{ '--thumb-h': `${thumbH}px` }}>
+                <div className="pt-thumbs__list" style={{ transform: `translateY(-${thumbOffset}px)` }}>
+                  {VIDEOS.map((v, i) => (
+                    <PixelCard
+                      key={v.id}
+                      variant="default"
+                      colors="#c4b5fd,#a78bfa,#8b5cf6"
+                      gap={6}
+                      speed={45}
+                      noFocus
+                      onClick={() => select(i)}
+                      className={`pt-thumb ${i === active ? 'is-active' : ''}`}
+                    >
+                      <img src={asset(v.poster)} alt={v.cn} loading="lazy" />
+                      <span className="pt-thumb__label">{v.cn}</span>
+                    </PixelCard>
+                  ))}
+                </div>
               </div>
+              <button className="pt-thumbs__arrow" type="button" aria-label="下一个视频" onClick={next}>
+                <ChevronDown size={15} />
+              </button>
             </div>
-            <button className="pt-thumbs__arrow" type="button" aria-label="下一个视频" onClick={next}>
-              <ChevronDown size={15} />
-            </button>
-          </div>
 
             <div className="pt-hero__sidebar">
               <LineSidebar
-              items={VIDEOS.map((v) => v.cn)}
-              accentColor="#8b5cf6"
-              textColor="#d6d6de"
-              markerColor="#8a8a94"
-              showIndex
-              showMarker
-              proximityRadius={90}
-              maxShift={24}
-              falloff="smooth"
-              markerLength={44}
-              tickScale={0.5}
-              scaleTick
-              itemGap={13}
-              fontSize={0.82}
-              smoothing={90}
-              defaultActive={0}
-              externalActive={active}
+                items={VIDEOS.map((v) => v.cn)}
+                accentColor="#8b5cf6"
+                textColor="#d6d6de"
+                markerColor="#8a8a94"
+                showIndex
+                showMarker
+                proximityRadius={90}
+                maxShift={24}
+                falloff="smooth"
+                markerLength={44}
+                tickScale={0.5}
+                scaleTick
+                itemGap={13}
+                fontSize={0.82}
+                smoothing={90}
+                defaultActive={0}
+                externalActive={active}
                 onItemClick={(index) => select(index)}
               />
             </div>
@@ -188,6 +199,3 @@ export default function PortraitShowcase() {
     </section>
   )
 }
-
-
-

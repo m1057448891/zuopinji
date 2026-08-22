@@ -130,8 +130,9 @@
 }
 
 .pt-thumbs__viewport {
-  width: 100px;
-  height: 840px;
+  --thumb-h: 160px;
+  width: calc(var(--thumb-h) * 9 / 16 + 10px);
+  height: calc(5 * var(--thumb-h) + 4 * 10px);
   overflow: hidden;
   position: relative;
   border-radius: 14px;
@@ -147,8 +148,8 @@
 
 /* PixelCard 缩略图 */
 .pt-thumb.pixel-card {
-  width: 90px;
-  height: 160px;
+  width: calc(var(--thumb-h, 160px) * 9 / 16);
+  height: var(--thumb-h, 160px);
   aspect-ratio: auto;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -387,6 +388,7 @@
     bottom: 16px;
   }
 }
+
 
 
 
