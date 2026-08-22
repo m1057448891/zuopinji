@@ -100,28 +100,17 @@ export default function ShortsShowcase() {
         })
         tl.fromTo(
           '.desk__zoom',
-          { scale: 1.05, opacity: 0, filter: 'blur(6px)' },
+          { scale: 1, x: 0, y: 0, transformOrigin: '0 0', opacity: 1, filter: 'blur(0px)' },
           {
-            scale: 1,
-            opacity: 1,
-            filter: 'blur(0px)',
-            ease: 'power1.out',
-            duration: 0.14
+            scale: 2.4,
+            x: -vw * 0.82,
+            y: -vh * 0.48,
+            ease: 'none',
+            duration: 0.86,
+            opacity: 1
           },
           0
         )
-          .fromTo(
-            '.desk__zoom',
-            { scale: 1, x: 0, y: 0, transformOrigin: '0 0' },
-            {
-              scale: 2.4,
-              x: -vw * 0.82,
-              y: -vh * 0.48,
-              ease: 'none',
-              duration: 0.86
-            },
-            0.14
-          )
       }, sectionRef)
       return () => ctx.revert()
     })
