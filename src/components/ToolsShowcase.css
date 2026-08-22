@@ -151,8 +151,7 @@
   --qout: clamp(0, calc(var(--accord-p, 0) * 4 - var(--i, 0)), 1);
   transform: translateY(
     calc(
-      var(--i, 0) * var(--collapsed) +
-        (1 - var(--qin)) * (var(--stack-h) + var(--collapsed) - var(--i, 0) * var(--collapsed))
+      (var(--i, 0) - 1) * var(--collapsed) + var(--stack-h) - var(--qin) * (var(--stack-h) - var(--collapsed))
     )
   );
   clip-path: inset(0 0 calc(var(--qout) * (var(--stack-h) - var(--collapsed))) 0);
