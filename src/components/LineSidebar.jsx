@@ -33,6 +33,7 @@ const LineSidebar = ({
   fontSize = 1.1,
   smoothing = 100,
   defaultActive = null,
+  externalActive = null,
   onItemClick,
   className = ''
 }) => {
@@ -130,6 +131,14 @@ const LineSidebar = ({
     }
   }, [runFrame, items])
 
+  // 外部（缩略图点击等）同步高亮
+  useEffect(() => {
+    if (externalActive != null) {
+      setActiveIndex(externalActive)
+      activeRef.current = externalActive
+    }
+  }, [externalActive])
+
   return (
     <nav
       className={`line-sidebar${showMarker ? ' line-sidebar--markers' : ''}${scaleTick ? ' line-sidebar--scale-tick' : ''}${className ? ` ${className}` : ''}`}
@@ -175,3 +184,4 @@ const LineSidebar = ({
 }
 
 export default LineSidebar
+

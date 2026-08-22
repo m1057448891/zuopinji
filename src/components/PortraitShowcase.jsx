@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
-import { ArrowRight, ArrowLeft } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react'
 import { asset } from '../lib/asset.js'
 import LineSidebar from './LineSidebar.jsx'
-import LenticularCarousel from './LenticularCarousel.jsx'
+import PixelCard from './PixelCard.jsx'
 import './PortraitShowcase.css'
 
 const GOLD_EASE = [0.76, 0, 0.24, 1]
@@ -21,10 +21,13 @@ const VIDEOS = [
   { id: 'anim-08', file: '/works/ads/portrait/anim-08.mp4', poster: '/videos/portrait/anim-08-poster.jpg', cn: '花雨秋千', en: 'SWING BENEATH THE BLOSSOMS', tag: 'AI SHORT FILM', desc: '樱花纷飞如雨，秋千悬于树荫之间，一帧春色。' }
 ]
 
-const HERO_BG = VIDEOS[0] // hero 背景视频：蓝牙耳机
-const GEM = VIDEOS[0]     // gem 卡片视频：蓝牙耳机
+const N = VIDEOS.length
+const THUMB_H = 124
+const THUMB_GAP = 8
+const STEP = THUMB_H + THUMB_GAP // 132
+const VISIBLE = 6
 
-// 分屏 hero 的标题内容（左黑右白，同一份渲染两次）
+// 分屏 hero 的标题内容（左磨砂右纯白，同一份渲染两次）
 function HeroContent() {
   return (
     <div className="pt-hero__content">
@@ -58,196 +61,122 @@ function HeroContent() {
 }
 
 export default function PortraitShowcase() {
-  const heroVideoRef = useRef(null)
-  const carouselRef = useRef(null)
-  const [query, setQuery] = useState('')
-  const [detail, setDetail] = useState(null)
+  const [active, setActive] = useState(0)
+  const videoRef = useRef(null)
 
-  // 防御性自动播放：强制 muted 并在 loadeddata 后重播
+  const select = (i) => setActive(Math.max(0, Math.min(N - 1, i)))
+  const prev = () => select(active - 1)
+  const next = () => select(active + 1)
+
+  // 缩略图列表滚动偏移：让当前项大致居中
+  const maxOffset = Math.max(0, (N - VISIBLE) * STEP)
+  const thumbOffset = Math.max(0, Math.min(maxOffset, active * STEP - Math.floor(VISIBLE / 2) * STEP))
+
+  // 切换视频后确保自动播放
   useEffect(() => {
-    const v = heroVideoRef.current
+    const v = videoRef.current
     if (!v) return
-    const play = () => {
-      v.muted = true
-      v.play().catch(() => {})
-    }
-    play()
-    v.addEventListener('loadeddata', play)
-    return () => v.removeEventListener('loadeddata', play)
-  }, [])
+    v.muted = true
+    v.play().catch(() => {})
+  }, [active])
 
-  const filtered = useMemo(
-    () => VIDEOS.filter((v) => (v.cn + v.en + v.tag).toLowerCase().includes(query.toLowerCase())),
-    [query]
-  )
-
-  const carouselItems = useMemo(
-    () =>
-      filtered.map((v) => ({
-        ...v,
-        front: asset(v.poster),
-        video: asset(v.file),
-        title: v.en,
-        subtitle: `${v.tag} · 2026`
-      })),
-    [filtered]
-  )
-
-  const goCards = () => {
-    document.getElementById('portrait-works')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
-  const goToCard = (index) => {
-    const works = document.getElementById('portrait-works')
-    if (!works) return
-    works.scrollIntoView({ behavior: 'smooth' })
-    window.setTimeout(() => {
-      carouselRef.current?.goTo(index)
-    }, 550)
-  }
-
-  const closeDetail = () => {
-    document.body.classList.remove('hide-site-nav')
-    setDetail(null)
-  }
-
-  const openDetail = (v) => {
-    document.body.classList.add('hide-site-nav')
-    setDetail(v)
-  }
-
-  // 详情覆盖层（对应 TourDetailSection）
-  const DetailOverlay = detail && (
-    <div
-      className="pt-detail"
-      role="dialog"
-      aria-modal="true"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) closeDetail()
-      }}
-    >
-      <div className="pt-detail__stage">
-        <motion.div
-          className="pt-detail__video-box"
-          initial={{ scale: 1.02, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.1, ease: GOLD_EASE }}
-        >
-          <video
-            src={asset(detail.file)}
-            poster={asset(detail.poster)}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className="pt-detail__video"
-          />
-        </motion.div>
-        <motion.div
-          className="pt-detail__card"
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: GOLD_EASE }}
-        >
-          <button className="pt-detail__back" type="button" onClick={closeDetail}>
-            <ArrowLeft size={15} />
-            返回
-          </button>
-          <h1>{detail.cn}</h1>
-          <p className="pt-detail__en">{detail.en}</p>
-          <p className="pt-detail__desc">{detail.desc}</p>
-          <div className="pt-detail__meta">
-            <span>{detail.tag}</span>
-            <span>2026 · 竖屏 9:16</span>
-          </div>
-        </motion.div>
-      </div>
-    </div>
-  )
+  const cur = VIDEOS[active]
 
   return (
     <section className="portrait-travel" id="portrait-showcase">
-      {/* ===== Hero 分屏 ===== */}
       <div className="pt-hero">
-        <div className="pt-hero__left" aria-hidden="true" />
+        {/* ===== 左半：缩略图卡片 + 行边栏 ===== */}
+        <div className="pt-hero__left">
+          <div className="pt-left-cluster">
+            <div className="pt-thumbs">
+            <button className="pt-thumbs__arrow" type="button" aria-label="上一个视频" onClick={prev}>
+              <ChevronUp size={15} />
+            </button>
+            <div className="pt-thumbs__viewport">
+              <div className="pt-thumbs__list" style={{ transform: `translateY(-${thumbOffset}px)` }}>
+                {VIDEOS.map((v, i) => (
+                  <PixelCard
+                    key={v.id}
+                    variant="default"
+                    colors="#c4b5fd,#a78bfa,#8b5cf6"
+                    gap={6}
+                    speed={45}
+                    noFocus
+                    className={`pt-thumb ${i === active ? 'is-active' : ''}`}
+                    onClick={() => select(i)}
+                  >
+                    <img src={asset(v.poster)} alt={v.cn} loading="lazy" />
+                    <span className="pt-thumb__label">{v.cn}</span>
+                  </PixelCard>
+                ))}
+              </div>
+            </div>
+            <button className="pt-thumbs__arrow" type="button" aria-label="下一个视频" onClick={next}>
+              <ChevronDown size={15} />
+            </button>
+          </div>
 
+            <div className="pt-hero__sidebar">
+              <LineSidebar
+              items={VIDEOS.map((v) => v.cn)}
+              accentColor="#8b5cf6"
+              textColor="#d6d6de"
+              markerColor="#8a8a94"
+              showIndex
+              showMarker
+              proximityRadius={90}
+              maxShift={24}
+              falloff="smooth"
+              markerLength={44}
+              tickScale={0.5}
+              scaleTick
+              itemGap={13}
+              fontSize={0.82}
+              smoothing={90}
+              defaultActive={0}
+              externalActive={active}
+                onItemClick={(index) => select(index)}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* ===== 右半：播放对应视频 ===== */}
         <div className="pt-hero__right">
           <div className="pt-hero__bg">
-            <motion.div
-              className="pt-hero__bg-inner"
-              initial={{ scale: 1.06 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 2.2, ease: GOLD_EASE }}
-            >
-              <video
-                ref={heroVideoRef}
-                src={asset(HERO_BG.file)}
-                poster={asset(HERO_BG.poster)}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                className="pt-hero__video"
-              />
-            </motion.div>
+            <video
+              key={active}
+              ref={videoRef}
+              src={asset(cur.file)}
+              poster={asset(cur.poster)}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="pt-hero__video"
+            />
             <div className="pt-hero__shade" aria-hidden="true" />
             <div className="pt-hero__scrim-top" aria-hidden="true" />
           </div>
-
-          <motion.div
-            className="pt-gem"
-            initial={{ y: 60, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1.1, delay: 0.5, ease: GOLD_EASE }}
-          >
-            <div className="pt-gem__media">
-              <video
-                src={asset(GEM.file)}
-                poster={asset(GEM.poster)}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                className="pt-gem__video"
-              />
-            </div>
-            <div className="pt-gem__content">
-              <div>
-                <h3>精选作品</h3>
-                <p>{GEM.cn} —— {GEM.desc}</p>
-              </div>
-              <button id="pt-explorebtn" type="button" className="pt-gem__btn" onClick={goCards}>
-                查看全部 <ArrowRight size={14} />
-              </button>
-            </div>
-          </motion.div>
+          <div className="pt-hero__meta">
+            <span className="mono pt-hero__meta-index">
+              {String(active + 1).padStart(2, '0')} / {String(N).padStart(2, '0')}
+            </span>
+            <h3 className="pt-hero__meta-cn">{cur.cn}</h3>
+            <p className="pt-hero__meta-en">{cur.en}</p>
+          </div>
         </div>
 
-        <div className="pt-hero__sidebar">
-          <LineSidebar
-            items={VIDEOS.map((v) => v.cn)}
-            accentColor="#8b5cf6"
-            textColor="#d6d6de"
-            markerColor="#8a8a94"
-            showIndex
-            defaultActive={0}
-            showMarker
-            proximityRadius={90}
-            maxShift={24}
-            falloff="smooth"
-            markerLength={44}
-            tickScale={0.5}
-            scaleTick
-            itemGap={13}
-            fontSize={0.82}
-            smoothing={90}
-            onItemClick={goToCard}
-          />
-        </div>
+        {/* ===== 左右页面边缘磨砂箭头 ===== */}
+        <button className="pt-page-arrow pt-page-arrow--left" type="button" aria-label="上一个视频" onClick={prev}>
+          <ChevronLeft size={20} />
+        </button>
+        <button className="pt-page-arrow pt-page-arrow--right" type="button" aria-label="下一个视频" onClick={next}>
+          <ChevronRight size={20} />
+        </button>
 
+        {/* ===== 分屏标题（左磨砂 / 右纯白） ===== */}
         <div className="pt-hero__text pt-hero__text--black">
           <HeroContent />
         </div>
@@ -255,73 +184,7 @@ export default function PortraitShowcase() {
           <HeroContent />
         </div>
       </div>
-
-      {/* ===== 作品列表（对应 DestinationsSection） ===== */}
-      <div className="pt-cards" id="portrait-works">
-        <div className="pt-cards__inner">
-          <motion.input
-            id="pt-search"
-            placeholder="搜索你的作品"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: GOLD_EASE }}
-          />
-          <motion.p
-            className="pt-cards__popular"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.6 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            POPULAR
-          </motion.p>
-          <div className="pt-cards__carousel">
-            {filtered.length === 0 && (
-              <p className="pt-cards__empty">没有找到 "{query}" 相关的作品</p>
-            )}
-            {filtered.length > 0 && (
-              <LenticularCarousel
-                ref={carouselRef}
-                items={carouselItems}
-                initialIndex={4}
-                cardWidth={250}
-                aspectRatio="9 / 16"
-                gap={34}
-                borderRadius={18}
-                strips={56}
-                sweep={0.6}
-                refraction={0.32}
-                ridge={0.5}
-                foil={0.5}
-                foilScale={8}
-                scrim={0.85}
-                tilt={6}
-                travel={0.64}
-                lift={46}
-                perspective={1600}
-                inactiveScale={0.9}
-                inactiveDim={0.55}
-                showLabels
-                showControls
-                showDots
-                loop
-                autoplay={false}
-                onCardClick={(v) => openDetail(v)}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-
-      {DetailOverlay}
     </section>
   )
 }
-
-
-
-
-
-
 
