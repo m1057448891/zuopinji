@@ -8414,3 +8414,16 @@ body.hide-site-nav .ln-nav {
     text-align: center;
   }
 }
+/* 图片轮播页标题：粒子文字两行堆叠 */
+.ba-hero__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  max-width: 900px;
+}
+
+.ba-hero__title .particle-text {
+  min-height: 0;
+  height: clamp(46px, 5vw, 88px);
+}

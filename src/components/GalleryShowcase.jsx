@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { asset } from '../lib/asset.js'
 import FoldText from './FoldText.jsx'
+import ParticleText from './ParticleText.jsx'
 
 const IMAGES = [
   { img: '/works/gallery/g-01.webp' },
@@ -105,23 +106,45 @@ export default function GalleryShowcase() {
         <div className="gallery-video-bg__gradient" />
       </div>
         <div className="ba-hero">
-          <h1>
-            <FoldText
-              text={'MOSATO SAKAI\nVISUAL CREATOR'}
-              splitBy="line"
-              hinge="top"
-              trigger="scroll"
-              duration={0.65}
-              stagger={0.1}
-              ease="power3.out"
-              perspective={700}
-              creaseShading={0.55}
-              fontSize="clamp(30px, 3.6vw, 52px)"
-              fontWeight={600}
+          <h1 className="ba-hero__title">
+            <ParticleText
+              text="MOSATO SAKAI"
+              particleSize={2.4}
+              density={2}
               color="#171717"
+              highlightColor="#8b5cf6"
+              scatter={120}
+              gatherDuration={1500}
+              stagger={360}
+              pointerRepel={30}
+              repelRadius={110}
+              idleDrift={0.6}
+              trigger="hover"
+              fontSize="clamp(34px, 4vw, 66px)"
+              fontWeight={800}
+              fontFamily="inherit"
+              glow
+            />
+            <ParticleText
+              text="VISUAL CREATOR"
+              particleSize={2.4}
+              density={2}
+              color="#171717"
+              highlightColor="#8b5cf6"
+              scatter={120}
+              gatherDuration={1500}
+              stagger={360}
+              pointerRepel={30}
+              repelRadius={110}
+              idleDrift={0.6}
+              trigger="hover"
+              fontSize="clamp(34px, 4vw, 66px)"
+              fontWeight={800}
+              fontFamily="inherit"
+              glow
             />
           </h1>
-          <p>内容运营 × AI 视觉创作 · 把想象力变成可交付的作品</p>
+          <p>AI 视觉创作 · 把想象力变成可交付的作品</p>
         </div>
 
       {/* 无限图带 */}
@@ -144,7 +167,7 @@ export default function GalleryShowcase() {
 
       {/* 底部 */}
       <footer className="ba-bottom">
-        <p>从内容策略到 AI 视觉生产，我用生成式 AI 完成文案、图片与动态影像，覆盖从创意到交付的全流程。</p>
+
         <div className="ba-links-row">
           <a href="#contact">联系我</a>
           <a href="#image-works">查看作品</a>
@@ -153,3 +176,4 @@ export default function GalleryShowcase() {
     </section>
   )
 }
+
