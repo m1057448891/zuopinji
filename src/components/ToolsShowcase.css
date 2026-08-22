@@ -27,7 +27,6 @@
   height: 100svh;
   margin-bottom: -100vh;
   margin-bottom: -100svh;
-  transform: scaleY(-1);
 }
 
 .tools-grid > .projects__head,
@@ -38,6 +37,15 @@
 
 .tools-grid .projects__heading {
   filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.65));
+}
+
+/* SKILL BUILD 标题区：整屏 hero，首屏只显示标题+波浪，卡片在滚动后出现 */
+.tools-grid > .projects__head {
+  min-height: 100vh;
+  min-height: 100svh;
+  justify-content: center;
+  padding-top: 76px;
+  padding-bottom: 8vh;
 }
 
 /* —— 滚动跑道 —— */
@@ -362,6 +370,8 @@
     display: none;
   }
 }
+
+
 
 
 
