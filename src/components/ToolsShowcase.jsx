@@ -116,7 +116,7 @@ const [active, setActive] = useState(0)
       e.preventDefault()
       e.stopImmediatePropagation()
       lockUntil = now + 1000
-      const y = st.start + ((next + 0.5) / N) * (st.end - st.start)
+      const y = st.start + (next / (N - 1)) * (st.end - st.start)
       if (lenis) lenis.scrollTo(y, { duration: 1.0 })
       else window.scrollTo({ top: y, behavior: 'smooth' })
     }
@@ -128,7 +128,7 @@ const [active, setActive] = useState(0)
     const st = triggerRef.current
     const lenis = window.__lenis
     if (!st) return
-    const y = st.start + ((i + 0.5) / N) * (st.end - st.start)
+    const y = st.start + (i / (N - 1)) * (st.end - st.start)
     if (lenis) lenis.scrollTo(y, { duration: 1.2 })
     else window.scrollTo({ top: y, behavior: 'smooth' })
   }
