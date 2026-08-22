@@ -93,7 +93,15 @@ const [active, setActive] = useState(0)
   // 用 capture 阶段监听，抢在 Lenis 之前拦截滚轮，避免页面滚动与切换冲突
   useEffect(() => {
     let lockUntil = 0
+    let lastWheel = 0
     const onWheel = (e) => {
+      const now = performance.now()
+      // 每次滚轮都更新计时；快速连续滚动（间隔 <350ms）视为“滚动经过”手风琴，放行给页面正常滚动
+      if (now - lastWheel < 350) {
+        lastWheel = now
+        return
+      }
+      lastWheel = now
       const sticky = stickyRef.current
       const st = triggerRef.current
       const lenis = window.__lenis
@@ -103,7 +111,6 @@ const [active, setActive] = useState(0)
       // 仅在手风琴可见区域内拦截滚轮
       const r = sticky.getBoundingClientRect()
       if (e.clientY < r.top || e.clientY > r.bottom) return
-      const now = performance.now()
       if (now < lockUntil) {
         e.preventDefault()
         e.stopImmediatePropagation()
