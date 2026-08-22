@@ -11,18 +11,40 @@
   --accent: #ead09a;
   --accent-2: #ffd879;
   --deep: #4d3f24;
-  background: #050604;
+  background: #2c1a52;
   color: var(--ink);
   color-scheme: dark;
+}
+
+/* GradientWaves 动态波浪背景：铺满整屏并随区块滚动固定（sticky + 负 margin 让内容叠在其上） */
+.tools-grid > .tools-waves {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  pointer-events: none;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  margin-bottom: -100vh;
+  margin-bottom: -100svh;
+  transform: scaleY(-1);
+}
+
+.tools-grid > .projects__head,
+.tools-grid > .tools-accordion {
+  position: relative;
+  z-index: 1;
+}
+
+.tools-grid .projects__heading {
+  filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.65));
 }
 
 /* —— 滚动跑道 —— */
 .tools-accordion {
   position: relative;
   height: 540svh;
-  background:
-    radial-gradient(circle at 100% 0%, rgba(255, 216, 121, 0.1), transparent 34rem),
-    #050604;
+  background: transparent;
 }
 
 .tools-accordion__sticky {
@@ -340,6 +362,12 @@
     display: none;
   }
 }
+
+
+
+
+
+
 
 
 

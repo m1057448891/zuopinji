@@ -109,27 +109,10 @@
   z-index: 20;
 }
 
-/* 左半：磨砂玻璃——半透明毛玻璃面板 + 玻璃质感文字 */
+/* 左半：文字本身磨砂玻璃（半透明 + 柔化 + 光晕），无面板衬底 */
 .pt-hero__text--black {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.62);
   clip-path: inset(0 50% 0 0);
-}
-
-.pt-hero__text--black::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 62%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.09);
-  backdrop-filter: blur(22px) saturate(1.4);
-  -webkit-backdrop-filter: blur(22px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 30px;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-  z-index: -1;
 }
 
 /* 右半：纯白 */
@@ -172,8 +155,10 @@
 }
 
 .pt-hero__text--black h1 {
-  color: rgba(255, 255, 255, 0.88);
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.35), 0 1px 6px rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.6);
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.45), 0 0 44px rgba(255, 255, 255, 0.18), 0 2px 10px rgba(0, 0, 0, 0.4);
+  filter: blur(0.4px);
 }
 
 .pt-hero__text--white h1 {
@@ -289,13 +274,19 @@
 .pt-cards {
   position: relative;
   z-index: 5;
-  background: rgba(5, 5, 5, 0.55);
+  display: flex;
+  align-items: center;
+  background: #050505;
   min-height: 100vh;
   font-family: 'Inter', system-ui, sans-serif;
 }
 
 .pt-cards__inner {
-  padding: 100px 30px 30px;
+  width: 100%;
+}
+
+.pt-cards__inner {
+  padding: 60px 30px 60px;
   transition: all 0.5s;
   position: relative;
 }
@@ -610,6 +601,8 @@
     max-width: none;
   }
 }
+
+
 
 
 

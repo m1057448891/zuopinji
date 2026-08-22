@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
 import FoldText from './FoldText.jsx'
 import './ToolsShowcase.css'
+import GradientWaves from './GradientWaves.jsx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -95,6 +96,28 @@ export default function ToolsShowcase() {
 
   return (
     <section className="projects tools-grid" id="tools-showcase" ref={scopeRef}>
+      <GradientWaves
+        className="tools-waves"
+        horizonColor="#5227FF"
+        waveColor="#FF9FFC"
+        crestColor="#FFFFFF"
+        speed={0.35}
+        amplitude={3}
+        waveScale={0.6}
+        waveRatio={0.9}
+        swell={35}
+        turbulence={20}
+        tilt={1.11}
+        zoom={1.0}
+        height={5.5}
+        fogDepth={26}
+        detail="medium"
+        brightness={1}
+        opacity={1}
+        mouseInteraction
+        parallaxStrength={0.5}
+        grain={false}
+      />
       <div className="container projects__head">
         <span className="mono projects__kicker">SKILL BUILD / Skill搭建</span>
         <h2 className="projects__heading projects__heading--fold">
@@ -177,4 +200,7 @@ export default function ToolsShowcase() {
     </section>
   )
 }
+
+
+
 
