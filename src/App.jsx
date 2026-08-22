@@ -139,7 +139,6 @@ export default function App() {
             )}
           </div>
           <PortraitShowcase />
-          <LazyGallery />
         </div>
         <div className="grid-stage">
           <div className="grid-stage__bg" aria-hidden="true">
@@ -155,6 +154,7 @@ export default function App() {
           </div>
           <ToolsShowcase />
         </div>
+        <LazyGallery />
       </main>
       <LazyContact />
     </div>

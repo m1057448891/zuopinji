@@ -91,6 +91,19 @@ export default function GalleryShowcase() {
   return (
     <section className="gallery-showcase ba" id="gallery-showcase">
       {/* Hero */}
+      {/* 动态视频背景：垂直翻转 + 白色渐变融入页面 */}
+      <div className="gallery-video-bg" aria-hidden="true">
+        <video
+          className="gallery-video-bg__video"
+          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260302_085640_276ea93b-d7da-4418-a09b-2aa5b490e838.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+        />
+        <div className="gallery-video-bg__gradient" />
+      </div>
         <div className="ba-hero">
           <h1>
             <FoldText

@@ -7,8 +7,8 @@ const LINKS = [
   { label: '商业广告', href: '#shorts-showcase', id: 'shorts-showcase' },
   { label: '创意短片', href: '#ads-showcase', id: 'ads-showcase' },
   { label: '竖屏视频', href: '#portrait-showcase', id: 'portrait-showcase' },
-  { label: '图片轮播', href: '#gallery-showcase', id: 'gallery-showcase' },
   { label: 'Skill搭建', href: '#tools-showcase', id: 'tools-showcase' },
+  { label: '图片轮播', href: '#gallery-showcase', id: 'gallery-showcase' },
   { label: '联系我', href: '#contact', id: 'contact' }
 ]
 
