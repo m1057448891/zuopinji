@@ -107,35 +107,33 @@ export default function GalleryShowcase() {
       </div>
         <div className="ba-hero">
           <h1 className="ba-hero__title">
-            <StrokeText
+            <FoldText
               text="MOSATO SAKAI"
-              strokeColor="#8b5cf6"
-              fillColor="#171717"
-              strokeWidth={3.2}
-              drawDuration={1.4}
-              fillDelay={0.2}
-              stagger={0.05}
-              ease="power2.out"
+              splitBy="char"
+              hinge="top"
               trigger="scroll"
-              fillMode="wipe"
-              fontSize={80}
-              fontWeight={800}
-              letterSpacing={-2}
+              duration={0.65}
+              stagger={0.045}
+              ease="power3.out"
+              perspective={700}
+              creaseShading={0.55}
+              fontSize="clamp(36px, 4.5vw, 76px)"
+              fontWeight={900}
+              color="#171717"
             />
-            <StrokeText
+            <FoldText
               text="VISUAL CREATOR"
-              strokeColor="#8b5cf6"
-              fillColor="#171717"
-              strokeWidth={3.2}
-              drawDuration={1.4}
-              fillDelay={0.2}
-              stagger={0.05}
-              ease="power2.out"
+              splitBy="char"
+              hinge="top"
               trigger="scroll"
-              fillMode="wipe"
-              fontSize={80}
-              fontWeight={800}
-              letterSpacing={-2}
+              duration={0.65}
+              stagger={0.045}
+              ease="power3.out"
+              perspective={700}
+              creaseShading={0.55}
+              fontSize="clamp(36px, 4.5vw, 76px)"
+              fontWeight={900}
+              color="#171717"
             />
           </h1>
           <p>AI 视觉创作 · 把想象力变成可交付的作品</p>

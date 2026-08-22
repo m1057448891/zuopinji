@@ -8380,7 +8380,6 @@ body.hide-site-nav .ln-nav {
   max-width: 900px;
 }
 
-.ba-hero__title .stroke-text {
+.ba-hero__title .fold-text {
   min-height: 0;
-  height: clamp(52px, 6vw, 104px);
 }
