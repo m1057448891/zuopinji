@@ -22,10 +22,10 @@ const VIDEOS = [
 ]
 
 const N = VIDEOS.length
-const THUMB_H = 124
-const THUMB_GAP = 8
+const THUMB_H = 160
+const THUMB_GAP = 10
 const STEP = THUMB_H + THUMB_GAP // 132
-const VISIBLE = 6
+const VISIBLE = 5
 
 // 分屏 hero 的标题内容（左磨砂右纯白，同一份渲染两次）
 function HeroContent() {
@@ -158,6 +158,7 @@ export default function PortraitShowcase() {
             />
             <div className="pt-hero__shade" aria-hidden="true" />
             <div className="pt-hero__scrim-top" aria-hidden="true" />
+            <div className="pt-hero__fade-bottom" aria-hidden="true" />
           </div>
           <div className="pt-hero__meta">
             <span className="mono pt-hero__meta-index">
@@ -187,4 +188,6 @@ export default function PortraitShowcase() {
     </section>
   )
 }
+
+
 

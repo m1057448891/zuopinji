@@ -11,7 +11,7 @@
   --accent: #ead09a;
   --accent-2: #ffd879;
   --deep: #4d3f24;
-  background: #2c1a52;
+  background: #050505;
   color: var(--ink);
   color-scheme: dark;
 }
@@ -27,6 +27,11 @@
   height: 100svh;
   margin-bottom: -100vh;
   margin-bottom: -100svh;
+}
+
+/* 与竖屏视频页交界的底色统一为纯黑，消除色差 */
+.projects.tools-grid {
+  background: #050505;
 }
 
 .tools-grid > .projects__head,
@@ -370,6 +375,7 @@
     display: none;
   }
 }
+
 
 
 
