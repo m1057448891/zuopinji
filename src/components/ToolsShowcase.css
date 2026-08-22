@@ -1,25 +1,28 @@
 /* ============================================================
-   Skill Build —— Nimbus Grid Platform Accordion
-   黑金终端风 · 滚动驱动手风琴（sticky + clip-path 逐卡翻页）
+   Skill Build —— Nimbus Grid Platform Accordion（完全复刻）
+   近黑 #050604 底 + 金色径向，sticky 滚动，旧卡折叠成顶部条带
    ============================================================ */
 
 .tools-grid {
-  --tg-bg: #0a0a08;
-  --tg-ink: #fff4d5;
-  --tg-muted: #dacaa1;
-  --tg-line: rgba(255, 240, 199, 0.22);
-  --tg-accent: #ffd879;
-  --tg-accent-2: #ead09a;
-  --tg-deep: #4d3f24;
-  background: var(--tg-bg);
-  color: var(--tg-ink);
+  --ink: #fff4d5;
+  --muted: #dacaa1;
+  --line: rgba(255, 240, 199, 0.28);
+  --glass: rgba(255, 239, 199, 0.16);
+  --accent: #ead09a;
+  --accent-2: #ffd879;
+  --deep: #4d3f24;
+  background: #050604;
+  color: var(--ink);
   color-scheme: dark;
 }
 
-/* —— 滚动跑道：sticky 面板在这里走完全程 —— */
+/* —— 滚动跑道 —— */
 .tools-accordion {
   position: relative;
   height: 540svh;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 216, 121, 0.1), transparent 34rem),
+    #050604;
 }
 
 .tools-accordion__sticky {
@@ -38,8 +41,8 @@
   margin: 0 auto;
   padding: 0 clamp(16px, 3.6vw, 56px);
   display: grid;
-  grid-template-columns: clamp(160px, 15vw, 220px) minmax(0, 1fr);
-  gap: clamp(20px, 2.8vw, 48px);
+  grid-template-columns: clamp(170px, 15vw, 230px) minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 52px);
   align-items: center;
 }
 
@@ -48,7 +51,10 @@
   display: flex;
   flex-direction: column;
   gap: clamp(12px, 1.9vh, 20px);
-  padding-left: 4px;
+  padding-left: 2px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .tg-nav__item {
@@ -61,9 +67,6 @@
   background: none;
   cursor: pointer;
   text-align: left;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
   color: rgba(255, 244, 213, 0.5);
   transition: color 0.18s ease, transform 0.18s ease;
 }
@@ -77,95 +80,142 @@
   height: 7px;
   flex: none;
   background: rgba(255, 244, 213, 0.35);
-  transition: background 0.18s ease;
+  transition: background 0.18s ease, box-shadow 0.18s ease;
 }
 
 .tg-nav__item--active {
-  color: var(--tg-accent);
+  color: var(--accent);
   transform: translateX(2px);
 }
 
 .tg-nav__item--active .tg-nav__dot {
-  background: var(--tg-accent);
+  background: var(--accent-2);
   box-shadow: 0 0 10px rgba(255, 216, 121, 0.7);
 }
 
-/* —— 右侧堆叠面板 —— */
-.tg-stage {
+/* —— 右侧堆叠 —— */
+.tg-stack {
   position: relative;
-  height: min(78svh, 820px);
+  --stack-h: min(80svh, 820px);
+  --collapsed: 84px;
+  height: var(--stack-h);
+  overflow: hidden;
 }
 
 .tg-card {
   position: absolute;
   inset: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
-  gap: clamp(22px, 3vw, 52px);
-  align-items: center;
-  padding: 0 clamp(4px, 1.2vw, 20px);
-  background: var(--tg-bg);
-  --local: clamp(0, calc(var(--accord-p, 0) * 4 - var(--i, 0)), 1);
-  transform: translateY(calc(var(--local) * -72px));
-  clip-path: inset(0 0 calc(var(--local) * 100%) 0);
+  display: flex;
+  flex-direction: column;
+  background: #050604;
+  border-top: 1px solid var(--line);
+  overflow: hidden;
   will-change: transform, clip-path;
+  --qin: clamp(0, calc(var(--accord-p, 0) * 4 - (var(--i, 0) - 1)), 1);
+  --qout: clamp(0, calc(var(--accord-p, 0) * 4 - var(--i, 0)), 1);
+  transform: translateY(
+    calc(
+      var(--i, 0) * var(--collapsed) +
+        (1 - var(--qin)) * (var(--stack-h) + var(--collapsed) - var(--i, 0) * var(--collapsed))
+    )
+  );
+  clip-path: inset(0 0 calc(var(--qout) * (var(--stack-h) - var(--collapsed))) 0);
 }
 
-.tg-card__copy {
-  padding-left: clamp(8px, 1.6vw, 28px);
+/* 卡片头部条带：折叠后留在顶部 84px */
+.tg-card__head {
+  flex: none;
+  height: var(--collapsed);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 clamp(20px, 2.8vw, 48px);
+  border-bottom: 1px solid rgba(255, 240, 199, 0.12);
+  background: rgba(255, 239, 199, 0.03);
 }
 
-/* —— 左侧文案 —— */
+.tg-card__head-no {
+  font-size: 12px;
+  color: var(--accent-2);
+}
+
+.tg-card__head-cat {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--ink);
+}
+
+.tg-card__head-idx {
+  margin-left: auto;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255, 244, 213, 0.35);
+}
+
+/* 卡片主体：左文案 + 右海报 */
+.tg-card__body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 56px);
+  align-items: start;
+  padding: clamp(18px, 2vw, 28px) clamp(20px, 2.8vw, 48px) 0;
+}
+
 .tg-card__eyebrow {
   font-size: 11px;
   letter-spacing: 0.3em;
-  color: var(--tg-accent);
-  opacity: 0.85;
+  color: var(--accent-2);
+  opacity: 0.9;
 }
 
 .tg-card__title {
-  margin: clamp(10px, 1.8vh, 18px) 0 0;
-  font-size: clamp(30px, 3.6vw, 62px);
-  line-height: 0.98;
+  margin: 10px 0 0;
+  font-family: "IBM Plex Sans", var(--font-sans);
+  font-size: clamp(28px, 3vw, 50px);
+  line-height: 1;
+  font-weight: 500;
   letter-spacing: -0.01em;
-  font-weight: 400;
-  color: var(--tg-ink);
-  max-width: 12ch;
+  color: var(--ink);
+  max-width: 14ch;
 }
 
 .tg-card__cn {
   margin: 10px 0 0;
-  font-size: clamp(14px, 1.15vw, 18px);
-  color: var(--tg-accent-2);
-  opacity: 0.9;
+  font-size: clamp(13px, 1vw, 16px);
+  color: var(--accent);
+  opacity: 0.92;
 }
 
 .tg-card__desc {
-  margin: clamp(12px, 1.8vh, 18px) 0 0;
-  max-width: 46ch;
-  font-size: clamp(13px, 1.02vw, 16px);
+  margin: 14px 0 0;
+  max-width: 44ch;
+  font-size: clamp(12.5px, 0.95vw, 15px);
   line-height: 1.55;
-  color: var(--tg-muted);
+  color: var(--muted);
 }
 
 .tg-card__metrics {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: clamp(16px, 2.4vh, 24px);
+  margin-top: 16px;
 }
 
 .tg-card__metrics span {
   font-size: 10px;
   letter-spacing: 0.18em;
-  color: var(--tg-ink);
-  border: 1px solid var(--tg-line);
+  color: var(--ink);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 7px 12px;
-  background: rgba(255, 239, 199, 0.06);
+  padding: 6px 11px;
+  background: var(--glass);
 }
 
-/* —— 右侧金色渐变 + 悬浮代码卡片 —— */
+/* 右侧海报（暖金辉光衬托） */
 .tg-card__visual {
   position: relative;
   display: grid;
@@ -173,116 +223,49 @@
   min-height: 0;
 }
 
-.tg-visual__halo {
+.tg-visual__glow {
   position: absolute;
-  width: 70%;
+  width: 78%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 216, 121, 0.35), transparent 62%);
-  filter: blur(46px);
+  background: radial-gradient(circle, rgba(255, 216, 121, 0.32), transparent 64%);
+  filter: blur(44px);
   pointer-events: none;
 }
 
-.tg-visual__panel {
+.tg-card__poster {
   position: relative;
-  width: min(500px, 90%);
-  aspect-ratio: 1 / 1;
-  border-radius: 24px;
-  background:
-    radial-gradient(circle at 52% 38%, rgba(255, 225, 150, 0.95) 0%, rgba(240, 210, 124, 0.9) 22%, rgba(177, 141, 79, 0.85) 52%, rgba(78, 63, 36, 0.95) 100%);
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 244, 213, 0.35);
-  overflow: hidden;
+  justify-self: end;
+  align-self: start;
+  height: min(360px, 100%);
+  width: auto;
+  max-width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 240, 199, 0.4);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.3);
+  object-fit: cover;
+  background: #17130d;
 }
 
-.tg-visual__panel::before {
-  content: "";
+.tg-card__visual {
+  justify-items: end;
+  align-items: start;
+}
+
+/* 底部水印：占满早期卡片的留白，避免空洞 */
+.tg-card::after {
+  content: attr(data-no);
   position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(rgba(10, 10, 8, 0.10) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(10, 10, 8, 0.10) 1px, transparent 1px);
-  background-size: 28px 28px;
-  opacity: 0.5;
-}
-
-.tg-visual__panel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(150deg, rgba(255, 255, 255, 0.28), transparent 42%);
-}
-
-/* —— 代码卡片 —— */
-.tg-code {
-  position: absolute;
-  width: min(400px, 80%);
-  border-radius: 14px;
-  background: rgba(13, 16, 19, 0.94);
-  border: 1px solid rgba(255, 240, 199, 0.18);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
-  transform: translateY(-8px) rotateX(2deg) rotateY(-1deg);
-  overflow: hidden;
-  backdrop-filter: blur(10px);
-}
-
-.tg-code__bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 11px 14px;
-  border-bottom: 1px solid rgba(255, 240, 199, 0.1);
-}
-
-.tg-code__dots {
-  display: flex;
-  gap: 6px;
-}
-
-.tg-code__dots i {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  display: block;
-  background: rgba(255, 244, 213, 0.28);
-}
-
-.tg-code__dots i:nth-child(1) { background: #e28b7a; }
-.tg-code__dots i:nth-child(2) { background: #e0bd7d; }
-.tg-code__dots i:nth-child(3) { background: #8fb98f; }
-
-.tg-code__label {
-  margin-left: 4px;
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: rgba(255, 244, 213, 0.5);
-}
-
-.tg-code__body {
-  margin: 0;
-  padding: 14px 16px 16px;
+  right: clamp(10px, 2vw, 28px);
+  bottom: -40px;
+  z-index: 0;
   font-family: var(--font-mono, monospace);
-  font-size: 12.5px;
-  line-height: 1.85;
-  color: var(--tg-ink);
-  overflow: hidden;
-}
-
-.tg-code__line {
-  display: flex;
-  gap: 14px;
-  white-space: pre;
-}
-
-.tg-code__no {
-  color: rgba(255, 244, 213, 0.28);
+  font-size: clamp(140px, 16vw, 240px);
+  line-height: 1;
+  color: rgba(255, 240, 199, 0.045);
+  pointer-events: none;
   user-select: none;
 }
-
-.tg-tok--p { color: #efe4c6; }
-.tg-tok--k { color: #f2d489; }
-.tg-tok--s { color: #f2a7b8; }
 
 /* —— 响应式 —— */
 @media (max-width: 980px) {
@@ -291,14 +274,14 @@
   }
   .tools-accordion__inner {
     grid-template-columns: 1fr;
-    gap: 18px;
+    gap: 16px;
     align-content: center;
   }
   .tg-nav {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px 20px;
+    gap: 10px 18px;
   }
   .tg-nav__item {
     width: auto;
@@ -306,21 +289,26 @@
   .tg-nav__item--active {
     transform: none;
   }
-  .tg-stage {
-    height: 62svh;
+  .tg-stack {
+    --stack-h: min(80svh, 700px);
+    --collapsed: 88px;
   }
-  .tg-card {
+  .tg-card__body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
     grid-template-columns: 1fr;
     grid-template-rows: auto minmax(0, 1fr);
-    gap: 16px;
+    gap: 10px;
     align-content: center;
-  }
-  .tg-card__title {
-    font-size: clamp(26px, 6vw, 42px);
-    max-width: none;
+    padding: 12px 20px 18px;
   }
   .tg-card__copy {
     text-align: center;
+  }
+  .tg-card__title {
+    font-size: clamp(22px, 5vw, 34px);
+    max-width: none;
   }
   .tg-card__desc {
     margin-left: auto;
@@ -329,32 +317,29 @@
   .tg-card__metrics {
     justify-content: center;
   }
-  .tg-card__visual {
-    min-height: 0;
+  .tg-card__poster {
+    justify-self: center;
+    height: min(230px, 100%);
   }
-  .tg-visual__panel {
-    width: min(320px, 72vw);
-  }
-  .tg-code {
-    width: min(280px, 62vw);
-    font-size: 11px;
-  }
-  .tg-code__body {
-    padding: 10px 12px 12px;
+  .tg-card__head {
+    padding: 0 16px;
   }
 }
 
 @media (max-width: 520px) {
-  .tools-accordion {
-    height: 600svh;
+  .tg-card__body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+    grid-template-columns: 1fr;
   }
-  .tg-stage {
-    height: 60svh;
+  .tg-card__poster {
+    height: min(170px, 100%);
   }
-  .tg-code__body {
-    font-size: 10.5px;
-    line-height: 1.7;
+  .tg-card__metrics {
+    display: none;
   }
 }
+
 
 
