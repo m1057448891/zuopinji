@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { asset } from '../lib/asset.js'
 import FoldText from './FoldText.jsx'
-import ParticleText from './ParticleText.jsx'
+import StrokeText from './StrokeText.jsx'
 
 const IMAGES = [
   { img: '/works/gallery/g-01.webp' },
@@ -107,41 +107,35 @@ export default function GalleryShowcase() {
       </div>
         <div className="ba-hero">
           <h1 className="ba-hero__title">
-            <ParticleText
+            <StrokeText
               text="MOSATO SAKAI"
-              particleSize={2.4}
-              density={2}
-              color="#171717"
-              highlightColor="#8b5cf6"
-              scatter={120}
-              gatherDuration={1500}
-              stagger={360}
-              pointerRepel={30}
-              repelRadius={110}
-              idleDrift={0.6}
-              trigger="hover"
-              fontSize="clamp(34px, 4vw, 66px)"
+              strokeColor="#8b5cf6"
+              fillColor="#171717"
+              strokeWidth={3.2}
+              drawDuration={1.4}
+              fillDelay={0.2}
+              stagger={0.05}
+              ease="power2.out"
+              trigger="scroll"
+              fillMode="wipe"
+              fontSize={80}
               fontWeight={800}
-              fontFamily="inherit"
-              glow
+              letterSpacing={-2}
             />
-            <ParticleText
+            <StrokeText
               text="VISUAL CREATOR"
-              particleSize={2.4}
-              density={2}
-              color="#171717"
-              highlightColor="#8b5cf6"
-              scatter={120}
-              gatherDuration={1500}
-              stagger={360}
-              pointerRepel={30}
-              repelRadius={110}
-              idleDrift={0.6}
-              trigger="hover"
-              fontSize="clamp(34px, 4vw, 66px)"
+              strokeColor="#8b5cf6"
+              fillColor="#171717"
+              strokeWidth={3.2}
+              drawDuration={1.4}
+              fillDelay={0.2}
+              stagger={0.05}
+              ease="power2.out"
+              trigger="scroll"
+              fillMode="wipe"
+              fontSize={80}
               fontWeight={800}
-              fontFamily="inherit"
-              glow
+              letterSpacing={-2}
             />
           </h1>
           <p>AI 视觉创作 · 把想象力变成可交付的作品</p>
@@ -165,14 +159,6 @@ export default function GalleryShowcase() {
         </div>
       </div>
 
-      {/* 底部 */}
-      <footer className="ba-bottom">
-
-        <div className="ba-links-row">
-          <a href="#contact">联系我</a>
-          <a href="#image-works">查看作品</a>
-        </div>
-      </footer>
     </section>
   )
 }
