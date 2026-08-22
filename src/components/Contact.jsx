@@ -129,13 +129,15 @@ export default function Contact() {
               avatarUrl={asset('/assets/profile-photo.jpg')}
               miniAvatarUrl={asset('/assets/profile-photo.jpg')}
               name="MOSATO SAKAI"
-              title="马中帅 · 内容运营"
+              title="马中帅"
               handle="mosatosakai"
               status="AVAILABLE · 可接项目"
+              showUserInfo={false}
               contactText="联系我"
               behindGlowEnabled
-              behindGlowColor="rgba(109, 40, 217, 0.5)"
+              behindGlowColor="rgba(109, 40, 217, 0.25)"
               onContactClick={() => window.open("mailto:" + profile.contact.email)}
+              behindGlowSize="26%"
             />
           </div>
           <div className="contact__title-wrap">
