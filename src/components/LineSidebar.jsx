@@ -91,13 +91,22 @@ const LineSidebar = ({
         const fall = FALLOFF_CURVES[falloff] || FALLOFF_CURVES.smooth
         targetsRef.current[i] = fall(p)
       }
+      // 循环可能已在上次动画结束后停止，需要重启以响应新的指针位置
+      if (rafRef.current == null) {
+        lastRef.current = performance.now()
+        rafRef.current = requestAnimationFrame(runFrame)
+      }
     },
-    [proximityRadius, falloff]
+    [proximityRadius, falloff, runFrame]
   )
 
   const handlePointerLeave = useCallback(() => {
     targetsRef.current = targetsRef.current.map(() => 0)
-  }, [])
+    if (rafRef.current == null) {
+      lastRef.current = performance.now()
+      rafRef.current = requestAnimationFrame(runFrame)
+    }
+  }, [runFrame])
 
   const handleClick = useCallback(
     (index, label) => {
