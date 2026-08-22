@@ -325,8 +325,8 @@ a {
 
 .hero {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
+  min-height: calc(100vh / var(--fit, 1));
+  min-height: calc(100svh / var(--fit, 1));
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -1362,7 +1362,7 @@ a {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 100vw;
+  width: calc(100vw / var(--fit, 1));
   height: 200px;
   transform: translate(-50%, -50%);
   opacity: 0.9;
@@ -1873,8 +1873,8 @@ a {
 .sectors {
   position: relative;
   z-index: 2;
-  min-height: 100vh;
-  min-height: 100svh;
+  min-height: calc(100vh / var(--fit, 1));
+  min-height: calc(100svh / var(--fit, 1));
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -2140,7 +2140,7 @@ a {
 .shorts__viewport {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: calc(100vh / var(--fit, 1));
   display: grid;
   place-items: center;
   perspective: 1300px;
@@ -2369,7 +2369,7 @@ a {
 .shorts--works .shorts__viewport {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: calc(100vh / var(--fit, 1));
   overflow: hidden;
   perspective: none;
 }
@@ -2521,13 +2521,13 @@ a {
   height: 300vh;
   background: #000;
   z-index: 1;
-  margin-top: -100vh;
+  margin-top: -calc(100vh / var(--fit, 1));
 }
 
 .desk__viewport {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: calc(100vh / var(--fit, 1));
   overflow: hidden;
 }
 
@@ -2535,8 +2535,8 @@ a {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100vw;
-  height: 56.25vw;
+  width: calc(100vw / var(--fit, 1));
+  height: calc(56.25vw / var(--fit, 1));
   will-change: transform;
 }
 
@@ -2750,7 +2750,7 @@ a {
 
 .ads {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh / var(--fit, 1));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -3176,8 +3176,8 @@ a {
 
 .contact {
   position: relative;
-  min-height: 100vh;
-  min-height: 100svh;
+  min-height: calc(100vh / var(--fit, 1));
+  min-height: calc(100svh / var(--fit, 1));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -3423,7 +3423,7 @@ a {
     position: relative;
     z-index: 8;
     margin-top: 0;
-    height: 100vh;
+    height: calc(100vh / var(--fit, 1));
     display: grid;
     place-items: center;
     background-color: #0a0a0a;
@@ -3547,7 +3547,7 @@ a {
 
 .carousel-showcase {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh / var(--fit, 1));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -3969,7 +3969,7 @@ a {
 
 .gallery-showcase {
   position: relative;
-  height: 100vh;
+  height: calc(100vh / var(--fit, 1));
   overflow: hidden;
   background: #000;
   color: #fff;
@@ -4222,7 +4222,7 @@ a {
 .shop__window {
   position: relative;
   width: min(1400px, 84vw);
-  height: 100vh;
+  height: calc(100vh / var(--fit, 1));
   display: flex;
   flex-direction: column;
   border: 2px solid #111;
@@ -4586,8 +4586,8 @@ a {
 /* ---------- contact · mantis style ---------- */
 
 .contact {
-  min-height: 100vh;
-  min-height: 100svh;
+  min-height: calc(100vh / var(--fit, 1));
+  min-height: calc(100svh / var(--fit, 1));
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -4651,8 +4651,8 @@ a {
   width: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  min-height: 100svh;
+  min-height: calc(100vh / var(--fit, 1));
+  min-height: calc(100svh / var(--fit, 1));
   padding-top: 96px;
 }
 
@@ -5146,8 +5146,8 @@ a {
 .contact-landing {
   position: relative;
   width: 100%;
-  min-height: 100vh;
-  min-height: 100svh;
+  min-height: calc(100vh / var(--fit, 1));
+  min-height: calc(100svh / var(--fit, 1));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -5710,7 +5710,7 @@ a {
 /* ---------- AI 工具（手风琴画廊） ---------- */
 .tools {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh / var(--fit, 1));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5833,7 +5833,7 @@ a {
 .reel-oryzo__sticky {
   position: sticky;
   top: 0;
-  height: 100vh;
+  height: calc(100vh / var(--fit, 1));
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -6053,7 +6053,7 @@ body.hide-site-nav .nav {
 .gallery-showcase.ba {
   position: relative;
   height: auto;
-  min-height: 100vh;
+  min-height: calc(100vh / var(--fit, 1));
   background: transparent;
   color: #171717;
   overflow: hidden;
@@ -6064,7 +6064,7 @@ body.hide-site-nav .nav {
   position: relative;
   z-index: 12;
   margin-top: 0;
-  min-height: 100vh;
+  min-height: calc(100vh / var(--fit, 1));
   background: transparent;
 }
 
@@ -6688,7 +6688,7 @@ body.hide-site-nav .ln-nav {
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh / var(--fit, 1));
   height: 100dvh;
   min-height: 620px;
   overflow: hidden;
@@ -7024,7 +7024,7 @@ body.hide-site-nav .ln-nav {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: min(calc(100vw - 36px), 380px);
+  width: min(calc(calc(100vw / var(--fit, 1)) - 36px), 380px);
   padding: 22px 18px 20px;
   border-radius: 28px;
   background: rgba(16, 18, 22, 0.78);
@@ -7246,7 +7246,7 @@ body.hide-site-nav .ln-nav {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  height: calc(100vh - clamp(84px, 8vh, 100px) + 12px);
+  height: calc(calc(100vh / var(--fit, 1)) - clamp(84px, 8vh, 100px) + 12px);
   min-height: 640px;
 }
 
@@ -7495,7 +7495,7 @@ body.hide-site-nav .ln-nav {
 @media (max-width: 900px) {
   .projects-card {
     top: 78px;
-    height: calc(100vh - 84px);
+    height: calc(calc(100vh / var(--fit, 1)) - 84px);
     min-height: 760px;
   }
 
@@ -7575,7 +7575,7 @@ body.hide-site-nav .ln-nav {
 .ember-ads {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh / var(--fit, 1));
   min-height: 640px;
   overflow: hidden;
   background: #000;
@@ -8194,8 +8194,8 @@ body.hide-site-nav .ln-nav {
 .flow-cards {
   position: relative;
   background: transparent;
-  min-height: 100vh;
-  min-height: 100svh;
+  min-height: calc(100vh / var(--fit, 1));
+  min-height: calc(100svh / var(--fit, 1));
   display: flex;
   align-items: center;
   padding: clamp(96px, 10vh, 150px) 24px;
@@ -8308,7 +8308,7 @@ body.hide-site-nav .ln-nav {
 .flow-cards__corner--br {
   right: clamp(16px, 3vw, 48px);
   bottom: clamp(28px, 6vh, 72px);
-  width: min(50vw, 620px);
+  width: min(calc(50vw / var(--fit, 1)), 620px);
   text-align: right;
 }
 
@@ -8363,5 +8363,7 @@ body.hide-site-nav .ln-nav {
     width: min(64vw, 400px);
   }
 }
+
+
 
 

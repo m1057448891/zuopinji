@@ -12,7 +12,7 @@ export default function LazyContact() {
   }, [inView])
 
   return (
-    <div ref={ref} id="contact" className="lazy-contact" style={{ minHeight: '100vh' }}>
+    <div ref={ref} id="contact" className="lazy-contact" style={{ minHeight: 'calc(100vh / var(--fit, 1))' }}>
       {show && (
         <Suspense fallback={null}>
           <Contact />
@@ -21,3 +21,4 @@ export default function LazyContact() {
     </div>
   )
 }
+

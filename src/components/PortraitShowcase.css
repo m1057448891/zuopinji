@@ -9,7 +9,7 @@
   background: transparent;
   color: #f2f2f2;
   font-family: 'Inter', system-ui, sans-serif;
-  min-height: 100vh;
+  min-height: calc(100vh / var(--fit, 1));
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -28,21 +28,21 @@
 /* ---------------- Hero ---------------- */
 .pt-hero {
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  height: 100svh;
+  width: calc(100vw / var(--fit, 1));
+  height: calc(100vh / var(--fit, 1));
+  height: calc(100svh / var(--fit, 1));
   display: flex;
 }
 
 .pt-hero__left {
-  width: 50vw;
+  width: calc(50vw / var(--fit, 1));
   height: 100%;
   position: relative;
   background: #050505;
 }
 
 .pt-hero__right {
-  width: 50vw;
+  width: calc(50vw / var(--fit, 1));
   height: 100%;
   position: relative;
   background: #050505;
@@ -370,14 +370,14 @@
     display: none;
   }
   .pt-hero__right {
-    width: 100vw;
+    width: calc(100vw / var(--fit, 1));
   }
   .pt-hero__text--black {
     display: none;
   }
   .pt-hero__text--white {
     clip-path: none;
-    width: 100vw;
+    width: calc(100vw / var(--fit, 1));
   }
   .pt-page-arrow {
     width: 40px;
@@ -388,6 +388,7 @@
     bottom: 16px;
   }
 }
+
 
 
 
