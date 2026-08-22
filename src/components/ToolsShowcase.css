@@ -133,6 +133,7 @@
   position: relative;
   --stack-h: min(80svh, 820px);
   --collapsed: 84px;
+  --content-h: calc(var(--stack-h) - 5 * var(--collapsed));
   height: var(--stack-h);
   overflow: hidden;
 }
@@ -272,7 +273,7 @@
   position: relative;
   justify-self: end;
   align-self: start;
-  height: min(360px, 100%);
+  height: min(340px, calc(var(--content-h, 400px) * 0.62));
   width: auto;
   max-width: 100%;
   border-radius: 10px;
@@ -417,7 +418,7 @@
     font-size: 9px;
   }
   .tg-card__poster {
-    height: min(260px, 100%);
+    height: min(260px, calc(var(--content-h) * 0.62));
   }
   .tg-nav {
     gap: clamp(10px, 1.4vh, 16px);
@@ -430,6 +431,7 @@
     --collapsed: 52px;
   }
   .tg-card__poster {
-    height: min(220px, 100%);
+    height: min(220px, calc(var(--content-h) * 0.62));
   }
 }
+
