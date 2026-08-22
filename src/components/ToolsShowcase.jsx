@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { asset } from '../lib/asset.js'
@@ -62,7 +62,10 @@ export default function ToolsShowcase() {
   const scopeRef = useRef(null)
   const runwayRef = useRef(null)
   const triggerRef = useRef(null)
-  const [active, setActive] = useState(0)
+  const stickyRef = useRef(null)
+const [active, setActive] = useState(0)
+      const activeRef = useRef(0)
+  activeRef.current = active
 
   useLayoutEffect(() => {
     const runway = runwayRef.current
@@ -83,6 +86,42 @@ export default function ToolsShowcase() {
     runway.style.setProperty('--accord-p', '0')
 
     return () => st.kill()
+  }, [])
+
+
+  // 滚轮步进：鼠标在手风琴区域内滚轮一次切到下一张/上一张
+  // 用 capture 阶段监听，抢在 Lenis 之前拦截滚轮，避免页面滚动与切换冲突
+  useEffect(() => {
+    let lockUntil = 0
+    const onWheel = (e) => {
+      const sticky = stickyRef.current
+      const st = triggerRef.current
+      const lenis = window.__lenis
+      if (!sticky || !st) return
+      const abs = Math.abs(e.deltaY)
+      if (abs < 5 || abs > 500) return
+      // 仅在手风琴可见区域内拦截滚轮
+      const r = sticky.getBoundingClientRect()
+      if (e.clientY < r.top || e.clientY > r.bottom) return
+      const now = performance.now()
+      if (now < lockUntil) {
+        e.preventDefault()
+        e.stopImmediatePropagation()
+        return
+      }
+      const dir = e.deltaY > 0 ? 1 : -1
+      const cur = activeRef.current
+      const next = Math.max(0, Math.min(N - 1, cur + dir))
+      if (next === cur) return
+      e.preventDefault()
+      e.stopImmediatePropagation()
+      lockUntil = now + 1000
+      const y = st.start + ((next + 0.5) / N) * (st.end - st.start)
+      if (lenis) lenis.scrollTo(y, { duration: 1.0 })
+      else window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+    window.addEventListener('wheel', onWheel, { passive: false, capture: true })
+    return () => window.removeEventListener('wheel', onWheel, { capture: true })
   }, [])
 
   const goTo = (i) => {
@@ -140,7 +179,7 @@ export default function ToolsShowcase() {
       </div>
 
       <div className="tools-accordion" ref={runwayRef}>
-        <div className="tools-accordion__sticky">
+        <div className="tools-accordion__sticky" ref={stickyRef}>
           <div className="tools-accordion__inner">
             {/* 左侧特性导航（圆点 + 标签，激活右移 2px） */}
             <nav className="tg-nav mono" aria-label="技能导航">

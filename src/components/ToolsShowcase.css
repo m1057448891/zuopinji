@@ -65,7 +65,7 @@
   top: 76px;
   height: calc(calc(100svh / var(--fit, 1)) - 76px);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   overflow: hidden;
 }
 
@@ -74,11 +74,11 @@
   width: 100%;
   max-width: 1560px;
   margin: 0 auto;
-  padding: 0 clamp(16px, 3.6vw, 56px);
+  padding: clamp(24px, 4.5vh, 64px) clamp(16px, 3.6vw, 56px) 0;
   display: grid;
   grid-template-columns: clamp(170px, 15vw, 230px) minmax(0, 1fr);
   gap: clamp(24px, 3vw, 52px);
-  align-items: center;
+  align-items: start;
 }
 
 /* —— 左侧特性导航 —— */
@@ -312,6 +312,7 @@
     grid-template-columns: 1fr;
     gap: 16px;
     align-content: center;
+    padding-top: 20px;
   }
   .tg-nav {
     flex-direction: row;
