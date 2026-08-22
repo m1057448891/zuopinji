@@ -15,12 +15,12 @@ const listItems = [
 
 const WAVE = Array.from({ length: 24 }, (_, i) => 24 + ((i * 29) % 60))
 
-// 这四个广告视频在“商业广告”页：首页只展示静态海报，点击跳转到商业广告页播放
+// 前两个广告视频在“商业广告”页；03/04 换成“创意短片”页的视频（白色海鸥 / 蜜蜂）
 const SHORTS = [
-  { no: '01', file: '/works/adsreel/01.mp4', poster: '/videos/ads/01-poster.jpg', cn: '运动鞋构造', en: 'SNEAKER FIBER' },
-  { no: '02', file: '/works/adsreel/02.mp4', poster: '/videos/ads/02-poster.jpg', cn: '项链', en: 'NECKLACE' },
-  { no: '03', file: '/works/adsreel/03.mp4', poster: '/videos/ads/03-poster.jpg', cn: '蓝牙耳机', en: 'EARBUDS' },
-  { no: '04', file: '/works/adsreel/04.mp4', poster: '/videos/ads/04-poster.jpg', cn: '咖啡', en: 'COFFEE' }
+  { no: '01', file: '/works/adsreel/01.mp4', poster: '/videos/ads/01-poster.jpg', cn: '运动鞋构造', en: 'SNEAKER FIBER', target: '#shorts-showcase' },
+  { no: '02', file: '/works/adsreel/02.mp4', poster: '/videos/ads/02-poster.jpg', cn: '项链', en: 'NECKLACE', target: '#shorts-showcase' },
+  { no: '03', file: '/works/shorts/01.mp4', poster: '/videos/shorts/01-poster.jpg', cn: '白色海鸥', en: 'SEAGULLS', target: '#ads-showcase' },
+  { no: '04', file: '/works/shorts/02.mp4', poster: '/videos/shorts/02-poster.jpg', cn: '蜜蜂', en: 'BEE', target: '#ads-showcase' }
 ]
 
 export default function Hero({ video }) {
@@ -158,7 +158,7 @@ export default function Hero({ video }) {
               </div>
               <a
                 className="hero__car-thumb"
-                href="#shorts-showcase"
+                href={s.target || '#shorts-showcase'}
                 onClick={() => goShorts(s.file)}
                 aria-label={s.cn}
               >

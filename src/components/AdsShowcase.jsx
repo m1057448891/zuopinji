@@ -40,6 +40,17 @@ export default function AdsShowcase() {
       }
     })
   }, [active, inView, sectionRef])
+  // 首页缩略图点击后跳转到这里播放对应视频
+  useEffect(() => {
+    const onPlay = (e) => {
+      const file = e.detail?.file
+      const idx = ADS.findIndex((a) => a.file === file)
+      if (idx < 0) return
+      setActive(idx)
+    }
+    window.addEventListener('shorts:play', onPlay)
+    return () => window.removeEventListener('shorts:play', onPlay)
+  }, [])
 
   useEffect(() => {
     const onKey = (e) => {
