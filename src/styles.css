@@ -6488,14 +6488,13 @@ body.hide-site-nav .nav {
   top: -24px;
   left: 0;
   right: 0;
-  height: 176px;
+  height: 132px;
   z-index: -1;
   pointer-events: none;
   background: linear-gradient(
     180deg,
-    rgba(12, 12, 12, 1) 0%,
-    rgba(12, 12, 12, 1) 45%,
-    rgba(12, 12, 12, 0.85) 68%,
+    rgba(12, 12, 12, 0.68) 0%,
+    rgba(12, 12, 12, 0.3) 58%,
     rgba(12, 12, 12, 0) 100%
   );
   opacity: 0;
