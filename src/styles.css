@@ -4776,7 +4776,7 @@ a {
   align-items: flex-start;
   gap: 24px;
   flex-wrap: wrap;
-  padding: 22px 0 34px;
+  padding: 26px clamp(20px, 4vw, 60px) 36px;
   background: linear-gradient(105deg, #e8e5f1 0%, #e6e5eb 58%, #f1eff4 100%);
   border-top: 1px solid rgba(20, 20, 20, 0.08);
   font-size: 9px;
@@ -4835,8 +4835,7 @@ a {
 .contact__brand {
   position: absolute;
   left: -0.02em;
-  bottom: -0.24em;
-  z-index: 0;
+  bottom: 0;
   font-size: clamp(130px, 25vw, 440px);
   font-weight: 900;
   line-height: 0.72;

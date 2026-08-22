@@ -86,7 +86,8 @@ export default function Contact() {
     return () => ctx.revert()
   }, [])
 
-  return (
+    return (
+      <>
     <section className="contact" ref={scope}>
       <div className="contact__grain" aria-hidden="true" />
       <div className="contact__aurora" aria-hidden="true">
@@ -199,6 +200,20 @@ export default function Contact() {
 
         <div className="contact__dots" aria-hidden="true" />
 
+      </div>
+
+      <div className="contact__brand" aria-hidden="true">
+        MOSATO
+      </div>
+
+      {qrOpen &&
+        createPortal(
+          <div className="contact__qr-modal" onClick={() => setQrOpen(false)}>
+            <img src={asset('/works/img/wechat-qr.jpg')} alt="微信二维码" loading="lazy" />
+          </div>,
+          document.body
+        )}
+    </section>
         <footer className="contact__meta">
           <div className="mono">
             <span>© 2026 {profile.name} · {profile.nameEn}</span>
@@ -233,20 +248,7 @@ export default function Contact() {
             </span>
           </div>
         </footer>
-      </div>
-
-      <div className="contact__brand" aria-hidden="true">
-        MOSATO
-      </div>
-
-      {qrOpen &&
-        createPortal(
-          <div className="contact__qr-modal" onClick={() => setQrOpen(false)}>
-            <img src={asset('/works/img/wechat-qr.jpg')} alt="微信二维码" loading="lazy" />
-          </div>,
-          document.body
-        )}
-    </section>
+      </>
   )
 }
 
